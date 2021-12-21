@@ -11,8 +11,6 @@ public class Room {
         this.floor= _floor;
     }
 
-<<<<<<< HEAD
-=======
 
     // ----------------------------- METHODS ---------------------------------------- //
     public static String[] returnBuildingTitle(String _roomNumber) {
@@ -40,7 +38,6 @@ public class Room {
     }
 
 
->>>>>>> 6b157c7e27283140d210665c59b1c799b639795f
 }
 
 

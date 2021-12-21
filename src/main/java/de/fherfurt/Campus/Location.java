@@ -1,20 +1,23 @@
 package de.fherfurt.Campus;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Location {
 
     private String[] Campus = {"SCHLÜTERSTRASSE", "LEIPZIGERSTRASSE", "ALTONAERSTRASSE"};
 
-    private float[] Coordinates;
-
-    public Location(String[] _Campus, float[] _Coordinates) {
+    //Hashmap of Campuses and their respective geographical coordinates for search with Google Maps
+    private Map <String, String> campusCoordinates = new HashMap <String, String>();
+    
+    public Location(String[] _Campus, Map <String, String> _campusCoordinates) {
 
         this.Campus=_Campus;
-        this.Coordinates=_Coordinates;
+        this.campusCoordinates=_campusCoordinates;
     }
 
 
     // ----------------------------- METHODS ---------------------------------------- //
-    public static String returnCampusName(String[] _geoLocation) {
+    public static String getCampusName(String[] _geoLocation) {
         String campusName;
         // searching in Google Maps for the location and returning the campus name
         campusName = "Altonaer Straße"; // Test variable value initialisation
@@ -30,7 +33,7 @@ public class Location {
         return buildings;
     }
 
-    public static String[] returnFaculties(String _campusName) {
+    public static String[] getFaculties(String _campusName) {
         String[] faculties;
         // searching in the Datamodel for the matching campus identites
         faculties= new String[]{"AI", "GB", "EW", "BA"}; // Test variable value initialisation
@@ -38,7 +41,10 @@ public class Location {
         return faculties;
     }
 
-    public static String returnMensaLocation() {
+    
+
+
+    public static String getMensaLocation() {
         String mensaLocation;
         // searching in the Datamodel for the matching campus identites
         mensaLocation = "55.55.55"; // Test variable value initialisation
@@ -46,7 +52,7 @@ public class Location {
         return mensaLocation;
     }
 
-    public static String returnEventLocation(String _event) {
+    public static String getEventLocation(String _event) {
         String eventLocation;
         // searching in the Datamodel for the matching campus identites
         eventLocation = "55.55.55"; // Test variable value initialisation
