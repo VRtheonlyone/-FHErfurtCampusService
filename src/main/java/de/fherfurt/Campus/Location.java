@@ -2,11 +2,9 @@ package de.fherfurt.Campus;
 
 public class Location {
 
-    private String[] Campus= {"SCHLÜTERSTRAßE", "LEIPZIGERSTR", "ALTONAERSTRAßE"};
-
+    private String[] Campus = {"SCHLÜTERSTRASSE", "LEIPZIGERSTRASSE", "ALTONAERSTRASSE"};
 
     private float[] Coordinates;
-
 
     public Location(String[] _Campus, float[] _Coordinates) {
 
