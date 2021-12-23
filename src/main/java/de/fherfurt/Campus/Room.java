@@ -2,6 +2,14 @@ package de.fherfurt.Campus;
 
 public class Room {
 
+
+    // getBuildingTitle             +
+    // setBuildingTitle             -
+    // getRoomAccordingToPerson     +
+    // setPersonAccordingToRoom     -
+    // getFloor                     +
+    // ...
+
     public String[] roomNumber;
     public int floor;
 
@@ -13,7 +21,7 @@ public class Room {
 
 
     // ----------------------------- METHODS ---------------------------------------- //
-    public static String[] returnBuildingTitle(String _roomNumber) {
+    public static String[] getBuildingTitle(String _roomNumber) {
         String[] buildingTitle;
         // searching in the Datamodel for the matching campus identites
         buildingTitle= new String[]{"a"}; // Test variable value initialisation
@@ -21,7 +29,7 @@ public class Room {
         return buildingTitle;
     }
 
-    public static String returnRoomAccordingToPerson(String _personName) {
+    public static String getRoomAccordingToPerson(String _personName) {
         String roomTitle;
         // searching in the Datamodel for the matching campus identites
         roomTitle = "2"; // Test variable value initialisation
@@ -29,7 +37,7 @@ public class Room {
         return roomTitle;
     }
 
-    public static String[] returnFloor (String _roomNr) {
+    public static String[] getFloor(String _roomNr) {
         String[] floors;
         // searching in the Datamodel for the matching campus identites
         floors = new String[]{"(AltStr)7.2.5", "(SchStr.)1.1.1"}; // Test variable value initialisation

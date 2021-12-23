@@ -4,6 +4,17 @@ import java.util.HashMap;
 
 public class Location {
 
+
+
+    // getCampus            +
+    // setCampus            -
+    // getCampusBuildings   +
+    // setCampusBuildings   -
+    // getFaculties         +
+    // getMensaLocation     +
+    // getEventLocation     +
+    // ...
+
     private String[] Campus = {"SCHLÜTERSTRASSE", "LEIPZIGERSTRASSE", "ALTONAERSTRASSE"};
 
     //Hashmap of Campuses and their respective geographical coordinates for search with Google Maps
@@ -17,7 +28,7 @@ public class Location {
 
 
     // ----------------------------- METHODS ---------------------------------------- //
-    public static String getCampusName(String[] _geoLocation) {
+    public static String getCampus(String[] _geoLocation) {
         String campusName;
         // searching in Google Maps for the location and returning the campus name
         campusName = "Altonaer Straße"; // Test variable value initialisation
@@ -25,7 +36,7 @@ public class Location {
         return campusName;
     }
 
-    public static String[] getCampusBuildingArray(String _campusName) {
+    public static String[] getCampusBuildings(String _campusName) {
         String[] buildings;
         // searching in the Datamodel for the matching campus identites
         buildings = new String[]{"1", "2", "3", "4"}; // Test variable value initialisation

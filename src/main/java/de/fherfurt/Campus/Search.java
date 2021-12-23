@@ -6,9 +6,10 @@ import java.util.*;
 public class Search {
 
 
-//    public Search() {
-//
-//    }
+    // getBuildingAssoc     +
+    // getLocationAssoc     +
+    // getRoomAssoc         +
+    // ...
 
     public static final String LOCATION = "Location";
     public static final String BUILDING = "Building";

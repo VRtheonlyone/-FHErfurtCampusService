@@ -1,55 +1,64 @@
 package de.fherfurt.Campus;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.io.*;
 
 public class Building {
 
-        //-------------------------------ATTRIBUTES----------------------------------//
-        //Is building accessible for handicapped people
-        private boolean buildingAccessibility;
 
-        //Name of the building
-        private String buildingTitle;
+    // setGeoLocationForBuilding    +
+    // getGeoLocationForBuilding    +
+    // getRoomsForBuilding          +
+    // setRoomsForBuilding          +
+    // deleteBuilding               -
+    // deleteRoomFromBuilding       -
+    //
+    // ...
 
-        //Id Number of Building
-        private String buildingID;
+    //-------------------------------ATTRIBUTES----------------------------------//
+    // Is building accessible for people with disability(-ies)
+    private boolean buildingAccessibility;
 
-        //List of Rooms for Building
-        private List<String> buildingRooms;
+    // Name of the building
+    private String buildingTitle;
 
-        //Geographical Coordinates of Building
-        private String buildingGeolocation;
+    // Id Number of Building
+    private String buildingID;
 
-        //List of all Building Types
-        public String[] buildingType;
+    // List of Rooms for Building
+    private List<String> buildingRooms;
 
-        //Hashmap of Building Title as Keys and Coordinates as Values --> Iterate through it later for 
-        public Map <String, String> buildingsGeoLocations = new HashMap<>();
+    // Geographical Coordinates of Building
+    private String buildingGeolocation;
 
-        //Hashmap of Building and all the Rooms that are in that building
-        public Map <String, List<String>> buildingsRooms = new HashMap<>();
+    // List of all Building Types
+    public String[] buildingType;
 
-        //Hashmap of Building and Housenumber/ID Number associated with that building
-        public Map <String, String> buildingsIdNumbers = new HashMap<>();
+    // ["h1" -> "92.000"]
+    // Hashmap of Building Title as Keys and Coordinates as Values --> Iterate through it later for
+    public Map <String, String> buildingsGeoLocations = new HashMap<>();
+
+    // Hashmap of Building and all the Rooms that are in that building
+    public Map <String, List<String>> buildingsRooms = new HashMap<>();
+
+    // Hashmap of Building and Housenumber/ID Number associated with that building
+    public Map <String, String> buildingsIdNumbers = new HashMap<>();
+    //---------------------------------------------------------------------------------------------------//
 
          
-
+    // ----------------------------------- CONSTRUCTOR ---------------------------------------------
     public Building(boolean _accessibility, String _buildingTitle, String _buildingID, List<String> _buildingRooms, String _buildingGeoLocation, String[] _buildingType ) {
 
-        this.buildingAccessibility =_accessibility;
-        this.buildingID = _buildingID;
-        this.buildingTitle = _buildingTitle;
-        this.buildingRooms = _buildingRooms;
-        this.buildingGeolocation = _buildingGeoLocation;
-        this.buildingType = _buildingType;
+        this.buildingAccessibility =_accessibility; // ["h1" -> true,...]
+        this.buildingID = _buildingID; // ["h1" -> "1",...]
+        this.buildingTitle = _buildingTitle; // ["h1" -> "1",...]
+        this.buildingRooms = _buildingRooms; // ["h1" -> "1",...]
+        this.buildingGeolocation = _buildingGeoLocation; // ["h1" -> "1",...]
+        this.buildingType = _buildingType; // ["h1" -> "1",...]
 
         setRoomsForBuilding(_buildingTitle, _buildingRooms);
         setGeoLocationForBuilding(_buildingTitle, _buildingGeoLocation);
-
     }
+    // ---------------------------------------------------------------------------------------------
 
 
     // ----------------------------- METHODS ---------------------------------------- //
@@ -89,85 +98,88 @@ public class Building {
         return;
     }
 
-    //Returns Geographical Location of a building as a String
+    // Returns Geographical Location of a building as a String
     public String getGeoLocationForBuilding (String _building)
     {   
-        //converts the first letter of input into an uppercase character, so that it matches the key entry in the Hashmap --> "haus1" = "Haus1"
+        // converts the first letter of input into an uppercase character, so that it matches the key entry in the Hashmap --> "haus1" = "Haus1"
         _building = _building.substring(0,1).toUpperCase() + _building.substring(1).toLowerCase();
 
-        //Define Dummy String that is empty
+        // Define Dummy String that is empty
         String myGeoLocation = new String();
 
-        //Search in Hashmap of Buildings/Coordinates, if there is a key associated with the input
+        // Search in Hashmap of Buildings/Coordinates, if there is a key associated with the input
         for(String building : this.buildingsGeoLocations.keySet())
         {   
-            //if there is a match between the input and one of the keys in the Hashmap
-            if (_building == building)
+            // if there is a match between the input and one of the keys in the Hashmap
+            if (_building.equals(building))
             {
-                //Set the current dummy string to the value of the key and return the result
+                // Set the current dummy string to the value of the key and return the result
                 myGeoLocation = this.buildingsGeoLocations.get(building);
                 return myGeoLocation;
             }
         }
         // Else, Set String to an error message if no matching key was found
-        return myGeoLocation += "Sorry, but there is currently no Geographical location associated with that building";
+        return myGeoLocation = "Sorry, but there is currently no Geographical location associated with that building";
     }
 
-    //Gets List of all Rooms associated with a building
+    // Gets List of all Rooms associated with a building
     public List<String> getRoomsForBuilding (String _building)
     {
-        //Define an empty List of Strings 
+        // Define an empty List of Strings
         List <String> roomList = new ArrayList<String>();
 
-        //Iterate through array 
+        // Iterate through the hashmap
+
         for(String building : this.buildingsRooms.keySet())
         {
-            //Check whether input String matches key in the array
-            if (_building == building)
+            // Check whether input String matches key in the array
+            if (Objects.equals(_building, building))
             {   
-                //Add all values associated with key to the list
+                // Add all values associated with key to the list
                 roomList.addAll(this.buildingsRooms.get(building));
                 
-                //return List of all Rooms for the respective building
+                // return List of all Rooms for the respective building
                 return roomList;
             }
         }
-        
+
         roomList.add("There are currently no rooms associated with this building");
         return roomList;
     }
-    
+
+    // Sets the rooms to the building
     public void setRoomsForBuilding (String _building, List<String> _Rooms)
     {
-        //iterates through all the keys in the existing Hashmap
+        // iterates through all the keys in the existing Hashmap
         for (String building : this.buildingsRooms.keySet())
         {           
             // Checks if building is an already existing key and updates the value
-            if (_building == building)
+            if (Objects.equals(_building, building))
             {
                 //for every Room in the list that was passed
                 for (String newRoom : _Rooms)
                 {
-                    //for every Room in the existing List for the Building
+                    // CHECK CHECK CHECK!!! for every Room in the existing List for the Building
                     for(String existingRoom : this.buildingsRooms.get(_building))
                     {
-                        //Does the Room already exist
-                        if(newRoom == existingRoom)
+                        // check, if the specific Room already exist
+                        if(Objects.equals(newRoom, existingRoom))
                         {
-                        //Remove the Room from the existing list, so that it can be added later together with all the other rooms
-                        this.buildingRooms.remove(existingRoom);
-                        System.out.println (String.format("Room: %g for Building %b does already exist and has therefore been deleted from the existing list", existingRoom, _building));
+                            // Remove the Room from the existing list, so that it can be added later together with all the other rooms
+                            this.buildingRooms.remove(existingRoom);
+                            System.out.println (String.format("Room: %g for Building %b does already exist and has therefore been deleted from the existing list", existingRoom, _building));
                         }
                     }
-                    //Add the new room to the existing list
+
+                    // Add the new room to the existing list
                     this.buildingRooms.add(newRoom);
                     System.out.println (String.format("Room: %g for Building %b been added", newRoom, _building));
                 }
-                //If match between input and existing building has been found, list entry will be edited --> No need to add another entry
+                // If match between input and existing building has been found, list entry will be edited --> No need to add another entry
                 return;
             } 
         }
-        //Adds new building/geoLocation key/value pair
+        // Adds new building/geoLocation key/value pair
         this.buildingsRooms.put(_building, _Rooms);
     }
 
