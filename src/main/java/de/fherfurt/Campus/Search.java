@@ -10,7 +10,7 @@ public class Search {
     // getLocationAssoc     +
     // getRoomAssoc         +
     // ...
-
+    //
     public static final String LOCATION = "Location";
     public static final String BUILDING = "Building";
     public static final String ROOM = "Room";
