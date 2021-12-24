@@ -19,6 +19,7 @@ public class Room {
         this.floor= _floor;
     }
 
+    Object dataCollection = new DataCollection();
 
     // ----------------------------- METHODS ---------------------------------------- //
     public static String[] getBuildingTitle(String _roomNumber) {
@@ -32,7 +33,18 @@ public class Room {
     public static String getRoomAccordingToPerson(String _personName) {
         String roomTitle;
         // searching in the Datamodel for the matching campus identites
+
         roomTitle = "2"; // Test variable value initialisation
+
+        return roomTitle;
+    }
+
+    public static String getRoomAccordingToPerson(String _roomNumber) {
+        String personName;
+
+//        // searching in the Datamodel for the matching campus identites
+//        roomTitle = "Krusi Boy"; // Test variable value initialisation
+
 
         return roomTitle;
     }
