@@ -20,7 +20,7 @@ public class Location {
     //Hashmap of Campuses and their respective geographical coordinates for search with Google Maps
     private Map <String, String> campusCoordinates = new HashMap <String, String>();
     
-    public Location(String[] _Campus, Map <String, String> _campusCoordinates) {
+    public Location(String[] _Campus, Map <String,String> _campusCoordinates) {
 
         this.Campus=_Campus;
         this.campusCoordinates=_campusCoordinates;

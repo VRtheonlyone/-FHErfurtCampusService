@@ -2,8 +2,10 @@ package de.fherfurt.Campus;
 import java.lang.*;
 
 public class Main {
-        
-        
+
+    public static final BuildingDataCollection BuildingDataCollector = new BuildingDataCollection();
+    public static final LocationDataCollection LocationDataCollector = new LocationDataCollection(); //--> Helen
+    public static final RoomDataCollection RoomDataCollector = new RoomDataCollection(); //--> Jann
 
 
     public static final String LOCATION = "Location";

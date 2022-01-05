@@ -20,7 +20,7 @@ public class Search {
 
 
 
-    // Mother function, which gets the input from the user and calls respectfully the search function
+    // Mother function, which gets the input from the user and calls the search function
     public static List<String> searchForResults(String _userInput, String searchFilter) {
 
         List<String> searchList = new ArrayList<>();

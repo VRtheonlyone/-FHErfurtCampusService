@@ -2,6 +2,8 @@ package de.fherfurt.Campus;
 import java.util.*;
 import java.io.*;
 
+import static de.fherfurt.Campus.Main.BuildingDataCollector;
+
 public class Building {
 
 
@@ -16,13 +18,13 @@ public class Building {
 
     //-------------------------------ATTRIBUTES----------------------------------//
     // Is building accessible for people with disability(-ies)
-    private boolean buildingAccessibility;
+    private final boolean buildingAccessibility;
 
     // Name of the building
     private String buildingTitle;
 
     // Id Number of Building
-    private String buildingID;
+    private Integer buildingID;
 
     // List of Rooms for Building
     private final List<String> buildingRooms;
@@ -32,21 +34,11 @@ public class Building {
 
     // List of all Building Types
     public String[] buildingType;
-
-    // ["h1" -> "92.000"]
-    // Hashmap of Building Title as Keys and Coordinates as Values --> Iterate through it later for
-    public Map <String, String> buildingsGeoLocations = new HashMap<>();
-
-    // Hashmap of Building and all the Rooms that are in that building
-    public Map <String, List<String>> buildingsRooms = new HashMap<>();
-
-    // Hashmap of Building and Housenumber/ID Number associated with that building
-    public Map <String, String> buildingsIdNumbers = new HashMap<>();
     //---------------------------------------------------------------------------------------------------//
 
          
     // ----------------------------------- CONSTRUCTOR ---------------------------------------------
-    public Building(boolean _accessibility, String _buildingTitle, String _buildingID, List<String> _buildingRooms, String _buildingGeoLocation, String[] _buildingType ) {
+    public Building(boolean _accessibility, String _buildingTitle, Integer _buildingID, List<String> _buildingRooms, String _buildingGeoLocation, String[] _buildingType ) {
 
         this.buildingAccessibility =_accessibility; // ["h1" -> true,...]
         this.buildingID = _buildingID; // ["h1" -> "1",...]
@@ -57,12 +49,26 @@ public class Building {
 
         setRoomsForBuilding(_buildingTitle, _buildingRooms);
         setGeoLocationForBuilding(_buildingTitle, _buildingGeoLocation);
+        setIdForBuilding(_buildingTitle, _buildingID);
     }
     // ---------------------------------------------------------------------------------------------
 
 
     // ----------------------------- METHODS ---------------------------------------- //
-    
+
+    public void setIdForBuilding(String _building, Integer _id)
+    {
+        int buildingCounter = 0;
+
+        for (String building :  BuildingDataCollector.buildingsIdNumbers.keySet())
+        {
+            buildingCounter += 1;
+        }
+
+        BuildingDataCollector.buildingsIdNumbers.put(_building, buildingCounter);
+
+    }
+
     // Sets GeoLocation for a Building  
     public void setGeoLocationForBuilding (String _building, String _geoLocation )
     {
@@ -81,21 +87,20 @@ public class Building {
           setGeoLocationForBuilding("Haus 12", "50.98602812197842, 11.04319241201106");
          */
 
-        for (String building : this.buildingsGeoLocations.keySet())
+        for (String building : BuildingDataCollector.buildingsGeoLocations.keySet())
         {           
             // Checks if building is an already existing key
-            if (_building == building)
+            if (_building.equals(building))
             {
                 //Replace old geolocation with new entry
-                this.buildingsGeoLocations.replace(_building, _geoLocation);
+                BuildingDataCollector.buildingsGeoLocations.replace(_building, _geoLocation);
                 System.out.println (String.format("GeoLocation: %g  for Building %b has been added", _geoLocation, _building));
                 return;
             }
         } 
 
         //Adds new building/geoLocation key/value pair
-        this.buildingsGeoLocations.put(_building,_geoLocation);
-        return;
+        BuildingDataCollector.buildingsGeoLocations.put(_building,_geoLocation);
     }
 
     // Returns Geographical Location of a building as a String
@@ -105,16 +110,16 @@ public class Building {
         _building = _building.substring(0,1).toUpperCase() + _building.substring(1).toLowerCase();
 
         // Define Dummy String that is empty
-        String myGeoLocation = new String();
+        String myGeoLocation;
 
         // Search in Hashmap of Buildings/Coordinates, if there is a key associated with the input
-        for(String building : this.buildingsGeoLocations.keySet())
+        for(String building : BuildingDataCollector.buildingsGeoLocations.keySet())
         {   
             // if there is a match between the input and one of the keys in the Hashmap
             if (_building.equals(building))
             {
                 // Set the current dummy string to the value of the key and return the result
-                myGeoLocation = this.buildingsGeoLocations.get(building);
+                myGeoLocation = BuildingDataCollector.buildingsGeoLocations.get(building);
                 return myGeoLocation;
             }
         }
@@ -130,13 +135,13 @@ public class Building {
 
         // Iterate through the hashmap
 
-        for(String building : this.buildingsRooms.keySet())
+        for(String building : BuildingDataCollector.buildingsRooms.keySet())
         {
             // Check whether input String matches key in the array
-            if (Objects.equals(_building, building))
+            if (_building.equals(building))
             {   
                 // Add all values associated with key to the list
-                roomList.addAll(this.buildingsRooms.get(building));
+                roomList.addAll(BuildingDataCollector.buildingsRooms.get(building));
                 
                 // return List of all Rooms for the respective building
                 return roomList;
@@ -151,7 +156,7 @@ public class Building {
     public void setRoomsForBuilding (String _building, List<String> _Rooms)
     {
         // iterates through all the keys in the existing Hashmap
-        for (String building : this.buildingsRooms.keySet())
+        for (String building : BuildingDataCollector.buildingsRooms.keySet())
         {           
             // Checks if building is an already existing key and updates the value
             if (Objects.equals(_building, building))
@@ -160,27 +165,27 @@ public class Building {
                 for (String newRoom : _Rooms)
                 {
                     // CHECK CHECK CHECK!!! for every Room in the existing List for the Building
-                    for(String existingRoom : this.buildingsRooms.get(_building))
+                    for(String existingRoom : BuildingDataCollector.buildingsRooms.get(_building))
                     {
                         // check, if the specific Room already exist
                         if(Objects.equals(newRoom, existingRoom))
                         {
                             // Remove the Room from the existing list, so that it can be added later together with all the other rooms
                             this.buildingRooms.remove(existingRoom);
-                            System.out.println (String.format("Room: %g for Building %b does already exist and has therefore been deleted from the existing list", existingRoom, _building));
+                            System.out.println (String.format("Room: %s for Building %s does already exist and has therefore been deleted from the existing list", existingRoom, _building));
                         }
                     }
 
                     // Add the new room to the existing list
                     this.buildingRooms.add(newRoom);
-                    System.out.println (String.format("Room: %g for Building %b been added", newRoom, _building));
+                    System.out.println (String.format("Room: %s for Building %s been added", newRoom, _building));
                 }
                 // If match between input and existing building has been found, list entry will be edited --> No need to add another entry
                 return;
             } 
         }
         // Adds new building/geoLocation key/value pair
-        this.buildingsRooms.put(_building, _Rooms);
+        BuildingDataCollector.buildingsRooms.put(_building, _Rooms);
     }
 
 }

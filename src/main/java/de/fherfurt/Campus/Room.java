@@ -19,7 +19,7 @@ public class Room {
         this.floor= _floor;
     }
 
-    Object dataCollection = new DataCollection();
+    Object dataCollection = new GeneralDataCollection();
 
     // ----------------------------- METHODS ---------------------------------------- //
     public static String[] getBuildingTitle(String _roomNumber) {
