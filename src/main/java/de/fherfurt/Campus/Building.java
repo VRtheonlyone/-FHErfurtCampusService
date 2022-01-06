@@ -6,16 +6,6 @@ import static de.fherfurt.Campus.Main.BuildingDataCollector;
 
 public class Building {
 
-
-    // setGeoLocationForBuilding    +
-    // getGeoLocationForBuilding    +
-    // getRoomsForBuilding          +
-    // setRoomsForBuilding          +
-    // deleteBuilding               -
-    // deleteRoomFromBuilding       -
-    //
-    // ...
-
     //-------------------------------ATTRIBUTES----------------------------------//
     // Is building accessible for people with disability(-ies)
     private final boolean buildingAccessibility;
@@ -23,7 +13,7 @@ public class Building {
     // Name of the building
     private String buildingTitle;
 
-    // Id Number of Building
+    // ID Number of Building
     private Integer buildingID;
 
     // List of Rooms for Building
@@ -38,10 +28,9 @@ public class Building {
 
          
     // ----------------------------------- CONSTRUCTOR ---------------------------------------------
-    public Building(boolean _accessibility, String _buildingTitle, Integer _buildingID, List<String> _buildingRooms, String _buildingGeoLocation, String[] _buildingType ) {
+    public Building(boolean _accessibility, String _buildingTitle, List<String> _buildingRooms, String _buildingGeoLocation, String[] _buildingType) {
 
         this.buildingAccessibility =_accessibility; // ["h1" -> true,...]
-        this.buildingID = _buildingID; // ["h1" -> "1",...]
         this.buildingTitle = _buildingTitle; // ["h1" -> "1",...]
         this.buildingRooms = _buildingRooms; // ["h1" -> "1",...]
         this.buildingGeolocation = _buildingGeoLocation; // ["h1" -> "1",...]
@@ -49,14 +38,50 @@ public class Building {
 
         setRoomsForBuilding(_buildingTitle, _buildingRooms);
         setGeoLocationForBuilding(_buildingTitle, _buildingGeoLocation);
-        setIdForBuilding(_buildingTitle, _buildingID);
+        setIdForBuilding(_buildingTitle);
     }
     // ---------------------------------------------------------------------------------------------
 
 
-    // ----------------------------- METHODS ---------------------------------------- //
+    // ----------------------------- SETTER ----------------------------------------//
 
-    public void setIdForBuilding(String _building, Integer _id)
+    // Sets the rooms to the building
+    public void setRoomsForBuilding (String _building, List<String> _rooms)
+    {
+        // iterates through all the keys in the existing Hashmap
+        for (String building : BuildingDataCollector.buildingsRooms.keySet())
+        {
+            // Checks if building is an already existing key and updates the value
+            if (Objects.equals(_building, building))
+            {
+                //for every Room in the list that was passed
+                for (String newRoom : _rooms)
+                {
+                    // CHECK CHECK CHECK!!! for every Room in the existing List for the Building
+                    for(String existingRoom : BuildingDataCollector.buildingsRooms.get(_building))
+                    {
+                        // check, if the specific Room already exist
+                        if(Objects.equals(newRoom, existingRoom))
+                        {
+                            // Remove the Room from the existing list, so that it can be added later together with all the other rooms
+                            this.buildingRooms.remove(existingRoom);
+                            System.out.println (System.out.printf("Room: %s for Building %s does already exist and has therefore been deleted from the existing list", existingRoom, _building));
+                        }
+                    }
+
+                    // Add the new room to the existing list
+                    this.buildingRooms.add(newRoom);
+                    System.out.println (System.out.printf("Room: %s for Building %s been added", newRoom, _building));
+                }
+                // If match between input and existing building has been found, list entry will be edited --> No need to add another entry
+                return;
+            }
+        }
+        // Adds new building/geoLocation key/value pair
+        BuildingDataCollector.buildingsRooms.put(_building, _rooms);
+    }
+
+    public void setIdForBuilding(String _building)
     {
         int buildingCounter = 0;
 
@@ -65,7 +90,11 @@ public class Building {
             buildingCounter += 1;
         }
 
+        //Set ID in Hashmap
         BuildingDataCollector.buildingsIdNumbers.put(_building, buildingCounter);
+
+        //Set ID for this instance
+        this.buildingID = buildingCounter;
 
     }
 
@@ -94,7 +123,7 @@ public class Building {
             {
                 //Replace old geolocation with new entry
                 BuildingDataCollector.buildingsGeoLocations.replace(_building, _geoLocation);
-                System.out.println (String.format("GeoLocation: %g  for Building %b has been added", _geoLocation, _building));
+                System.out.println (System.out.printf("GeoLocation: %s for Building %s has been added.\n", _geoLocation, _building));
                 return;
             }
         } 
@@ -102,6 +131,8 @@ public class Building {
         //Adds new building/geoLocation key/value pair
         BuildingDataCollector.buildingsGeoLocations.put(_building,_geoLocation);
     }
+    //-------------------------------------------------------------------------------//
+    // ----------------------------- GETTER ----------------------------------------//
 
     // Returns Geographical Location of a building as a String
     public String getGeoLocationForBuilding (String _building)
@@ -148,45 +179,79 @@ public class Building {
             }
         }
 
-        roomList.add("There are currently no rooms associated with this building");
+        roomList.add("There are currently no rooms associated with this building.\n");
         return roomList;
     }
+    //-------------------------------------------------------------------------------//
+    // ----------------------------- DELETES ----------------------------------------//
 
-    // Sets the rooms to the building
-    public void setRoomsForBuilding (String _building, List<String> _Rooms)
+    // Deletes Building and its Data from all HashMaps in the BuildingDataCollector
+    public void deleteBuilding(String _building)
     {
-        // iterates through all the keys in the existing Hashmap
-        for (String building : BuildingDataCollector.buildingsRooms.keySet())
-        {           
-            // Checks if building is an already existing key and updates the value
-            if (Objects.equals(_building, building))
+        // Delete building in buildingsGeoLocations Hashmap
+        for (String building : BuildingDataCollector.buildingsGeoLocations.keySet())
+        {
+            if(_building.equals(building))
             {
-                //for every Room in the list that was passed
-                for (String newRoom : _Rooms)
-                {
-                    // CHECK CHECK CHECK!!! for every Room in the existing List for the Building
-                    for(String existingRoom : BuildingDataCollector.buildingsRooms.get(_building))
-                    {
-                        // check, if the specific Room already exist
-                        if(Objects.equals(newRoom, existingRoom))
-                        {
-                            // Remove the Room from the existing list, so that it can be added later together with all the other rooms
-                            this.buildingRooms.remove(existingRoom);
-                            System.out.println (String.format("Room: %s for Building %s does already exist and has therefore been deleted from the existing list", existingRoom, _building));
-                        }
-                    }
-
-                    // Add the new room to the existing list
-                    this.buildingRooms.add(newRoom);
-                    System.out.println (String.format("Room: %s for Building %s been added", newRoom, _building));
-                }
-                // If match between input and existing building has been found, list entry will be edited --> No need to add another entry
-                return;
-            } 
+                BuildingDataCollector.buildingsGeoLocations.remove(building);
+                break;
+            }
         }
-        // Adds new building/geoLocation key/value pair
-        BuildingDataCollector.buildingsRooms.put(_building, _Rooms);
+
+        // Delete building in buildingsIdNumbers Hashmap
+        for (String building : BuildingDataCollector.buildingsIdNumbers.keySet())
+        {
+            if(_building.equals(building))
+            {
+                BuildingDataCollector.buildingsIdNumbers.remove(building);
+                break;
+            }
+        }
+
+        // Delete building in buildingsRooms Hashmap
+        for (String building : BuildingDataCollector.buildingsRooms.keySet())
+        {
+            if(_building.equals(building))
+            {
+                BuildingDataCollector.buildingsRooms.remove(building);
+                break;
+            }
+        }
     }
 
+    // Delete given Rooms associated with a given building
+    public void deleteBuildingRooms(String _building, List<String> _rooms)
+    {
+        // For every key in the BuildingDataCollector
+        for (String building: BuildingDataCollector.buildingsRooms.keySet())
+        {
+            // if there is a match
+            if (_building.equals(building))
+            {
+                // for every room in passed List
+               for(String myRoom : _rooms)
+               {
+                   // for every room in the matching key
+                   for (String Room : BuildingDataCollector.buildingsRooms.get(building))
+                   {
+                       // if there is a match between the rooms
+                       if (myRoom.equals(Room))
+                       {
+                           // Remove the Room from the List
+                           BuildingDataCollector.buildingsRooms.get(building).remove(Room);
+
+                           // Print out which Room was deleted for which Building
+                           System.out.printf("Room %s was removed from Building %s./n", myRoom, building);
+
+                       }
+                   }
+               }
+
+               return;
+
+            }
+        }
+        System.out.printf("There is no building with the name %s", _building);
+    }
 }
 
