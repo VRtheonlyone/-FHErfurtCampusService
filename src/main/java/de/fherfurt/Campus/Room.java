@@ -30,7 +30,7 @@ public class Room {
         return buildingTitle;
     }
 
-    public static String getRoomAccordingToPerson(String _personName) {
+    public static String getRoomAccordingToPerson (String _personName) {
         String roomTitle;
         // searching in the Datamodel for the matching campus identites
 

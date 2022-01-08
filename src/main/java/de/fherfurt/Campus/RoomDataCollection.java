@@ -7,7 +7,7 @@ import java.util.Map;
 public class RoomDataCollection extends GeneralDataCollection{
 
     // Hashmap of Room Title as Key and Person as Value
-    public Map<String, String> RoomsPersons = new HashMap<>();
+    public Map <String, String> RoomsPersons = new HashMap<>();
 
 
 }
