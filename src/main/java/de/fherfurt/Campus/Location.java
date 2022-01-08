@@ -4,8 +4,6 @@ import java.util.HashMap;
 
 public class Location {
 
-
-
     // getCampus            +
     // setCampus            -
     // getCampusBuildings   +

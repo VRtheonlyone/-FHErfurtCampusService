@@ -103,6 +103,7 @@ public class Building {
         BuildingDataCollector.buildingsGeoLocations.put(_building,_geoLocation);
     }
 
+
     // Returns Geographical Location of a building as a String
     public String getGeoLocationForBuilding (String _building)
     {   
@@ -126,6 +127,7 @@ public class Building {
         // Else, Set String to an error message if no matching key was found
         return myGeoLocation = "Sorry, but there is currently no Geographical location associated with that building";
     }
+
 
     // Gets List of all Rooms associated with a building
     public List<String> getRoomsForBuilding (String _building)

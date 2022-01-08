@@ -1,6 +1,8 @@
 package de.fherfurt.Campus;
 import java.lang.*;
 import java.util.*;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 
 public class Search {
@@ -15,6 +17,10 @@ public class Search {
     public static final String BUILDING = "Building";
     public static final String ROOM = "Room";
 
+    // Hier werden die lokalen variablen aus der Main zugewiesen
+    public Object BuildingCollection = Main.BuildingDataCollector;
+    public Object RoomCollection = Main.RoomDataCollector;
+    public Object LocationCollection = Main.LocationDataCollector;
 
     // ----------------------------- METHODS ---------------------------------------- //
 
@@ -47,17 +53,30 @@ public class Search {
     // this function returns the values from the db, which are associated with Buiildings
     public static List<String> getBuildingAssoc(String _searchQuery) {
 
-        List<String> results = new ArrayList<>();
+        // ----------------------- 4 the most important variables in this method -------------- //
 
-        // -------------------------------------------------------------------------------------------
-        // this variable is a TEST one and will be removed in the later stages of project development
-        List<String> database = new ArrayList<>();
-        Collections.addAll(database, "a1", "a2", "a3");
+        // ----------------------- our data -------------- //
+        HashMap buildingGeoLocations = (HashMap) Main.BuildingDataCollector.buildingsGeoLocations; // our Data
+        HashMap buildingRooms = (HashMap) Main.BuildingDataCollector.buildingsRooms;
+        HashMap buildingIdNumbers = (HashMap) Main.BuildingDataCollector.buildingsIdNumbers;
         // -------------------------------------------------------------------------------------------
 
-        for (String dbResult : database) {
-            if (dbResult.contains(_searchQuery)) {
-                results.add(dbResult);
+        List<String> results = new ArrayList<>(); // will be out final output
+        // -------------------------------------------------------------------------------------------
+
+//        for (String dbResult : buildingDataCollection) {
+//            if (dbResult.contains(_searchQuery)) {
+//                results.add(dbResult);
+//            }
+//        }
+
+
+        for(Entry<String, String> entry: buildingGeoLocations.entrySet()) {
+
+            // if give value is equal to value from entry
+            // print the corresponding key
+            if(Objects.equals(entry.getValue(), _searchQuery)) {
+                results.add(_searchQuery + " found in " + entry.getKey());
             }
         }
         if (results.size() == 0) {

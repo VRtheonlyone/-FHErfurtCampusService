@@ -13,7 +13,9 @@ public class Main {
     public static final String ROOM = "Room";
 
     public static void main(String[] args) {
-        Object Search = new Search();
+        Object Search = new Search(
+                Object Buildingcollection,
+        );
         System.out.println(de.fherfurt.Campus.Search.searchForResults("1", ROOM));
     }
 }
