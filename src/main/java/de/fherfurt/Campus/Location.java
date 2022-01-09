@@ -1,27 +1,55 @@
 package de.fherfurt.Campus;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.List;
+import java.util.*;
 
 public class Location {
 
-    // getCampus            +
+    // getCampus            -
     // setCampus            -
-    // getCampusBuildings   +
+    // getCampusBuildings   -
     // setCampusBuildings   -
-    // getFaculties         +
-    // getMensaLocation     +
-    // getEventLocation     +
+    // getFaculties         -
+    // getMensaLocation     -       AUSLASSEN
+    // getEventLocation     -       AUSLASSEN
     // ...
 
-    private String[] Campus = {"SCHLÜTERSTRASSE", "LEIPZIGERSTRASSE", "ALTONAERSTRASSE"};
+// ----------------------------- ATTRIBUTES ---------------------------------------- //
+
+    private Integer campusID;
+
+    private final String[] Campus = {"SCHLÜTERSTRASSE", "LEIPZIGERSTRASSE", "ALTONAERSTRASSE"};
+
+    // Geographical Coordinates of the campus
+    private String campusGeoLocation;
+
+    //
+    private String campusTitle;
+
+    // List of Rooms for Building
+    private List<String> campusBuildings;
+
+// ----------------------------- CONSTRUCTOR ---------------------------------------- //
+
+    public Location(Integer _campusID,String _campusTitle, String _campusGeoLocation, List<String> _campusBuildings) {
+
+        this.campusID = _campusID;
+        this.campusTitle = _campusTitle;
+        this.campusGeoLocation = _campusGeoLocation;
+        this.campusBuildings = _campusBuildings;
+
+        // setIdForCampus(_campusTitle, _campusID);
+        // setGeoLocationForCampus(_campusTitle, _campusGeoLocation);
+        // setIdForCampus(_campusTitle);
+    }
 
 
+}
 
 
     // ----------------------------- METHODS ---------------------------------------- //
 
 
-}
+
     /*
     public static String getCampus(String[] _geoLocation) {
         String campusName;
