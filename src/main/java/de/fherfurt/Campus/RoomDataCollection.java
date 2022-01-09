@@ -6,8 +6,15 @@ import java.util.Map;
 
 public class RoomDataCollection extends GeneralDataCollection{
 
-    // Hashmap of Room Title as Key and Person as Value
-    public Map <String, String> RoomsPersons = new HashMap<>();
+    // Hashmap of the roomID´s
+    public Map <String, Integer> roomID = new HashMap<>();
+
+    //
+    public Map <String, String> roomTitle = new HashMap<>();
+
+    // Hashmap of the Room and all the Persons associated with that room
+    public Map <String, List<String>> roomPersons = new HashMap<>();
+
 
 
 }
