@@ -15,17 +15,14 @@ public class Location {
 
     private String[] Campus = {"SCHLÜTERSTRASSE", "LEIPZIGERSTRASSE", "ALTONAERSTRASSE"};
 
-    //Hashmap of Campuses and their respective geographical coordinates for search with Google Maps
-    private Map <String, String> campusCoordinates = new HashMap <String, String>();
-    
-    public Location(String[] _Campus, Map <String,String> _campusCoordinates) {
 
-        this.Campus=_Campus;
-        this.campusCoordinates=_campusCoordinates;
-    }
 
 
     // ----------------------------- METHODS ---------------------------------------- //
+
+
+}
+    /*
     public static String getCampus(String[] _geoLocation) {
         String campusName;
         // searching in Google Maps for the location and returning the campus name
@@ -68,4 +65,5 @@ public class Location {
 
         return eventLocation;
     }
-}
+
+*/
