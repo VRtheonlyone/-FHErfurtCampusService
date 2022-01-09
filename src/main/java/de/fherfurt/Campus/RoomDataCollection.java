@@ -10,7 +10,7 @@ public class RoomDataCollection extends GeneralDataCollection{
     public Map <String, Integer> roomID = new HashMap<>();
 
     //
-    public Map <String, String> roomTitle = new HashMap<>();
+    public Map <String, Integer> roomTitle = new HashMap<>();
 
     // Hashmap of the Room and all the Persons associated with that room
     public Map <String, List<String>> roomPersons = new HashMap<>();
