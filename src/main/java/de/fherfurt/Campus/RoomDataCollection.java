@@ -15,6 +15,4 @@ public class RoomDataCollection extends GeneralDataCollection{
     // Hashmap of the Room and all the Persons associated with that room
     public Map <String, List<String>> roomPersons = new HashMap<>();
 
-
-
 }

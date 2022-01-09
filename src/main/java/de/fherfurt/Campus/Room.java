@@ -120,6 +120,7 @@ public class Room {
     public List<String> getPersonsForRoom()
     {
 
+        return null;
     }
 
     // ---------------------------------------------------------------------------------------------//
