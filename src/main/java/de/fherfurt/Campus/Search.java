@@ -4,6 +4,13 @@ import java.util.*;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import static de.fherfurt.Campus.Main.BuildingDataCollector;
+import static de.fherfurt.Campus.Main.RoomDataCollector;
+import static de.fherfurt.Campus.Main.LocationDataCollector;
+
+
+
+
 
 public class Search {
 
@@ -53,28 +60,28 @@ public class Search {
     // this function returns the values from the db, which are associated with Buiildings
     public static List<String> getBuildingAssoc(String _searchQuery) {
 
-        // ----------------------- 4 the most important variables in this method -------------- //
-
-        // ----------------------- our data -------------- //
-        HashMap buildingGeoLocations = (HashMap) Main.BuildingDataCollector.buildingsGeoLocations; // our Data
-        HashMap buildingRooms = (HashMap) Main.BuildingDataCollector.buildingsRooms;
-        HashMap buildingIdNumbers = (HashMap) Main.BuildingDataCollector.buildingsIdNumbers;
-        // -------------------------------------------------------------------------------------------
-
         List<String> results = new ArrayList<>(); // will be out final output
-        // -------------------------------------------------------------------------------------------
-
-//        for (String dbResult : buildingDataCollection) {
-//            if (dbResult.contains(_searchQuery)) {
-//                results.add(dbResult);
-//            }
-//        }
 
 
-        for(Entry<String, String> entry: buildingGeoLocations.entrySet()) {
+//        Raum 1
+//                Key    value
+//            - Haus 1: Raum 1
+//            - Haus 2: Raum 1
 
-            // if give value is equal to value from entry
-            // print the corresponding key
+        for(Entry<String, String> entry: BuildingDataCollector.buildingsGeoLocations.entrySet()) {
+
+            if(Objects.equals(entry.getValue(), _searchQuery)) {
+                results.add(_searchQuery + " found in " + entry.getKey());
+            }
+        }
+        for(Entry<String, List<String>> entry: BuildingDataCollector.buildingsRooms.entrySet()) {
+
+            if(Objects.equals(entry.getValue(), _searchQuery)) {
+                results.add(_searchQuery + " found in " + entry.getKey());
+            }
+        }
+        for(Entry<String, Integer> entry: BuildingDataCollector.buildingsIdNumbers.entrySet()) {
+
             if(Objects.equals(entry.getValue(), _searchQuery)) {
                 results.add(_searchQuery + " found in " + entry.getKey());
             }
@@ -96,9 +103,22 @@ public class Search {
         Collections.addAll(database, "a1", "a2", "a3");
         // -------------------------------------------------------------------------------------------
 
-        for (String dbResult : database) {
-            if (dbResult.contains(_searchQuery)) {
-                results.add(dbResult);
+        for(Entry<String, List<String>> entry: LocationDataCollector.campusBuildings.entrySet()) {
+
+            if(Objects.equals(entry.getValue(), _searchQuery)) {
+                results.add(_searchQuery + " found in " + entry.getKey());
+            }
+        }
+        for(Entry<String, String> entry: LocationDataCollector.campusCoordinates.entrySet()) {
+
+            if(Objects.equals(entry.getValue(), _searchQuery)) {
+                results.add(_searchQuery + " found in " + entry.getKey());
+            }
+        }
+        for(Entry<String, List<String>> entry: RoomDataCollector.roomPersons.entrySet()) {
+
+            if(Objects.equals(entry.getValue(), _searchQuery)) {
+                results.add(_searchQuery + " found in " + entry.getKey());
             }
         }
         if (results.size() == 0) {
@@ -118,9 +138,22 @@ public class Search {
         Collections.addAll(database, "a1", "a2", "a3");
         // -------------------------------------------------------------------------------------------
 
-        for (String dbResult : database) {
-            if (dbResult.contains(_searchQuery)) {
-                results.add(dbResult);
+        for(Entry<String, Integer> entry: RoomDataCollector.roomID.entrySet()) {
+
+            if(Objects.equals(entry.getValue(), _searchQuery)) {
+                results.add(_searchQuery + " found in " + entry.getKey());
+            }
+        }
+        for(Entry<String, List<String>> entry: RoomDataCollector.roomPersons.entrySet()) {
+
+            if(Objects.equals(entry.getValue(), _searchQuery)) {
+                results.add(_searchQuery + " found in " + entry.getKey());
+            }
+        }
+        for(Entry<String, Integer> entry: RoomDataCollector.roomTitle.entrySet()) {
+
+            if(Objects.equals(entry.getValue(), _searchQuery)) {
+                results.add(_searchQuery + " found in " + entry.getKey());
             }
         }
         if (results.size() == 0) {

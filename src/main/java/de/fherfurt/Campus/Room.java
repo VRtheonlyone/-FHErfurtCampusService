@@ -1,9 +1,8 @@
 package de.fherfurt.Campus;
-
+import java.util.*;
 import java.lang.reflect.Array;
 import java.util.List;
-
-import static de.fherfurt.Campus.Main.BuildingDataCollector;
+import static de.fherfurt.Campus.Main.RoomDataCollector;
 
 public class Room {
 
@@ -66,20 +65,19 @@ public class Room {
     {
         Integer roomCounter = 0;
 
-        for (String room : RoomDataCollector.roomTitle.keyset())
-        {
-            if (Objects.equals(_roomTitle))
+        for (String room : RoomDataCollector.roomTitle.keySet()) {
+
             roomCounter += 1;
+
+            if (room.equals(_roomTitle))
+            {
+                //Set ID in Hashmap
+                RoomDataCollector.roomTitle.put(_roomTitle, roomCounter);
+
+                this.roomTitle = _roomTitle;
+                this.roomID = roomCounter;
+            }
         }
-
-
-        //Set ID in Hashmap
-        RoomDataCollector.roomTitle.put(_roomTitle, roomCounter);
-
-        this.roomTitle = _roomTitle;
-        this.roomID = roomCounter;
-
-
     }
 
     public void setIdForRoom(Integer _roomID)
@@ -122,6 +120,7 @@ public class Room {
     public List<String> getPersonsForRoom()
     {
 
+        return null;
     }
 
     // ---------------------------------------------------------------------------------------------//

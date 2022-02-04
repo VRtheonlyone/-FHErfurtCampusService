@@ -17,7 +17,7 @@ public class Building {
     private Integer buildingID;
 
     // List of Rooms for Building
-    private final List<String> buildingRooms;
+    private List<String> buildingRooms;
 
     // Geographical Coordinates of Building
     private String buildingGeolocation;
