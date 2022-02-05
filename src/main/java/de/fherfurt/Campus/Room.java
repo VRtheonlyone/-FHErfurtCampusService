@@ -2,7 +2,9 @@ package de.fherfurt.Campus;
 import java.util.*;
 import java.lang.reflect.Array;
 import java.util.List;
-import static de.fherfurt.Campus.Main.RoomDataCollector;
+import de.fherfurt.Campus.Main;
+
+import static de.fherfurt.Campus.Main.ID;
 
 public class Room {
 
@@ -24,19 +26,21 @@ public class Room {
     }
     */
 
+
+
     //-------------------------------ATTRIBUTES----------------------------------//
 
     // intern room ID for easy handling
-    private Integer roomID;
+    private Integer id;
 
     // Number of the room
-    private String roomTitle;
+    private String title;
 
     // floor the room is located on
-    private Integer floorNumber;
+    private Integer floor;
 
     // List of persons for the room
-    private final List<String> roomPersons;
+    private final List<String> persons;
 
     //---------------------------------------------------------------------------------------------------//
 
@@ -44,15 +48,17 @@ public class Room {
     // ----------------------------------- CONSTRUCTOR ---------------------------------------------
 
 
-    public Room(Integer _roomID,String _roomTitle, Integer _floorNumber, List<String> _roomPersons) {
+    public Room(Integer _roomID,String _roomTitle, Integer _floorNumber, List<String> _roomPersons, DataCollector _collector) {
 
-        this.roomID = _roomID;
-        this.roomTitle = _roomTitle;
-        this.floorNumber = _floorNumber;
-        this.roomPersons = _roomPersons;
+        DataCollector.RoomCounter +=1;
+        this.id = DataCollector.RoomCounter;
+
+        this.title = _roomTitle;
+        this.floor = _floorNumber;
+        this.persons = _roomPersons;
 
         setIdForRoom(_roomID);
-        setNumberForRoom(_roomTitle);
+        setTitleForRoom(_roomTitle);
         setFloorForRoom(_floorNumber);
         setPersonsForRoom(_roomPersons);
     }
@@ -61,23 +67,13 @@ public class Room {
     // ----------------------------- SETTER ---------------------------------------- //
 
 
-    public void setNumberForRoom(String _roomTitle)
+    public void setIDForRoom(Integer _id, DataCollector _collector)
     {
-        Integer roomCounter = 0;
+        this.id = _id;
 
-        for (String room : RoomDataCollector.roomTitle.keySet()) {
-
-            roomCounter += 1;
-
-            if (room.equals(_roomTitle))
-            {
-                //Set ID in Hashmap
-                RoomDataCollector.roomTitle.put(_roomTitle, roomCounter);
-
-                this.roomTitle = _roomTitle;
-                this.roomID = roomCounter;
-            }
-        }
+        // Integer must be converted to String to be written into the Hashmap,because it is a String List
+        String IDString = String.valueOf(_id);
+        _collector.BuildingData.put(this.title, new HashMap(){{put(ID, IDString);}});
     }
 
     public void setIdForRoom(Integer _roomID)
@@ -86,6 +82,11 @@ public class Room {
     }
 
     public void setFloorForRoom(Integer _floorNumber)
+    {
+
+    }
+
+    public void setTitleForRoom(String _roomTitle)
     {
 
     }
@@ -105,7 +106,7 @@ public class Room {
     }
 
     //
-    public void getNumberForRoom(String _roomTitle)
+    public void getTitleForRoom(String _roomTitle)
     {
 
     }
@@ -154,16 +155,6 @@ public class Room {
         // searching in the Datamodel for the matching campus identites
 
         roomTitle = "2"; // Test variable value initialisation
-
-        return roomTitle;
-    }
-
-    public static String getRoomAccordingToPerson(String _roomNumber) {
-        String personName;
-
-//        // searching in the Datamodel for the matching campus identites
-//        roomTitle = "Krusi Boy"; // Test variable value initialisation
-
 
         return roomTitle;
     }

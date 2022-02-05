@@ -1,12 +1,10 @@
 package de.fherfurt.Campus;
+import javax.xml.crypto.Data;
 import java.lang.*;
 import java.util.*;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import static de.fherfurt.Campus.Main.BuildingDataCollector;
-import static de.fherfurt.Campus.Main.RoomDataCollector;
-import static de.fherfurt.Campus.Main.LocationDataCollector;
 
 
 
@@ -24,25 +22,18 @@ public class Search {
     public static final String BUILDING = "Building";
     public static final String ROOM = "Room";
 
-    // Hier werden die lokalen variablen aus der Main zugewiesen
-    public Object BuildingCollection = Main.BuildingDataCollector;
-    public Object RoomCollection = Main.RoomDataCollector;
-    public Object LocationCollection = Main.LocationDataCollector;
-
     // ----------------------------- METHODS ---------------------------------------- //
 
-
-
     // Mother function, which gets the input from the user and calls the search function
-    public static List<String> searchForResults(String _userInput, String searchFilter) {
+    public static List<String> searchForResults(String _userInput, String _searchFilter, DataCollector _collector) {
 
         List<String> searchList = new ArrayList<>();
 
         if (_userInput.length() != 0) {
-            switch (searchFilter) {
-                case ROOM -> searchList = getRoomAssoc(_userInput);
-                case BUILDING -> searchList = getBuildingAssoc(_userInput);
-                case LOCATION -> searchList = getLocationAssoc(_userInput);
+            switch (_searchFilter) {
+                case ROOM -> searchList = getRoomAssoc(_userInput, _collector);
+                case BUILDING -> searchList = getBuildingAssoc(_userInput, _collector);
+                case LOCATION -> searchList = getCampusAssoc(_userInput, _collector);
             }
         }
         else {
@@ -57,35 +48,29 @@ public class Search {
     // THIS IS THE SEARCH FUNCTIONS AREA
     // ________________________________________________________________________
 
-    // this function returns the values from the db, which are associated with Buiildings
-    public static List<String> getBuildingAssoc(String _searchQuery) {
+    // this function returns the values from the db, which are associated with Buildings
+    public static List<String> getBuildingAssoc(String _searchQuery, DataCollector _collector) {
 
-        List<String> results = new ArrayList<>(); // will be out final output
+        // will be out final output
+        List<String> results = new ArrayList<>();
 
+        // for each building in the Building Data Hashmap
+        for (String building : _collector.BuildingData.keySet()) {
 
-//        Raum 1
-//                Key    value
-//            - Haus 1: Raum 1
-//            - Haus 2: Raum 1
+            // If a building was found that matches the search string
+            if(Objects.equals(building, _searchQuery)) {
+                results.add(_searchQuery + " found in " + building);
 
-        for(Entry<String, String> entry: BuildingDataCollector.buildingsGeoLocations.entrySet()) {
+                // Add all the information associated with the key to the string List
+                for (String Key : _collector.BuildingData.get(_searchQuery).keySet()) {
 
-            if(Objects.equals(entry.getValue(), _searchQuery)) {
-                results.add(_searchQuery + " found in " + entry.getKey());
+                    System.out.printf("%s : %s\n" ,Key, _collector.BuildingData.get(_searchQuery).get(Key));
+                    results.addAll(_collector.BuildingData.get(_searchQuery).get(Key));
+
+                }
             }
         }
-        for(Entry<String, List<String>> entry: BuildingDataCollector.buildingsRooms.entrySet()) {
 
-            if(Objects.equals(entry.getValue(), _searchQuery)) {
-                results.add(_searchQuery + " found in " + entry.getKey());
-            }
-        }
-        for(Entry<String, Integer> entry: BuildingDataCollector.buildingsIdNumbers.entrySet()) {
-
-            if(Objects.equals(entry.getValue(), _searchQuery)) {
-                results.add(_searchQuery + " found in " + entry.getKey());
-            }
-        }
         if (results.size() == 0) {
             results.add("No search pattern found!");
         }
@@ -93,34 +78,27 @@ public class Search {
     }
 
     // this function returns the values from the db, which are associated with Locations
-    public static List<String> getLocationAssoc(String _searchQuery) {
+    public static List<String> getCampusAssoc(String _searchQuery, DataCollector _collector) {
 
+        // Dummy List
         List<String> results = new ArrayList<>();
 
-        // -------------------------------------------------------------------------------------------
-        // this variable is a TEST one and will be removed in the later stages of project development
-        List<String> database = new ArrayList<>();
-        Collections.addAll(database, "a1", "a2", "a3");
-        // -------------------------------------------------------------------------------------------
+        // for each Campus in the CampusData Hashmap
+        for (String campus : _collector.CampusData.keySet()) {
 
-        for(Entry<String, List<String>> entry: LocationDataCollector.campusBuildings.entrySet()) {
+            // If a campus was found that matches the search string
+            if(Objects.equals(campus, _searchQuery)) {
+                results.add(_searchQuery + " found in " + campus);
 
-            if(Objects.equals(entry.getValue(), _searchQuery)) {
-                results.add(_searchQuery + " found in " + entry.getKey());
+                // Add all the information associated with the key to the string List
+                for (String Key : _collector.CampusData.get(_searchQuery).keySet()) {
+
+                    System.out.printf("%s : %s\n" ,Key, _collector.CampusData.get(_searchQuery).get(Key));
+                    results.addAll(_collector.CampusData.get(_searchQuery).get(Key));
+                }
             }
         }
-        for(Entry<String, String> entry: LocationDataCollector.campusCoordinates.entrySet()) {
 
-            if(Objects.equals(entry.getValue(), _searchQuery)) {
-                results.add(_searchQuery + " found in " + entry.getKey());
-            }
-        }
-        for(Entry<String, List<String>> entry: RoomDataCollector.roomPersons.entrySet()) {
-
-            if(Objects.equals(entry.getValue(), _searchQuery)) {
-                results.add(_searchQuery + " found in " + entry.getKey());
-            }
-        }
         if (results.size() == 0) {
             results.add("No search pattern found!");
         }
@@ -128,34 +106,27 @@ public class Search {
     }
 
     // this function returns the values from the db, which are associated with Rooms
-    public static List<String> getRoomAssoc(String _searchQuery) {
+    public static List<String> getRoomAssoc(String _searchQuery, DataCollector _collector) {
 
+        // Dummy List
         List<String> results = new ArrayList<>();
 
-        // -------------------------------------------------------------------------------------------
-        // this variable is a TEST one and will be removed in the later stages of project development
-        List<String> database = new ArrayList<>();
-        Collections.addAll(database, "a1", "a2", "a3");
-        // -------------------------------------------------------------------------------------------
+        // for each building in the Building Data Hashmap
+        for (String room : _collector.RoomData.keySet()) {
 
-        for(Entry<String, Integer> entry: RoomDataCollector.roomID.entrySet()) {
+            // If a building was found that matches the search string
+            if(Objects.equals(room, _searchQuery)) {
+                results.add(_searchQuery + " found in " + room);
 
-            if(Objects.equals(entry.getValue(), _searchQuery)) {
-                results.add(_searchQuery + " found in " + entry.getKey());
+                // Add all the information associated with the key to the string List
+                for (String Key : _collector.RoomData.get(_searchQuery).keySet()) {
+
+                    System.out.printf("%s : %s\n" ,Key, _collector.RoomData.get(_searchQuery).get(Key));
+                    results.addAll(_collector.RoomData.get(_searchQuery).get(Key));
+                }
             }
         }
-        for(Entry<String, List<String>> entry: RoomDataCollector.roomPersons.entrySet()) {
 
-            if(Objects.equals(entry.getValue(), _searchQuery)) {
-                results.add(_searchQuery + " found in " + entry.getKey());
-            }
-        }
-        for(Entry<String, Integer> entry: RoomDataCollector.roomTitle.entrySet()) {
-
-            if(Objects.equals(entry.getValue(), _searchQuery)) {
-                results.add(_searchQuery + " found in " + entry.getKey());
-            }
-        }
         if (results.size() == 0) {
             results.add("No search pattern found!");
         }

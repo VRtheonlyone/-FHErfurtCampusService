@@ -12,7 +12,6 @@ public class Location {
     // getMensaLocation     -       AUSLASSEN
     // getEventLocation     -       AUSLASSEN
     // ...
-
 // ----------------------------- ATTRIBUTES ---------------------------------------- //
 
     private Integer campusID;
@@ -30,9 +29,11 @@ public class Location {
 
 // ----------------------------- CONSTRUCTOR ---------------------------------------- //
 
-    public Location(Integer _campusID,String _campusTitle, String _campusGeoLocation, List<String> _campusBuildings) {
+    public Location(String _campusTitle, String _campusGeoLocation, List<String> _campusBuildings) {
 
-        this.campusID = _campusID;
+        DataCollector.CampusCounter +=1;
+        this.campusID = DataCollector.CampusCounter;
+
         this.campusTitle = _campusTitle;
         this.campusGeoLocation = _campusGeoLocation;
         this.campusBuildings = _campusBuildings;
@@ -43,14 +44,14 @@ public class Location {
     }
 
 
-}
+
 
 
     // ----------------------------- METHODS ---------------------------------------- //
 
 
 
-    /*
+
     public static String getCampus(String[] _geoLocation) {
         String campusName;
         // searching in Google Maps for the location and returning the campus name
@@ -75,9 +76,6 @@ public class Location {
         return faculties;
     }
 
-    
-
-
     public static String getMensaLocation() {
         String mensaLocation;
         // searching in the Datamodel for the matching campus identites
@@ -93,5 +91,4 @@ public class Location {
 
         return eventLocation;
     }
-
-*/
+}
