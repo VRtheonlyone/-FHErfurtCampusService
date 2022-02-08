@@ -17,48 +17,51 @@ public class Main {
     public static final String LOCATION = "Location";
     public static final String BUILDING = "Building";
 
+    /*Campus Types*/
+    public static final String CAMPUS_1 = "Schlüterstrasse";
+    public static final String CAMPUS_2 = "Leipziger Strasse";
+    public static final String CAMPUS_3 = "Altonaer Strasse";
+
     public static void main(String[] args) {
         DataCollector FirstDataCollector = new DataCollector();
 
-        List <String> List1 = new ArrayList<>();
-        List1.add("R 202");
-        List1.add("H 324");
-        List1.add("H 302");
-        List1.add("H 402");
+        List <String> RoomList1 = new ArrayList<>();
+        RoomList1.add("R 202");
+        RoomList1.add("H 324");
+        RoomList1.add("H 302");
+        RoomList1.add("H 402");
 
         List <String> TypeList = new ArrayList<>();
         TypeList.add("Gymnasium");
         TypeList.add("Cafeteria");
 
-        
-        Building House1 = new Building(true, "Haus 1", List1,"123.12312", TypeList , "Campus 3" , FirstDataCollector);
+        List <String> Event = new ArrayList<>();
+        Event.add("Megaparty");
+        Event.add("3rd August 2022");
 
+        Building House1 = new Building(true, "Haus 1", RoomList1,"123.12312", TypeList , CAMPUS_2 , FirstDataCollector);
 
-        System.out.printf("Building with accessibility: %b\n",House1.getAccessibility());
+        System.out.printf("Building: %s\n",FirstDataCollector.BuildingData);
+
         System.out.printf("Building with title: %s\n",House1.getTitle());
         System.out.printf("Building with rooms: %s\n",House1.getRooms());
-        System.out.printf("Building with geoLocation: %s\n",House1.getGeoLocation());
-        System.out.printf("Building with affiliation: %b\n",House1.getAffiliation());
 
-        System.out.printf("Building with rooms: %s\n",FirstDataCollector.BuildingData);
-        House1.addRoom("R 666", FirstDataCollector);
+        System.out.printf("Building with accessibility: %s\n",House1.getAccessibility());
+        System.out.printf("Building with geoLocation: %s\n",House1.getGeoLocation());
+        System.out.printf("Building with affiliation: %s\n",House1.getAffiliation());
+        System.out.printf("Building with type: %s\n",House1.getType());
+        System.out.printf("Building with affiliation: %s\n",House1.getID());
+
+        House1.setEventForBuilding(Event, FirstDataCollector);
+        System.out.printf("Building: %s\n",FirstDataCollector.BuildingData);
+
+        House1.addRoom("R 333", FirstDataCollector);
         System.out.printf("Building Data: %s\n",FirstDataCollector.BuildingData);
 
-        House1.addAffiliation("Campus 1",FirstDataCollector);
+        House1.deleteRoom("R 202", FirstDataCollector);
         System.out.printf("Building Data: %s\n",FirstDataCollector.BuildingData);
 
         House1.deleteBuilding(FirstDataCollector);
-
         System.out.printf("Building Data: %s\n",FirstDataCollector.BuildingData);
-
-
-
-
-
-        //Object Search = new Search();
-
-        //System.out.println(de.fherfurt.Campus.Search.searchForResults("1", ROOM));
-
-
     }
 }

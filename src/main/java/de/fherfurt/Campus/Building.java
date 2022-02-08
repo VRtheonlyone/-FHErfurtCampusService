@@ -1,4 +1,6 @@
 package de.fherfurt.Campus;
+import org.jetbrains.annotations.NotNull;
+
 import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +28,13 @@ public class Building {
     // List of all Building Types
     private List<String> type;
 
+    // Campus associated with building
     private String campusAffiliation;
 
-    // --> Get fitting data structure for event affiliation: tuple, List<String>, HashMap?
+    // Event associated with Building
+    private List<String> event;
 
-
-    //---------------------------------------------------------------------------------------------------//
-
-         
-    // ----------------------------------- CONSTRUCTOR ---------------------------------------------
+    /* Constructor */
     public Building(boolean _accessibility, String _buildingTitle, List<String> _buildingRooms, String _buildingGeoLocation, List<String> _buildingType, String _affiliation, DataCollector _collector) {
 
         DataCollector.BuildingCounter += 1 ;
@@ -47,62 +47,90 @@ public class Building {
         setAccessibilityForBuilding(_accessibility, _collector);
         setTypeForBuilding(_buildingType, _collector);
         setIDForBuilding(this.id,_collector);
-
     }
-    // ---------------------------------------------------------------------------------------------//
 
-    // ----------------------------- SETTER ----------------------------------------//
+    /* SETTER */
 
     public void setTitleForBuilding (String _title, DataCollector _collector)
     {
         this.title = _title;
-        _collector.BuildingData.put(this.title, new HashMap(){{put(TITLE,_title);}});
+
+        List<String> Titles = new ArrayList<>();
+        Titles.add(_title);
+        _collector.BuildingInnerMap.put(TITLE,Titles);
+        _collector.BuildingData.put(_title,_collector.BuildingInnerMap);
     }
 
     public void setRoomsForBuilding (List<String> _rooms, DataCollector _collector)
     {
         this.rooms = _rooms;
-        _collector.BuildingData.put(this.title, new HashMap(){{put(ROOMS,_rooms);}});
+
+        _collector.BuildingInnerMap.put(ROOMS,_rooms);
+        _collector.BuildingData.put(this.title,_collector.BuildingInnerMap);
     }
 
     public void setGeoLocationForBuilding (String _geoLocation, DataCollector _collector)
     {
         this.geolocation = _geoLocation;
-       _collector.BuildingData.put(this.title, new HashMap(){{put(GEOLOCATION,_geoLocation);}});
+
+        List<String> Geolocations = new ArrayList<>();
+        Geolocations.add(_geoLocation);
+
+        _collector.BuildingInnerMap.put(GEOLOCATION,Geolocations);
+        _collector.BuildingData.put(this.title,_collector.BuildingInnerMap);
     }
 
     public void setIDForBuilding(Integer _id, DataCollector _collector)
     {
         this.id = _id;
-        
-        // Integer must be converted to String to be written into the Hashmap,because it is a String List
-        String IDString = String.valueOf(_id);
-        _collector.BuildingData.put(this.title, new HashMap(){{put(ID, IDString);}});
+
+        List<String> IDs = new ArrayList<>();
+        IDs.add(String.valueOf(_id));
+
+        _collector.BuildingInnerMap.put(ID,IDs);
+        _collector.BuildingData.put(this.title,_collector.BuildingInnerMap);
     }
 
     public void setTypeForBuilding (List <String> _type, DataCollector _collector)
     {
         this.type = _type;
-        _collector.BuildingData.put(this.title, new HashMap(){{put(TYPES,_type);}});
+
+
+        _collector.BuildingInnerMap.put(TYPES,_type);
+        _collector.BuildingData.put(this.title,_collector.BuildingInnerMap);
     }
 
     public void setAccessibilityForBuilding (boolean _accessibility, DataCollector _collector)
     {
         this.accessibility = _accessibility;
-        _collector.BuildingData.put(this.title, new HashMap(){{put(ACCESSIBILITY,_accessibility);}});
+
+        List<String> Accessibility = new ArrayList<>();
+        Accessibility.add(String.valueOf(_accessibility));
+
+        _collector.BuildingInnerMap.put(ACCESSIBILITY,Accessibility);
+        _collector.BuildingData.put(this.title,_collector.BuildingInnerMap);
     }
 
     public void setAffiliationForBuilding(String _affiliation, DataCollector _collector)
     {
         this.campusAffiliation = _affiliation;
-        _collector.BuildingData.put(this.title, new HashMap(){{put(CAMPUS_AFFILIATION,_affiliation);}});
+        List<String> Affiliation = new ArrayList<>();
+        Affiliation.add(_affiliation);
+
+        _collector.BuildingInnerMap.put(CAMPUS_AFFILIATION,Affiliation);
+        _collector.BuildingData.put(this.title,_collector.BuildingInnerMap);
     }
 
-    //-------------------------------------------------------------------------------//
-    // ----------------------------- GETTER ----------------------------------------//
+    public void setEventForBuilding(List<String> _event, DataCollector _collector)
+    {
+        this.event = _event;
 
+        _collector.BuildingInnerMap.put(EVENTS, _event);
+        _collector.BuildingData.put(this.title,_collector.BuildingInnerMap);
+    }
 
-    // Returns Geographical Location of a building as a String
+    /* Getter */
+
     public String getGeoLocation()
     {
         return this.geolocation;
@@ -161,85 +189,24 @@ public class Building {
 
 
     // Delete given Rooms associated with a given building
-    public void deleteBuildingRooms(List<String> _rooms, DataCollector _collector)
+    public void deleteRoom(String _room, DataCollector _collector)
     {
-        // For every key in the BuildingDataCollector
-        for (String building: _collector.BuildingData.keySet())
-        {
-            // if there is a match
-            if (this.title.equals(building))
-            {
-                // for every room in passed List
-               for(String myRoom : _rooms)
-               {
-                   // for every room in the matching key
-                   for (String Room : this.rooms)
-                   {
-                       // if there is a match between the rooms
-                       if (myRoom.equals(Room))
-                       {
-                           // Remove the Room from the List
-                           this.rooms.remove(myRoom);
-                           _collector.BuildingData.get(building).get(ROOMS).remove(Room);
+        this.rooms.remove(_room);
+        List <String> myRooms = this.rooms;
 
-                           // Print out which Room was deleted for which Building
-                           System.out.printf("Room %s was removed from Building %s.\n", Room, building);
-
-                       }
-                   }
-               }
-            }
-            else
-            {
-                System.out.printf("There is no building with the name %s", this.title);
-            }
-        }
+        _collector.BuildingInnerMap.put(ROOMS,myRooms);
+        _collector.BuildingData.put(this.title, _collector.BuildingInnerMap);
     }
 
     public void addRoom(String _roomTitle, DataCollector _collector)
     {
-        //Adds the room to the current instance's roomList
         this.rooms.add(_roomTitle);
         List<String> roomList = this.rooms;
 
-        //Updates the roomList for this Building
-        _collector.BuildingData.put(this.title, new HashMap(){{put(ROOMS,roomList);}});
+        _collector.BuildingInnerMap.put(ROOMS,roomList);
+        _collector.BuildingData.put(this.title, _collector.BuildingInnerMap);
 
-    };
-
-    public void addAffiliation(String _affiliation, DataCollector _collector)
-    {
-        //Adds the room to the current instance's roomList
-        this.campusAffiliation = _affiliation;
-        //Updates the roomList for this Building
-        _collector.BuildingData.put(this.title, new HashMap(){{put(CAMPUS_AFFILIATION,_affiliation);}});
-
-    };
-
-
-
-    // Gets List of all Rooms associated with a building
-    public List<String> getRoomsForBuilding (DataCollector _collector)
-    {
-        // Define an empty List of Strings
-        List <String> roomList = new ArrayList<>();
-
-        // Iterate through the hashmap
-        for(String building : _collector.BuildingData.keySet())
-        {
-            // Check whether input String matches key in the array
-            if (this.title.equals(building))
-            {
-                // Add all values associated with key to the list
-                roomList.addAll(_collector.BuildingData.get(building).get(ROOMS));
-
-                // return List of all Rooms for the respective building
-                return roomList;
-            }
-        }
-
-        roomList.add("There are currently no rooms associated with this building.\n");
-        return roomList;
     }
+
 }
 
