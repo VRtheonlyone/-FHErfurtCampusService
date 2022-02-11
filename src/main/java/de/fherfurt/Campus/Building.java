@@ -29,7 +29,7 @@ public class Building {
     private String campusAffiliation;
 
     // Event associated with Building
-    private List<String> event;
+    private List<String> event = null;
 
     /* Constructor */
     public Building(boolean _accessibility, String _buildingTitle, List<String> _buildingRooms, String _buildingGeoLocation, List<String> _buildingType, String _affiliation, DataCollector _collector) {
@@ -122,7 +122,7 @@ public class Building {
     {
         this.event = _event;
 
-        _collector.BuildingInnerMap.put(EVENTS, this.event);
+        _collector.BuildingInnerMap.put(EVENTS, _event);
         _collector.BuildingData.put(this.title,_collector.BuildingInnerMap);
     }
 
@@ -176,7 +176,7 @@ public class Building {
             if(this.title.equals(building))
             {
                 _collector.BuildingData.remove(building);
-                _collector.CampusInnerMap.get(BUILDING).remove(building);
+                // _collector.CampusInnerMap.get(BUILDING).remove(building);
 
                 for(String Room : this.rooms) {
 
