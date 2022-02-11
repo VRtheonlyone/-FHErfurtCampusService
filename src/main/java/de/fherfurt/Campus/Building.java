@@ -1,7 +1,4 @@
 package de.fherfurt.Campus;
-import org.jetbrains.annotations.NotNull;
-
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -125,7 +122,7 @@ public class Building {
     {
         this.event = _event;
 
-        _collector.BuildingInnerMap.put(EVENTS, _event);
+        _collector.BuildingInnerMap.put(EVENTS, this.event);
         _collector.BuildingData.put(this.title,_collector.BuildingInnerMap);
     }
 
@@ -166,6 +163,8 @@ public class Building {
         return this.campusAffiliation;
     }
 
+    public List <String> getEvent(){return this.event;}
+
     // ----------------------------- DELETES ----------------------------------------//
 
     // Deletes Building and its Data from all HashMaps in the BuildingDataCollector
@@ -177,6 +176,14 @@ public class Building {
             if(this.title.equals(building))
             {
                 _collector.BuildingData.remove(building);
+                _collector.CampusInnerMap.get(BUILDING).remove(building);
+
+                for(String Room : this.rooms) {
+
+                    /* Removes Building Affiliation for all rooms that are in this building */
+                    _collector.RoomData.get(Room).get(BUILDING_AFFILIATION).remove(this.title);
+                }
+
             }
         }
         this.title = null;
@@ -187,8 +194,7 @@ public class Building {
         this.campusAffiliation = null;
     }
 
-
-    // Delete given Rooms associated with a given building
+    /* DELETE */
     public void deleteRoom(String _room, DataCollector _collector)
     {
         this.rooms.remove(_room);
@@ -198,6 +204,7 @@ public class Building {
         _collector.BuildingData.put(this.title, _collector.BuildingInnerMap);
     }
 
+    /* ADD */
     public void addRoom(String _roomTitle, DataCollector _collector)
     {
         this.rooms.add(_roomTitle);
