@@ -54,6 +54,7 @@ public class Building {
 
         List<String> Titles = new ArrayList<>();
         Titles.add(_title);
+
         _collector.BuildingInnerMap.put(TITLE,Titles);
         _collector.BuildingData.put(_title,_collector.BuildingInnerMap);
     }
@@ -80,7 +81,6 @@ public class Building {
     public void setIDForBuilding(Integer _id, DataCollector _collector)
     {
         this.id = _id;
-
         List<String> IDs = new ArrayList<>();
         IDs.add(String.valueOf(_id));
 
