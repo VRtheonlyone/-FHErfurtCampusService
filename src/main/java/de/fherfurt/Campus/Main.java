@@ -16,6 +16,8 @@ public class Main {
     public static final String EVENTS ="Events";
     public static final String LOCATION = "Location";
     public static final String BUILDING = "Building";
+    public static final String PERSONS = "Persons";
+    public static final String FLOOR = "Floor";
 
     /*Campus Types*/
     public static final String CAMPUS_1 = "Schlüterstrasse";
