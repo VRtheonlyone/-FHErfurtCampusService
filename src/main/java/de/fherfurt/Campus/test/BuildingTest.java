@@ -1,4 +1,4 @@
- package de.fherfurt.Campus.test;
+package de.fherfurt.Campus.test;
 
 import static de.fherfurt.Campus.Main.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,9 +54,9 @@ import java.util.List;
             assertEquals(MyBuilding.getType(), Collector.BuildingData.get(MyBuilding.getTitle()).get(TYPES));
         }
 
-         @Test
-         @DisplayName("Setting Event should work")
-         void testSetEventForBuilding() {
+        @Test
+        @DisplayName("Setting Event should work")
+        void testSetEventForBuilding() {
             Events.add("Birthday Party");
             Events.add("Christmas");
 
