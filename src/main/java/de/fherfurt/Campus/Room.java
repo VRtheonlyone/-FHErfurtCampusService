@@ -6,7 +6,7 @@ import de.fherfurt.Campus.Main;
 
 import static de.fherfurt.Campus.Main.ID;
 
-public class Room {
+public class Room implements Events {
 
     /*
     // getBuildingTitle             +
@@ -134,6 +134,7 @@ public class Room {
 
     }
 
+
     // ---------------------------------------------------------------------------------------------//
 
 
@@ -167,6 +168,11 @@ public class Room {
         return floors;
     }
     */
+
+    @Override
+    public void setEvents(String eventLocation) {
+
+    }
 
 
 

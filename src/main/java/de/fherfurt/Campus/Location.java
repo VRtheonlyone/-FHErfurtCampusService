@@ -1,8 +1,7 @@
 package de.fherfurt.Campus;
 import java.util.List;
-import java.util.*;
 
-public class Location {
+public class Location implements Events {
 
     // getCampus            -
     // setCampus            -
@@ -90,5 +89,11 @@ public class Location {
         eventLocation = "55.55.55"; // Test variable value initialisation
 
         return eventLocation;
+    }
+
+
+    @Override
+    public void setEvents(String eventLocation) {
+
     }
 }
