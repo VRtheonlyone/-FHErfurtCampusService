@@ -183,7 +183,6 @@ public class Building {
                     /* Removes Building Affiliation for all rooms that are in this building */
                     _collector.RoomData.get(Room).get(BUILDING_AFFILIATION).remove(this.title);
                 }
-
             }
         }
         this.title = null;
@@ -194,7 +193,6 @@ public class Building {
         this.campusAffiliation = null;
     }
 
-    /* DELETE */
     public void deleteRoom(String _room, DataCollector _collector)
     {
         this.rooms.remove(_room);
@@ -204,7 +202,6 @@ public class Building {
         _collector.BuildingData.put(this.title, _collector.BuildingInnerMap);
     }
 
-    /* ADD */
     public void addRoom(String _roomTitle, DataCollector _collector)
     {
         this.rooms.add(_roomTitle);
