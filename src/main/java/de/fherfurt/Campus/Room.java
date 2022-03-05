@@ -42,9 +42,6 @@ public class Room {
     // List of persons for the room
     private final List<String> persons;
 
-    // To which Building it belongs
-    private String buildingAffiliation;
-
     //---------------------------------------------------------------------------------------------------//
 
 
@@ -76,7 +73,7 @@ public class Room {
 
         // Integer must be converted to String to be written into the Hashmap,because it is a String List
         String IDString = String.valueOf(_id);
-        _collector.BuildingData.put(this.title, new HashMap(){{put(ID, IDString);}}); // --> Check Building Setter Methods
+        _collector.BuildingData.put(this.title, new HashMap(){{put(ID, IDString);}});
     }
 
     public void setIdForRoom(Integer _roomID)

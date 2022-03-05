@@ -6,7 +6,7 @@ import java.util.HashMap;
 import static de.fherfurt.Campus.Main.*;
 
 
-public class Building {
+public class Building implements Events {
 
     private boolean accessibility;
 
@@ -19,7 +19,7 @@ public class Building {
     // List of Rooms for Building
     private List<String> rooms;
 
-    // Geographical Coordinates of Building
+    // google Open Location Code -> Website
     private String geolocation;
 
     // List of all Building Types
@@ -211,6 +211,12 @@ public class Building {
         _collector.BuildingData.put(this.title, _collector.BuildingInnerMap);
 
     }
+
+    @Override
+    public void setEvents(String eventLocation) {
+
+    }
+
 
 }
 
