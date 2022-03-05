@@ -19,6 +19,11 @@ public class Main {
     public static final String PERSONS = "Persons";
     public static final String FLOOR = "Floor";
 
+    public static final String EDUCATION = "Education";
+    public static final String CAFETERIA = "Cafeteria";
+    public static final String LIBRARY = "Library";
+    public static final String GYMNASIUM = "Gymnasium";
+
     /*Campus Types*/
     public static final String CAMPUS_1 = "Schlüterstrasse";
     public static final String CAMPUS_2 = "Leipziger Strasse";

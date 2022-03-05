@@ -1,7 +1,13 @@
 package de.fherfurt.Campus;
+import javax.xml.crypto.Data;
+import java.sql.Types;
 import java.util.List;
+import java.util.ArrayList;
 
-public class Location implements Events {
+import static de.fherfurt.Campus.Main.*;
+
+
+public class Location {
 
     // getCampus            -
     // setCampus            -
@@ -15,40 +21,70 @@ public class Location implements Events {
 
     private Integer campusID;
 
-    private final String[] Campus = {"SCHLÜTERSTRASSE", "LEIPZIGERSTRASSE", "ALTONAERSTRASSE"};
-
-    // Geographical Coordinates of the campus
+    // Geographical Coordinates of the campus - google Open Location Code -> Website
     private String campusGeoLocation;
 
     //
     private String campusTitle;
 
-    // List of Rooms for Building
-    private List<String> campusBuildings;
+    private List<String> campusBuildings; //-> setter, getter, add, delete, tests
+
+    //Google einbinden -> Discord Link
+
 
 // ----------------------------- CONSTRUCTOR ---------------------------------------- //
 
-    public Location(String _campusTitle, String _campusGeoLocation, List<String> _campusBuildings) {
+    public Location(String _campusTitle, String _campusGeoLocation, DataCollector _collector) {
 
-        DataCollector.CampusCounter +=1;
+        DataCollector.CampusCounter += 1;
         this.campusID = DataCollector.CampusCounter;
 
-        this.campusTitle = _campusTitle;
-        this.campusGeoLocation = _campusGeoLocation;
-        this.campusBuildings = _campusBuildings;
-
-        // setIdForCampus(_campusTitle, _campusID);
-        // setGeoLocationForCampus(_campusTitle, _campusGeoLocation);
-        // setIdForCampus(_campusTitle);
+        setTitleForCampus(_campusTitle, _collector);
+        setGeographicalCoordinatesForCampus(_campusGeoLocation, _collector);
     }
 
 
+// ----------------------------- SETTER ----------------------------------------//
 
+    public void setIdForCampus (Integer _campusID, DataCollector _collector) {
 
+        this.campusID = _campusID;
+        List<String> IDs = new ArrayList<>();
+        IDs.add(String.valueOf(_campusID));
+
+        _collector.CampusInnerMap.put(ID, IDs);
+        _collector.CampusData.put(this.campusTitle, _collector.CampusInnerMap);
+    }
+
+    public void setGeographicalCoordinatesForCampus (String _campusGeoLocation, DataCollector _collector) {
+
+        this.campusGeoLocation = _campusGeoLocation;
+        List<String> GeoLocation = new ArrayList<>();
+        GeoLocation.add(_campusGeoLocation);
+
+        _collector.CampusInnerMap.put(GEOLOCATION, GeoLocation);
+        _collector.CampusData.put(_campusGeoLocation, _collector.CampusInnerMap);
+    }
+
+    public void setTitleForCampus (String _campusTitle, DataCollector _collector) {
+
+        this.campusTitle = _campusTitle;
+        List<String> Titles = new ArrayList<>();
+        Titles.add(_campusTitle);
+
+        _collector.CampusInnerMap.put(TITLE, Titles);
+        _collector.CampusData.put(this.campusTitle, _collector.CampusInnerMap);
+    }
+
+    // ----------------------------- GETTER ---------------------------------------- //
+
+    public Integer getCampusID() { return this.campusID; }
+
+    public String getCampusGeoLocation() { return this.campusGeoLocation; }
+
+    public String getCampusTitle () { return this.campusTitle; }
 
     // ----------------------------- METHODS ---------------------------------------- //
-
-
 
 
     public static String getCampus(String[] _geoLocation) {
@@ -89,11 +125,5 @@ public class Location implements Events {
         eventLocation = "55.55.55"; // Test variable value initialisation
 
         return eventLocation;
-    }
-
-
-    @Override
-    public void setEvents(String eventLocation) {
-
     }
 }

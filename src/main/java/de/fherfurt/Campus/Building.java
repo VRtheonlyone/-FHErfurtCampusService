@@ -19,7 +19,7 @@ public class Building implements Events {
     // List of Rooms for Building
     private List<String> rooms;
 
-    // Geographical Coordinates of Building
+    // google Open Location Code -> Website
     private String geolocation;
 
     // List of all Building Types
