@@ -35,6 +35,25 @@ public class RoomTest {
         Integer NewFloor = 2;
         MyRoom.setFloorForRoom(NewFloor, Collector);
 
-        assertEquals(MyRoom.getFloorNumber().toString(), Collector.RoomData.get(MyRoom.getFloorNumber()).get(FLOOR).get(0));
+        assertEquals(MyRoom.getFloorNumber().toString(), Collector.RoomData.get(MyRoom.getRoomTitle()).get(FLOOR).get(0));
     }
+
+    @Test
+    @DisplayName("Function to set affiliation works fine.")
+    void testSetAffiliationForRoom(){
+        String NewAffiliation = "Haus 2";
+        MyRoom.setAffiliationForRoom(NewAffiliation, Collector);
+
+        assertEquals(MyRoom.getRoomAffiliation(), Collector.RoomData.get(MyRoom.getRoomTitle()).get(BUILDING_AFFILIATION).get(0));
+    }
+
+    @Test
+    @DisplayName("Setting ID should work")
+    void testSetIdForRoom() {
+        Integer id = 1;
+
+        MyRoom.setIdForRoom(id, Collector);
+        assertEquals(MyRoom.getRoomID().toString(), Collector.RoomData.get(MyRoom.getRoomTitle()).get(ID).get(0));
+    }
+
 }
