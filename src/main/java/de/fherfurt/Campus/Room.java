@@ -1,32 +1,11 @@
 package de.fherfurt.Campus;
-import java.util.*;
-import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
-import de.fherfurt.Campus.Main;
+import static de.fherfurt.Campus.Main.*;
 
 import static de.fherfurt.Campus.Main.ID;
 
 public class Room {
-
-    /*
-    // getBuildingTitle             +
-    // setBuildingTitle             -
-    // getRoomAccordingToPerson     +
-    // setPersonAccordingToRoom     -
-    // getFloor                     +
-    // ...
-
-    public String[] roomNumber;
-    public int floor;
-
-    public Room(String[] _roomNumber, int _floor) {
-
-        this.roomNumber= _roomNumber;
-        this.floor= _floor;
-    }
-    */
-
-
 
     //-------------------------------ATTRIBUTES----------------------------------//
 
@@ -40,7 +19,10 @@ public class Room {
     private Integer floor;
 
     // List of persons for the room
-    private final List<String> persons;
+    private List<String> persons;
+
+    // To which Building the room belongs
+    private String buildingAffiliation;
 
     //---------------------------------------------------------------------------------------------------//
 
@@ -48,128 +30,110 @@ public class Room {
     // ----------------------------------- CONSTRUCTOR ---------------------------------------------
 
 
-    public Room(Integer _roomID,String _roomTitle, Integer _floorNumber, List<String> _roomPersons, DataCollector _collector) {
+    public Room(String _roomTitle, Integer _floorNumber, List<String> _roomPersons, String _affiliation,DataCollector _collector) {
 
         DataCollector.RoomCounter +=1;
         this.id = DataCollector.RoomCounter;
 
-        this.title = _roomTitle;
-        this.floor = _floorNumber;
-        this.persons = _roomPersons;
-
-        setIdForRoom(_roomID);
-        setTitleForRoom(_roomTitle);
-        setFloorForRoom(_floorNumber);
-        setPersonsForRoom(_roomPersons);
+        setTitleForRoom(_roomTitle, _collector);
+        setFloorForRoom(_floorNumber, _collector);
+        setPersonsForRoom(_roomPersons, _collector);
+        setAffiliationForRoom(_affiliation, _collector);
+        setIdForRoom(this.id, _collector);
     }
     // ---------------------------------------------------------------------------------------------//
 
     // ----------------------------- SETTER ---------------------------------------- //
 
 
-    public void setIDForRoom(Integer _id, DataCollector _collector)
+    public void setTitleForRoom(String _roomTitle, DataCollector _collector)
     {
-        this.id = _id;
+        this.title = _roomTitle;
 
-        // Integer must be converted to String to be written into the Hashmap,because it is a String List
-        String IDString = String.valueOf(_id);
-        _collector.BuildingData.put(this.title, new HashMap(){{put(ID, IDString);}});
+        List<String> Titles = new ArrayList<>();
+        Titles.add(_roomTitle);
+
+        _collector.RoomInnerMap.put(TITLE,Titles);
+        _collector.RoomData.put(_roomTitle,_collector.RoomInnerMap);
     }
 
-    public void setIdForRoom(Integer _roomID)
+    public void setFloorForRoom(Integer _floorNumber, DataCollector _collector)
     {
+        this.floor = _floorNumber;
+        List<String> Floor = new ArrayList<>();
+        Floor.add(String.valueOf(_floorNumber));
 
+        _collector.RoomInnerMap.put(FLOOR, Floor);
+        _collector.RoomData.put(this.title, _collector.RoomInnerMap);
     }
 
-    public void setFloorForRoom(Integer _floorNumber)
+    public void setPersonsForRoom(List<String> _roomPersons, DataCollector _collector)
     {
+        this.persons = _roomPersons;
 
+        _collector.RoomInnerMap.put(PERSONS, _roomPersons);
+        _collector.RoomData.put(this.title, _collector.RoomInnerMap);
     }
 
-    public void setTitleForRoom(String _roomTitle)
+    public void setAffiliationForRoom(String _affiliation, DataCollector _collector)
     {
+        this.buildingAffiliation = _affiliation;
+        List<String> Affiliation = new ArrayList<>();
+        Affiliation.add(_affiliation);
 
+        _collector.RoomInnerMap.put(BUILDING_AFFILIATION,Affiliation);
+        _collector.RoomData.put(this.title,_collector.RoomInnerMap);
     }
 
-    public void setPersonsForRoom(List<String> _roomPersons)
+    public void setIdForRoom(Integer _roomID, DataCollector _collector)
     {
+        this.id = _roomID;
+        List<String> IDs = new ArrayList<>();
+        IDs.add(String.valueOf(_roomID));
 
+        _collector.RoomInnerMap.put(ID,IDs);
+        _collector.RoomData.put(this.title,_collector.RoomInnerMap);
     }
 
     // ---------------------------------------------------------------------------------------------//
 
     // ----------------------------- GETTER ---------------------------------------- //
 
-    public void getIdForRoom(Integer _roomID)
-    {
+    public Integer getRoomID() {return this.id;}
 
-    }
+    public String getRoomTitle() {return this.title;}
 
-    //
-    public void getTitleForRoom(String _roomTitle)
-    {
+    public Integer getFloorNumber() {return this.floor;}
 
-    }
+    public List<String> getRoomPersons() {return this.persons;}
 
-    // This should get the floor the room is located on
-    public void getFloorForRoom(Integer _floorNumber)
-    {
-
-    }
-
-    // This should get a List of all Persons associated with a room
-    public List<String> getPersonsForRoom()
-    {
-
-        return null;
-    }
+    public String getRoomAffiliation() {return this.buildingAffiliation;}
 
     // ---------------------------------------------------------------------------------------------//
 
     // ----------------------------- DELETES ---------------------------------------- //
 
 
-    public void deleteRoom(String _room)
+    // Deletes Room and its Data from all HashMaps
+    public void deleteRoom (DataCollector _collector)
     {
-
+        for (String room : _collector.RoomData.keySet())
+        {
+            if(this.title.equals(room))
+            {
+                _collector.RoomData.remove(room);
+            }
+        }
+        this.title = null;
+        this.id = null;
+        this.floor = null;
+        this.persons = null;
+        this.buildingAffiliation = null;
     }
 
     // ---------------------------------------------------------------------------------------------//
 
-
-    /*
-    // ----------------------------- METHODS ---------------------------------------- //
-
-    // THESE ARE THE OLD METHODS I COMMENTED OUT FOR MY PERSONAL CLARYITY
-
-    public static String[] getBuildingTitle(String _roomNumber) {
-        String[] buildingTitle;
-        // searching in the Datamodel for the matching campus identites
-        buildingTitle= new String[]{"a"}; // Test variable value initialisation
-
-        return buildingTitle;
-    }
-
-    public static String getRoomAccordingToPerson (String _personName) {
-        String roomTitle;
-        // searching in the Datamodel for the matching campus identites
-
-        roomTitle = "2"; // Test variable value initialisation
-
-        return roomTitle;
-    }
-
-    public static String[] getFloor(String _roomNr) {
-        String[] floors;
-        // searching in the Datamodel for the matching campus identites
-        floors = new String[]{"(AltStr)7.2.5", "(SchStr.)1.1.1"}; // Test variable value initialisation
-
-        return floors;
-    }
-    */
-
-
-
+    // ----------------------------- ADD ---------------------------------------- //
 }
 
 
