@@ -131,9 +131,32 @@ public class Room {
         this.buildingAffiliation = null;
     }
 
-    // ---------------------------------------------------------------------------------------------//
+    // Deletes a specific person out of the persons listed
+    public void deletePerson(String _persons, DataCollector _collector)
+    {
+        this.persons.remove(_persons);
+        List <String> RoomPerson = this.persons;
+
+        _collector.RoomInnerMap.put(PERSONS,RoomPerson);
+        _collector.RoomData.put(this.title, _collector.RoomInnerMap);
+    }
+
+    // -------------------------------------------------------------------------- //
 
     // ----------------------------- ADD ---------------------------------------- //
+
+    // Adds a person to the list of a room
+    public void addPerson(String _personName, DataCollector _collector)
+    {
+        this.persons.add(_personName);
+        List<String> NewPerson = this.persons;
+
+        _collector.RoomInnerMap.put(PERSONS,NewPerson);
+        _collector.RoomData.put(this.title, _collector.RoomInnerMap);
+    }
+
+    // -------------------------------------------------------------------------- //
+
 }
 
 

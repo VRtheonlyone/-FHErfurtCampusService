@@ -48,12 +48,48 @@ public class RoomTest {
     }
 
     @Test
-    @DisplayName("Setting ID should work")
+    @DisplayName("Setting ID works fine")
     void testSetIdForRoom() {
         Integer id = 1;
 
         MyRoom.setIdForRoom(id, Collector);
         assertEquals(MyRoom.getRoomID().toString(), Collector.RoomData.get(MyRoom.getRoomTitle()).get(ID).get(0));
     }
+
+    @Test
+    @DisplayName("Adding a person to the person list works fine")
+    void testAddPersonToRoom() {
+        String NewPerson = "Horst Günther";
+        MyRoom.addPerson(NewPerson, Collector);
+        assertTrue(MyRoom.getRoomPersons().contains(NewPerson));
+    }
+
+    // At first the person Holger Rainer is added with the already tested code and then deleted
+    @Test
+    @DisplayName("Deleting a person of the person list works fine")
+    void testDeletePerson()
+    {
+        String NewPerson = "Holger Rainer";
+        MyRoom.addPerson(NewPerson, Collector);
+        assertTrue(MyRoom.getRoomPersons().contains(NewPerson));
+
+        MyRoom.deletePerson(NewPerson, Collector);
+        assertFalse(MyRoom.getRoomPersons().contains(NewPerson));
+    }
+
+    @Test
+    @DisplayName("Deleting a room works fine")
+    void testDeleteRoom() {
+        assertTrue(Collector.RoomData.containsKey(MyRoom.getRoomTitle()));
+        MyRoom.deleteRoom(Collector);
+
+        boolean RoomExists;
+
+        RoomExists = MyRoom.getRoomTitle() != null;
+        assertFalse(Collector.RoomData.containsKey(MyRoom.getRoomTitle()));
+        assertFalse(RoomExists);
+    }
+
+
 
 }
