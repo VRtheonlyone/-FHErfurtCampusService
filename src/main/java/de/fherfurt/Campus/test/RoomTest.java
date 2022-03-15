@@ -20,6 +20,8 @@ public class RoomTest {
 
     Room MyRoom = new Room("Room1", 1, Persons, "Haus 1", Collector);
 
+    // ----------------- Set / Get Tests -------------------//
+
     @Test
     @DisplayName("Function to set title works fine.")
     void testSetTitleForRoom(){
@@ -56,6 +58,8 @@ public class RoomTest {
         assertEquals(MyRoom.getRoomID().toString(), Collector.RoomData.get(MyRoom.getRoomTitle()).get(ID).get(0));
     }
 
+    // ----------------- Add Test -------------------//
+
     @Test
     @DisplayName("Adding a person to the person list works fine")
     void testAddPersonToRoom() {
@@ -63,6 +67,8 @@ public class RoomTest {
         MyRoom.addPerson(NewPerson, Collector);
         assertTrue(MyRoom.getRoomPersons().contains(NewPerson));
     }
+
+    // ----------------- Delete Tests -------------------//
 
     // At first the person Holger Rainer is added with the already tested code and then deleted
     @Test
