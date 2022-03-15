@@ -1,6 +1,4 @@
 package de.fherfurt.Campus;
-import javax.xml.crypto.Data;
-import java.sql.Types;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -34,13 +32,14 @@ public class Location {
 
 // ----------------------------- CONSTRUCTOR ---------------------------------------- //
 
-    public Location(String _campusTitle, String _campusGeoLocation, DataCollector _collector) {
+    public Location(String campusTitle, String campusGeoLocation, List<String> campusBuildings, DataCollector _collector) {
 
         DataCollector.CampusCounter += 1;
         this.campusID = DataCollector.CampusCounter;
 
-        setTitleForCampus(_campusTitle, _collector);
-        setGeographicalCoordinatesForCampus(_campusGeoLocation, _collector);
+        setTitleForCampus(campusTitle, _collector);
+        setGeographicalCoordinatesForCampus(campusGeoLocation, _collector);
+        setBuildingsForCampus(campusBuildings, _collector);
     }
 
 
@@ -76,17 +75,69 @@ public class Location {
         _collector.CampusData.put(this.campusTitle, _collector.CampusInnerMap);
     }
 
+    public void setBuildingsForCampus (List<String> _campusBuildings, DataCollector _collector) {
+
+        this.campusBuildings = _campusBuildings;
+
+        _collector.CampusInnerMap.put(BUILDING, this.campusBuildings);
+        _collector.CampusData.put(this.campusTitle, _collector.CampusInnerMap);
+    }
+
     // ----------------------------- GETTER ---------------------------------------- //
 
-    public Integer getCampusID() { return this.campusID; }
+    public Integer getCampusID() {return this.campusID;}
 
-    public String getCampusGeoLocation() { return this.campusGeoLocation; }
+    public String getCampusGeoLocation() {return this.campusGeoLocation;}
 
-    public String getCampusTitle () { return this.campusTitle; }
+    public String getCampusTitle () {return this.campusTitle;}
+
+    public List<String> getCampusBuildings () {return this.campusBuildings;}
+
+
+    // ------------------------------- DELETES ------------------------------------------ //
+
+    public void deleteCampus(String title, DataCollector _collector)
+    {
+        for (String campus : _collector.CampusData.keySet()) {
+
+            if (this.campusTitle.equals(campus)) {
+                _collector.CampusData.remove(campus);
+            }
+        }
+
+        this.campusID = null;
+        this.campusTitle = null;
+        this.campusGeoLocation = null;
+        this.campusBuildings = null;
+    }
+
+    // ----------------------------- DELETES ---------------------------------------- //
+
+    public void deleteBuildingOfCampus(String _building, DataCollector _collector) {
+
+        this.campusBuildings.remove(_building);
+
+        _collector.CampusInnerMap.put(BUILDING, this.campusBuildings);
+        _collector.CampusData.put(this.campusTitle, _collector.CampusInnerMap);
+    }
+
+
+
+        // ----------------------------- ADD ---------------------------------------- //
+
+    public void addBuildingToCampus(String _building, DataCollector _collector) {
+
+        this.campusBuildings.add(_building);
+
+        _collector.CampusInnerMap.put(BUILDING, this.campusBuildings);
+        _collector.CampusData.put(this.campusTitle, _collector.CampusInnerMap);
+    }
+
+}
 
     // ----------------------------- METHODS ---------------------------------------- //
 
-
+    /*
     public static String getCampus(String[] _geoLocation) {
         String campusName;
         // searching in Google Maps for the location and returning the campus name
@@ -126,4 +177,4 @@ public class Location {
 
         return eventLocation;
     }
-}
+}*/

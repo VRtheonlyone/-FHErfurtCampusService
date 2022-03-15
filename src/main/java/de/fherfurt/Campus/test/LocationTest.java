@@ -20,9 +20,11 @@ public class LocationTest {
 
     String GeoLocation = "TestGeoLocation";
     String Title = "TestTitle";
+    List<String> Buildings = new ArrayList<>();
+    //Buildings.add("Building 1");
 
-    Location MyLocation = new Location(CAMPUS_1, "1234.123", Collector);
-    Location MyLocation1 = new Location(CAMPUS_2, "4568.123", Collector);
+    Location MyLocation = new Location(CAMPUS_1, "123.456", Buildings, Collector);
+    Location MyLocation1 = new Location(CAMPUS_2, "654.321", Buildings, Collector);
 
 
     @Test
@@ -31,7 +33,6 @@ public class LocationTest {
 
         MyLocation.setGeographicalCoordinatesForCampus(GeoLocation, Collector);
         assertEquals(MyLocation.getCampusGeoLocation(), Collector.CampusData.get(MyLocation.getCampusGeoLocation()).get(GEOLOCATION));
-
     }
 
     @Test
@@ -49,5 +50,31 @@ public class LocationTest {
 
         MyLocation.setIdForCampus(ID, Collector);
         assertEquals(MyLocation.getCampusID(), Collector.CampusData.get(MyLocation.getCampusID()).get(ID));
+    }
+
+    @Test
+    @DisplayName("Setting ID for Campus Should Work")
+    void testSetBuildingsForCampus() {
+
+        MyLocation.setBuildingsForCampus(Buildings, Collector);
+        assertEquals(MyLocation.getCampusBuildings(), Collector.CampusData.get(MyLocation.getCampusBuildings()).get(BUILDING));
+    }
+    //---- ADD TEST ----//
+
+    @Test
+    @DisplayName("Add a new Building to a Campus")
+    void TestAddBuildingToCampus() { //assert true - assert false
+
+        String newBuilding = "";
+        MyLocation1.addBuildingToCampus(newBuilding, Collector);
+    }
+
+    //---- DELETE TEST ----//
+
+    @Test
+    @DisplayName("Delete a Campus Title")
+    void TestDeleteTitleOfCampus() {
+
+
     }
 }

@@ -29,6 +29,7 @@ public class Main {
     public static final String CAMPUS_2 = "Leipziger Strasse";
     public static final String CAMPUS_3 = "Altonaer Strasse";
 
+
     public static void main(String[] args) {
 
         DataCollector FirstDataCollector = new DataCollector();
