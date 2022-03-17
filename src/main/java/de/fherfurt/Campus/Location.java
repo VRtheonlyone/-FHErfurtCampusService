@@ -1,12 +1,18 @@
 package de.fherfurt.Campus;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static de.fherfurt.Campus.Main.*;
 
 
 public class Location {
 
+    public static Map<String, Map<String, List<String>>> getAllCampuses(DataCollector _collector)
+    {
+        return _collector.CampusData;
+    }
     // getCampus            -
     // setCampus            -
     // getCampusBuildings   -
@@ -18,16 +24,10 @@ public class Location {
 // ----------------------------- ATTRIBUTES ---------------------------------------- //
 
     private Integer campusID;
-
-    // Geographical Coordinates of the campus - google Open Location Code -> Website
     private String campusGeoLocation;
-
-    //
     private String campusTitle;
-
-    private List<String> campusBuildings; //-> setter, getter, add, delete, tests
-
-    //Google einbinden -> Discord Link
+    private List<String> campusBuildings;
+    private Map<String, List<String>> allData = new HashMap<>();
 
 
 // ----------------------------- CONSTRUCTOR ---------------------------------------- //
@@ -51,8 +51,8 @@ public class Location {
         List<String> IDs = new ArrayList<>();
         IDs.add(String.valueOf(_campusID));
 
-        _collector.CampusInnerMap.put(ID, IDs);
-        _collector.CampusData.put(this.campusTitle, _collector.CampusInnerMap);
+        this.allData.put(ID, IDs);
+        _collector.CampusData.put(this.campusTitle, this.allData);
     }
 
     public void setGeographicalCoordinatesForCampus (String _campusGeoLocation, DataCollector _collector) {
@@ -61,8 +61,8 @@ public class Location {
         List<String> GeoLocation = new ArrayList<>();
         GeoLocation.add(_campusGeoLocation);
 
-        _collector.CampusInnerMap.put(GEOLOCATION, GeoLocation);
-        _collector.CampusData.put(_campusGeoLocation, _collector.CampusInnerMap);
+        this.allData.put(GEOLOCATION, GeoLocation);
+        _collector.CampusData.put(_campusGeoLocation, this.allData);
     }
 
     public void setTitleForCampus (String _campusTitle, DataCollector _collector) {
@@ -71,16 +71,16 @@ public class Location {
         List<String> Titles = new ArrayList<>();
         Titles.add(_campusTitle);
 
-        _collector.CampusInnerMap.put(TITLE, Titles);
-        _collector.CampusData.put(this.campusTitle, _collector.CampusInnerMap);
+        this.allData.put(TITLE, Titles);
+        _collector.CampusData.put(this.campusTitle, this.allData);
     }
 
     public void setBuildingsForCampus (List<String> _campusBuildings, DataCollector _collector) {
 
         this.campusBuildings = _campusBuildings;
 
-        _collector.CampusInnerMap.put(BUILDING, this.campusBuildings);
-        _collector.CampusData.put(this.campusTitle, _collector.CampusInnerMap);
+        this.allData.put(BUILDING, this.campusBuildings);
+        _collector.CampusData.put(this.campusTitle, this.allData);
     }
 
     // ----------------------------- GETTER ---------------------------------------- //
@@ -117,8 +117,8 @@ public class Location {
 
         this.campusBuildings.remove(_building);
 
-        _collector.CampusInnerMap.put(BUILDING, this.campusBuildings);
-        _collector.CampusData.put(this.campusTitle, _collector.CampusInnerMap);
+        this.allData.put(BUILDING, this.campusBuildings);
+        _collector.CampusData.put(this.campusTitle, this.allData);
     }
 
 
@@ -129,8 +129,8 @@ public class Location {
 
         this.campusBuildings.add(_building);
 
-        _collector.CampusInnerMap.put(BUILDING, this.campusBuildings);
-        _collector.CampusData.put(this.campusTitle, _collector.CampusInnerMap);
+        this.allData.put(BUILDING, this.campusBuildings);
+        _collector.CampusData.put(this.campusTitle, this.allData);
     }
 
 }

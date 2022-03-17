@@ -1,12 +1,20 @@
 package de.fherfurt.Campus;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import static de.fherfurt.Campus.Main.*;
 
 import static de.fherfurt.Campus.Main.ID;
 
 public class Room {
 
+    // class method
+    public static Map<String, Map<String, List<String>>> getAllRooms(DataCollector _collector)
+    {
+        return _collector.RoomData;
+    }
     //-------------------------------ATTRIBUTES----------------------------------//
 
     // intern room ID for easy handling
@@ -23,6 +31,9 @@ public class Room {
 
     // To which Building the room belongs
     private String buildingAffiliation;
+
+    // Inner Hashmap of DataCollector
+    private Map<String, List<String>> allData = new HashMap<>();
 
     //---------------------------------------------------------------------------------------------------//
 
@@ -41,6 +52,17 @@ public class Room {
         setAffiliationForRoom(_affiliation, _collector);
         setIdForRoom(this.id, _collector);
     }
+
+    public Room(String _roomTitle, Integer _floorNumber, String _affiliation,DataCollector _collector) {
+
+        DataCollector.RoomCounter +=1;
+        this.id = DataCollector.RoomCounter;
+
+        setTitleForRoom(_roomTitle, _collector);
+        setFloorForRoom(_floorNumber, _collector);
+        setAffiliationForRoom(_affiliation, _collector);
+        setIdForRoom(this.id, _collector);
+    }
     // ---------------------------------------------------------------------------------------------//
 
     // ----------------------------- SETTER ---------------------------------------- //
@@ -53,8 +75,8 @@ public class Room {
         List<String> Titles = new ArrayList<>();
         Titles.add(_roomTitle);
 
-        _collector.RoomInnerMap.put(TITLE,Titles);
-        _collector.RoomData.put(_roomTitle,_collector.RoomInnerMap);
+        this.allData.put(TITLE,Titles);
+        _collector.RoomData.put(_roomTitle,this.allData);
     }
 
     public void setFloorForRoom(Integer _floorNumber, DataCollector _collector)
@@ -63,16 +85,16 @@ public class Room {
         List<String> Floor = new ArrayList<>();
         Floor.add(String.valueOf(_floorNumber));
 
-        _collector.RoomInnerMap.put(FLOOR, Floor);
-        _collector.RoomData.put(this.title, _collector.RoomInnerMap);
+        this.allData.put(FLOOR, Floor);
+        _collector.RoomData.put(this.title, this.allData);
     }
 
     public void setPersonsForRoom(List<String> _roomPersons, DataCollector _collector)
     {
         this.persons = _roomPersons;
 
-        _collector.RoomInnerMap.put(PERSONS, _roomPersons);
-        _collector.RoomData.put(this.title, _collector.RoomInnerMap);
+        this.allData.put(PERSONS, _roomPersons);
+        _collector.RoomData.put(this.title, this.allData);
     }
 
     public void setAffiliationForRoom(String _affiliation, DataCollector _collector)
@@ -81,8 +103,8 @@ public class Room {
         List<String> Affiliation = new ArrayList<>();
         Affiliation.add(_affiliation);
 
-        _collector.RoomInnerMap.put(BUILDING_AFFILIATION,Affiliation);
-        _collector.RoomData.put(this.title,_collector.RoomInnerMap);
+        this.allData.put(BUILDING_AFFILIATION,Affiliation);
+        _collector.RoomData.put(this.title,this.allData);
     }
 
     public void setIdForRoom(Integer _roomID, DataCollector _collector)
@@ -91,8 +113,8 @@ public class Room {
         List<String> IDs = new ArrayList<>();
         IDs.add(String.valueOf(_roomID));
 
-        _collector.RoomInnerMap.put(ID,IDs);
-        _collector.RoomData.put(this.title,_collector.RoomInnerMap);
+        this.allData.put(ID,IDs);
+        _collector.RoomData.put(this.title,this.allData);
     }
 
     // ---------------------------------------------------------------------------------------------//
@@ -137,8 +159,8 @@ public class Room {
         this.persons.remove(_persons);
         List <String> RoomPerson = this.persons;
 
-        _collector.RoomInnerMap.put(PERSONS,RoomPerson);
-        _collector.RoomData.put(this.title, _collector.RoomInnerMap);
+        this.allData.put(PERSONS,RoomPerson);
+        _collector.RoomData.put(this.title, this.allData);
     }
 
     // -------------------------------------------------------------------------- //
@@ -151,9 +173,10 @@ public class Room {
         this.persons.add(_personName);
         List<String> NewPerson = this.persons;
 
-        _collector.RoomInnerMap.put(PERSONS,NewPerson);
-        _collector.RoomData.put(this.title, _collector.RoomInnerMap);
+        this.allData.put(PERSONS,NewPerson);
+        _collector.RoomData.put(this.title, this.allData);
     }
+
 
     // -------------------------------------------------------------------------- //
 

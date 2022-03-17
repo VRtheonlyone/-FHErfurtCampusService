@@ -31,7 +31,7 @@ import java.util.List;
                 Rooms.add("R333");
 
                 MyBuilding.setRoomsForBuilding(Rooms, Collector);
-                assertEquals(MyBuilding.getRooms(), Collector.BuildingData.get(MyBuilding.getTitle()).get(ROOMS));
+                assertEquals(MyBuilding.getRooms(), Collector.BuildingData.get(MyBuilding.getTitle()).get(ROOM));
         }
 
         @Test

@@ -5,19 +5,9 @@ import java.util.*;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-
+import static de.fherfurt.Campus.Main.*;
 
 public class Search {
-
-
-    // getBuildingAssoc     +
-    // getLocationAssoc     +
-    // getRoomAssoc         +
-    // ...
-    //
-    public static final String LOCATION = "Location";
-    public static final String BUILDING = "Building";
-    public static final String ROOM = "Room";
 
     // ----------------------------- METHODS ---------------------------------------- //
 
@@ -56,20 +46,20 @@ public class Search {
 
             // If a building was found that matches the search string
             if(Objects.equals(building, _searchQuery)) {
-                results.add(_searchQuery + " found in " + building);
 
                 // Add all the information associated with the key to the string List
-                for (String Key : _collector.BuildingData.get(_searchQuery).keySet()) {
+                for (String Key : _collector.BuildingData.get(_searchQuery).keySet()){
 
-                    System.out.printf("%s : %s\n" ,Key, _collector.BuildingData.get(_searchQuery).get(Key));
-                    results.addAll(_collector.BuildingData.get(_searchQuery).get(Key));
+                    if (_collector.BuildingData.get(_searchQuery).get(Key) != null) {
 
+                        results.addAll(_collector.BuildingData.get(_searchQuery).get(Key));
+                    }
                 }
             }
         }
 
         if (results.size() == 0) {
-            results.add("No search pattern found!");
+            results.add(NO_SEARCH_PATTERN);
         }
         return results;
     }
@@ -85,19 +75,19 @@ public class Search {
 
             // If a campus was found that matches the search string
             if(Objects.equals(campus, _searchQuery)) {
-                results.add(_searchQuery + " found in " + campus);
 
                 // Add all the information associated with the key to the string List
                 for (String Key : _collector.CampusData.get(_searchQuery).keySet()) {
 
-                    System.out.printf("%s : %s\n" ,Key, _collector.CampusData.get(_searchQuery).get(Key));
-                    results.addAll(_collector.CampusData.get(_searchQuery).get(Key));
+                    if (_collector.CampusData.get(_searchQuery).get(Key) != null) {
+                        results.addAll(_collector.CampusData.get(_searchQuery).get(Key));
+                    }
                 }
             }
         }
 
         if (results.size() == 0) {
-            results.add("No search pattern found!");
+            results.add(NO_SEARCH_PATTERN);
         }
         return results;
     }
@@ -113,19 +103,19 @@ public class Search {
 
             // If a building was found that matches the search string
             if(Objects.equals(room, _searchQuery)) {
-                results.add(_searchQuery + " found in " + room);
 
                 // Add all the information associated with the key to the string List
                 for (String Key : _collector.RoomData.get(_searchQuery).keySet()) {
 
-                    System.out.printf("%s : %s\n" ,Key, _collector.RoomData.get(_searchQuery).get(Key));
-                    results.addAll(_collector.RoomData.get(_searchQuery).get(Key));
+                    if (_collector.RoomData.get(_searchQuery).get(Key) != null) {
+                        results.addAll(_collector.RoomData.get(_searchQuery).get(Key));
+                    }
                 }
             }
         }
 
         if (results.size() == 0) {
-            results.add("No search pattern found!");
+            results.add(NO_SEARCH_PATTERN);
         }
         return results;
     }
