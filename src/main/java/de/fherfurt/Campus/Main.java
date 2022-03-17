@@ -56,11 +56,18 @@ public class Main {
         Event.add("Megaparty");
         Event.add("3rd August 2022");
 
+        List <String> Persons1 = new ArrayList<>();
+        Persons1.add("Günther");
+        Persons1.add("Herbet");
+
+        List <String> Persons2 = new ArrayList<>();
+        Persons2.add("Richart");
+        Persons2.add("Vadim");
+
         Building House1 = new Building(true, "Haus 1", RoomList1,"denflwqwd", TypeList1 , CAMPUS_2 , FirstDataCollector);
         Building House2 = new Building(false, "Haus 2", RoomList2,"123.12312", TypeList2 , CAMPUS_1 , FirstDataCollector);
-        Room Room1 = new Room("Room1", 1, House1.getTitle(),FirstDataCollector);
-        Room Room2 = new Room("Room2", 2, House2.getTitle(),FirstDataCollector);
-
+        Room Room1 = new Room("Room1", 1, Persons1, House1.getTitle(),FirstDataCollector);
+        Room Room2 = new Room("Room2", 2, Persons2, House2.getTitle(),FirstDataCollector);
 
         House1.setIDForBuilding(5,FirstDataCollector);
         System.out.printf("My ID: %s\n",House1.getID());
@@ -72,5 +79,8 @@ public class Main {
 
         System.out.printf("Building Key Set: %s\n", FirstDataCollector.BuildingData.get("Haus 2").get(GEOLOCATION));
         System.out.printf("Room Key Set: %s\n", FirstDataCollector.RoomData.get("Room1").get(FLOOR));
+
+        System.out.println(Room.getRoomsWithPersons().containsKey("Room1"));
+        System.out.println(Room.SearchForPersonInRoomsWithPersons("Richart"));
     }
 }

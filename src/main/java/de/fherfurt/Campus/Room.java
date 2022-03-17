@@ -1,8 +1,6 @@
 package de.fherfurt.Campus;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 import static de.fherfurt.Campus.Main.*;
 
@@ -35,6 +33,9 @@ public class Room {
     // Inner Hashmap of DataCollector
     private Map<String, List<String>> allData = new HashMap<>();
 
+    // Hashmap for Persons
+    private static HashMap<String, List <String>> RoomsWithPersons = new HashMap<String, List <String>>();
+
     //---------------------------------------------------------------------------------------------------//
 
 
@@ -51,6 +52,7 @@ public class Room {
         setPersonsForRoom(_roomPersons, _collector);
         setAffiliationForRoom(_affiliation, _collector);
         setIdForRoom(this.id, _collector);
+        setHashmapWithRoomAndPersons();
     }
 
     public Room(String _roomTitle, Integer _floorNumber, String _affiliation,DataCollector _collector) {
@@ -63,7 +65,17 @@ public class Room {
         setAffiliationForRoom(_affiliation, _collector);
         setIdForRoom(this.id, _collector);
     }
+
     // ---------------------------------------------------------------------------------------------//
+
+    // -------------------- Setter for Persons Hashmap -------------------------- //
+
+    public void setHashmapWithRoomAndPersons()
+    {
+        RoomsWithPersons.put(this.title, this.persons);
+    }
+
+    // -------------------------------------------------------------------------- //
 
     // ----------------------------- SETTER ---------------------------------------- //
 
@@ -117,7 +129,7 @@ public class Room {
         _collector.RoomData.put(this.title,this.allData);
     }
 
-    // ---------------------------------------------------------------------------------------------//
+    // ----------------------------------------------------------------------------- //
 
     // ----------------------------- GETTER ---------------------------------------- //
 
@@ -130,8 +142,10 @@ public class Room {
     public List<String> getRoomPersons() {return this.persons;}
 
     public String getRoomAffiliation() {return this.buildingAffiliation;}
+    
+    public static HashMap<String, List <String>> getRoomsWithPersons (){return RoomsWithPersons;}
 
-    // ---------------------------------------------------------------------------------------------//
+    // ------------------------------------------------------------------------------ //
 
     // ----------------------------- DELETES ---------------------------------------- //
 
@@ -146,11 +160,18 @@ public class Room {
                 _collector.RoomData.remove(room);
             }
         }
+
+        if(RoomsWithPersons.containsKey(this.title))
+        {
+            RoomsWithPersons.remove(this.title);
+        }
+        
         this.title = null;
         this.id = null;
         this.floor = null;
         this.persons = null;
         this.buildingAffiliation = null;
+        
     }
 
     // Deletes a specific person out of the persons listed
@@ -161,6 +182,8 @@ public class Room {
 
         this.allData.put(PERSONS,RoomPerson);
         _collector.RoomData.put(this.title, this.allData);
+
+        setHashmapWithRoomAndPersons();
     }
 
     // -------------------------------------------------------------------------- //
@@ -175,11 +198,28 @@ public class Room {
 
         this.allData.put(PERSONS,NewPerson);
         _collector.RoomData.put(this.title, this.allData);
+
+        setHashmapWithRoomAndPersons();
     }
-
-
+    
     // -------------------------------------------------------------------------- //
 
+    // -----------  Search for Rooms with Persons -------------------------------- //
+
+    public static String SearchForPersonInRoomsWithPersons(String _person)
+    {
+
+            for (Map.Entry<String, List <String>> entry : RoomsWithPersons.entrySet())
+            {
+                if (entry != null && entry.getValue().contains(_person))
+                {
+                    return entry.getKey();
+                }
+            }
+
+            return "Person has no affiliated room";
+    }
+
+    // -------------------------------------------------------------------------- //
+    
 }
-
-
