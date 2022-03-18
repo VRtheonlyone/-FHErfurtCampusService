@@ -1,10 +1,7 @@
 package de.fherfurt.Campus;
-
 import java.util.*;
 
-import static de.fherfurt.Campus.Main.*;
-
-import static de.fherfurt.Campus.Main.ID;
+import static de.fherfurt.Campus.Constants.*;
 
 public class Room {
 
@@ -14,6 +11,7 @@ public class Room {
         return _collector.RoomData;
     }
     //-------------------------------ATTRIBUTES----------------------------------//
+
 
     // intern room ID for easy handling
     private Integer id;
@@ -34,7 +32,7 @@ public class Room {
     private Map<String, List<String>> allData = new HashMap<>();
 
     // Hashmap for Persons
-    private static HashMap<String, List <String>> RoomsWithPersons = new HashMap<String, List <String>>();
+    private static HashMap<String, List <String>> RoomsWithPersons = new HashMap<>();
 
     //---------------------------------------------------------------------------------------------------//
 
@@ -161,11 +159,7 @@ public class Room {
             }
         }
 
-        if(RoomsWithPersons.containsKey(this.title))
-        {
-            RoomsWithPersons.remove(this.title);
-        }
-        
+        RoomsWithPersons.remove(this.title);
         this.title = null;
         this.id = null;
         this.floor = null;

@@ -1,13 +1,11 @@
 package de.fherfurt.Campus;
-import javax.xml.crypto.Data;
 import java.lang.*;
 import java.util.*;
-import java.util.HashMap;
-import java.util.Map.Entry;
 
-import static de.fherfurt.Campus.Main.*;
+import static de.fherfurt.Campus.Constants.*;
 
 public class Search {
+
 
     // ----------------------------- METHODS ---------------------------------------- //
 

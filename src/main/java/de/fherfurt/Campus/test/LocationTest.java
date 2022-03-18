@@ -1,16 +1,11 @@
 package de.fherfurt.Campus.test;
-import static de.fherfurt.Campus.Main.*;
+import static de.fherfurt.Campus.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import de.fherfurt.Campus.Building;
 import de.fherfurt.Campus.DataCollector;
-
 import de.fherfurt.Campus.Location;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.Type;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +18,8 @@ public class LocationTest {
     List<String> Buildings = new ArrayList<>();
     //Buildings.add("Building 1");
 
-    Location MyLocation = new Location(CAMPUS_1, "123.456", Buildings, Collector);
-    Location MyLocation1 = new Location(CAMPUS_2, "654.321", Buildings, Collector);
+    Location MyLocation = new Location(Location.Campuses.ALTONAER.toString(), "123.456", Buildings, Collector);
+    Location MyLocation1 = new Location(Location.Campuses.LEIPZIGER.toString(), "654.321", Buildings, Collector);
 
 
     @Test

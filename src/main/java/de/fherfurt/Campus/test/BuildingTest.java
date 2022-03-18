@@ -1,14 +1,11 @@
 package de.fherfurt.Campus.test;
-
-import static de.fherfurt.Campus.Main.*;
+import static de.fherfurt.Campus.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
-
 import de.fherfurt.Campus.Building;
 import de.fherfurt.Campus.DataCollector;
-
+import de.fherfurt.Campus.Location;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +16,10 @@ import java.util.List;
         private final List<String> Rooms = new ArrayList<>();
         private final List<String> Events = new ArrayList<>();
         private final List<String> Types = new ArrayList<>();
-        String Affiliation = CAMPUS_1;
+        String Affiliation = Location.Campuses.ALTONAER.toString();
 
-        Building MyBuilding = new Building(true, "Haus 1", Rooms,"123.12312", Types , CAMPUS_1 , Collector);
-        Building MyBuilding1 = new Building(false, "Haus 2", Rooms,"123.1123, 125.3212", Types , CAMPUS_2 , Collector);
+        Building MyBuilding = new Building(true, "Haus 1", Rooms,"123.12312", Types , Location.Campuses.LEIPZIGER.toString() , Collector);
+        Building MyBuilding1 = new Building(false, "Haus 2", Rooms,"123.1123, 125.3212", Types , Location.Campuses.SCHLUETER.toString() , Collector);
 
         @Test
         @DisplayName("Setting Rooms for Building Should Work")
@@ -118,14 +115,22 @@ import java.util.List;
         }
 
         @Test
-        @DisplayName("Deleting and Adding Room should work")
-        void testDeleteAndAddRoom()
+        @DisplayName("Adding Room should work")
+        void testAddRoom()
         {
             String MyRoom = "R 100";
             MyBuilding1.addRoom(MyRoom, Collector);
             assertTrue(MyBuilding1.getRooms().contains(MyRoom));
-            MyBuilding1.deleteRoom(MyRoom, Collector);
-            assertFalse(MyBuilding1.getRooms().contains(MyRoom));
         }
 
+     @Test
+     @DisplayName("Adding Room should work")
+     void testDeleteRoom()
+     {
+         String MyRoom = "R 101";
+         MyBuilding1.addRoom(MyRoom, Collector);
+         assertTrue(MyBuilding1.getRooms().contains(MyRoom));
+         MyBuilding1.deleteRoom(MyRoom, Collector);
+         assertFalse(MyBuilding1.getRooms().contains(MyRoom));
+     }
 }

@@ -3,7 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+
+import static de.fherfurt.Campus.Constants.*;
 import static de.fherfurt.Campus.Main.*;
+import de.fherfurt.Campus.Location;
 
 public class Building /*implements Events*/ {
 
@@ -12,6 +15,7 @@ public class Building /*implements Events*/ {
     {
         return _collector.BuildingData;
     }
+
 
     private boolean accessibility;
     private String title;
@@ -150,7 +154,10 @@ public class Building /*implements Events*/ {
                 _collector.BuildingData.remove(building);
 
                 // removes Building from Campus Hashmap
-                _collector.CampusData.get(this.campusAffiliation).get(BUILDING).remove(this.title);
+                for (String Campus : _collector.CampusData.keySet())
+                {
+                        _collector.CampusData.get(Campus).get(BUILDING).remove(this.title);
+                }
 
                 for(String Room : this.rooms)
                 {

@@ -3,33 +3,9 @@ import java.lang.*;
 import java.util.List;
 import java.util.ArrayList;
 
+import static de.fherfurt.Campus.Constants.*;
+
 public class Main {
-
-    public static final String ROOM = "Room" ;
-    public static final String GEOLOCATION = "Geolocation";
-    public static final String ID = "ID";
-    public static final String ACCESSIBILITY = "Accessibility";
-    public static final String TYPES = "Types";
-    public static final String TITLE = "Title";
-    public static final String CAMPUS_AFFILIATION ="Campus Affiliation";
-    public static final String BUILDING_AFFILIATION ="Building Affiliation";
-    public static final String EVENTS ="Events";
-    public static final String LOCATION = "Location";
-    public static final String BUILDING = "Building";
-    public static final String PERSONS = "Persons";
-    public static final String FLOOR = "Floor";
-    public static final String NO_SEARCH_PATTERN = "No search Pattern found!";
-
-    public static final String EDUCATION = "Education";
-    public static final String CAFETERIA = "Cafeteria";
-    public static final String LIBRARY = "Library";
-    public static final String GYMNASIUM = "Gymnasium";
-
-    /*Campus Types*/
-    public static final String CAMPUS_1 = "Schlüterstrasse";
-    public static final String CAMPUS_2 = "Leipziger Strasse";
-    public static final String CAMPUS_3 = "Altonaer Strasse";
-
 
     public static void main(String[] args) {
 
@@ -64,8 +40,8 @@ public class Main {
         Persons2.add("Richart");
         Persons2.add("Vadim");
 
-        Building House1 = new Building(true, "Haus 1", RoomList1,"denflwqwd", TypeList1 , CAMPUS_2 , FirstDataCollector);
-        Building House2 = new Building(false, "Haus 2", RoomList2,"123.12312", TypeList2 , CAMPUS_1 , FirstDataCollector);
+        Building House1 = new Building(true, "Haus 1", RoomList1,"denflwqwd", TypeList1 , String.valueOf(Location.Campuses.ALTONAER) , FirstDataCollector);
+        Building House2 = new Building(false, "Haus 2", RoomList2,"123.12312", TypeList2 , String.valueOf(Location.Campuses.SCHLUETER) , FirstDataCollector);
         Room Room1 = new Room("Room1", 1, Persons1, House1.getTitle(),FirstDataCollector);
         Room Room2 = new Room("Room2", 2, Persons2, House2.getTitle(),FirstDataCollector);
 

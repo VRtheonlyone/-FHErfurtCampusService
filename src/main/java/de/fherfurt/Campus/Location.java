@@ -4,10 +4,56 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static de.fherfurt.Campus.Main.*;
+import static de.fherfurt.Campus.Constants.*;
 
 
 public class Location {
+
+    public enum BuildingTypes {
+
+        EDUCATION {
+            public String toString() {
+                return "Education";
+            }
+        },
+
+        CAFETERIA {
+            public String toString() {
+                return "Cafeteria";
+            }
+        },
+
+        LIBRARY {
+            public String toString() {
+                return "Library";
+            }
+        },
+
+        GYMNASIUM {
+            public String toString() {
+                return "Gymnasium";
+            }
+        }
+    }
+    public enum Campuses {
+        SCHLUETER {
+            public String toString() {
+                return "Schlüterstrasse";
+            }
+        },
+
+        LEIPZIGER {
+            public String toString() {
+                return "Leipziger Strasse";
+            }
+        },
+
+        ALTONAER {
+            public String toString() {
+                return "Altonaer Strasse";
+            }
+        }
+    }
 
     public static Map<String, Map<String, List<String>>> getAllCampuses(DataCollector _collector)
     {
@@ -23,6 +69,7 @@ public class Location {
     // ...
 // ----------------------------- ATTRIBUTES ---------------------------------------- //
 
+
     private Integer campusID;
     private String campusGeoLocation;
     private String campusTitle;
@@ -37,7 +84,7 @@ public class Location {
         DataCollector.CampusCounter += 1;
         this.campusID = DataCollector.CampusCounter;
 
-        setTitleForCampus(campusTitle, _collector);
+        setTitleForCampus(String.valueOf(campusTitle), _collector);
         setGeographicalCoordinatesForCampus(campusGeoLocation, _collector);
         setBuildingsForCampus(campusBuildings, _collector);
     }

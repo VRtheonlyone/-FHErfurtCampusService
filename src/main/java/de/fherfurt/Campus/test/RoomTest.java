@@ -1,6 +1,6 @@
 package de.fherfurt.Campus.test;
 
-import static de.fherfurt.Campus.Main.*;
+import static de.fherfurt.Campus.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import de.fherfurt.Campus.Room;
