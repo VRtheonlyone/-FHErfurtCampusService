@@ -16,6 +16,32 @@ public class Building /*implements Events*/ {
         return _collector.BuildingData;
     }
 
+    public enum BuildingTypes {
+
+        EDUCATION {
+            public String toString() {
+                return "Education";
+            }
+        },
+
+        CAFETERIA {
+            public String toString() {
+                return "Cafeteria";
+            }
+        },
+
+        LIBRARY {
+            public String toString() {
+                return "Library";
+            }
+        },
+
+        GYMNASIUM {
+            public String toString() {
+                return "Gymnasium";
+            }
+        }
+    }
 
     private boolean accessibility;
     private String title;

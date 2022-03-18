@@ -9,32 +9,6 @@ import static de.fherfurt.Campus.Constants.*;
 
 public class Location {
 
-    public enum BuildingTypes {
-
-        EDUCATION {
-            public String toString() {
-                return "Education";
-            }
-        },
-
-        CAFETERIA {
-            public String toString() {
-                return "Cafeteria";
-            }
-        },
-
-        LIBRARY {
-            public String toString() {
-                return "Library";
-            }
-        },
-
-        GYMNASIUM {
-            public String toString() {
-                return "Gymnasium";
-            }
-        }
-    }
     public enum Campuses {
         SCHLUETER {
             public String toString() {
