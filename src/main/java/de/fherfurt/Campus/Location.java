@@ -1,13 +1,10 @@
 package de.fherfurt.Campus;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 import static de.fherfurt.Campus.Constants.*;
 
 
-public class Location {
+public class Location implements EventsSetter {
 
     public enum Campuses {
         SCHLUETER {
@@ -50,6 +47,8 @@ public class Location {
     private List<String> campusBuildings;
     private Map<String, List<String>> allData = new HashMap<>();
 
+    public List<Object> locationEvents;
+
 
 // ----------------------------- CONSTRUCTOR ---------------------------------------- //
 
@@ -61,6 +60,8 @@ public class Location {
         setTitleForCampus(String.valueOf(campusTitle), _collector);
         setGeographicalCoordinatesForCampus(campusGeoLocation, _collector);
         setBuildingsForCampus(campusBuildings, _collector);
+
+        setEvents();
     }
 
 
@@ -154,6 +155,11 @@ public class Location {
         _collector.CampusData.put(this.campusTitle, this.allData);
     }
 
+
+    @Override
+    public void setEvents() {
+        CampusUtilities.setClassEvents(LOCATION, this.getCampusTitle(), this.locationEvents);
+    }
 }
 
     // ----------------------------- METHODS ---------------------------------------- //

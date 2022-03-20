@@ -18,4 +18,16 @@ public class Constants {
 
     public static final String BUILDING_AFFILIATION ="Building Affiliation";
     public static final String CAMPUS_AFFILIATION ="Campus Affiliation";
+
+    public static final String EVENT_START_DATE ="Startdatum";
+    public static final String EVENT_END_DATE ="Enddatum";
+    public static final String EVENT_TITLE ="Name";
+
+    public static final String CAMPUS_ALT = "Campus Altonaer Straße";
+    public static final String CAMPUS_LEI = "Campus Leipziger Straße";
+    public static final String CAMPUS_SCH = "Campus Schlüter Straße";
+
+
+
+
 }

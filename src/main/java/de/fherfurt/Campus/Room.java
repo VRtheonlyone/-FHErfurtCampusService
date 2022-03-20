@@ -3,7 +3,7 @@ import java.util.*;
 
 import static de.fherfurt.Campus.Constants.*;
 
-public class Room {
+public class Room implements EventsSetter {
 
     // class method
     public static Map<String, Map<String, List<String>>> getAllRooms(DataCollector _collector)
@@ -33,6 +33,10 @@ public class Room {
 
     // Hashmap for Persons
     private static HashMap<String, List <String>> RoomsWithPersons = new HashMap<>();
+
+    // Hashmap for Events
+    public List<Object> roomEvents;
+
 
     //---------------------------------------------------------------------------------------------------//
 
@@ -212,6 +216,11 @@ public class Room {
             }
 
             return "Person has no affiliated room";
+    }
+
+    @Override
+    public void setEvents() {
+        CampusUtilities.setClassEvents(ROOM, this.getRoomTitle(), this.roomEvents);
     }
 
     // -------------------------------------------------------------------------- //

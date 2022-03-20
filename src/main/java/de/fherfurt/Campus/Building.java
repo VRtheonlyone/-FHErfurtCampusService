@@ -8,7 +8,7 @@ import static de.fherfurt.Campus.Constants.*;
 import static de.fherfurt.Campus.Main.*;
 import de.fherfurt.Campus.Location;
 
-public class Building /*implements Events*/ {
+public class Building implements EventsSetter {
 
     // class method
     public static Map<String, Map<String, List<String>>> getAllBuildings(DataCollector _collector)
@@ -50,8 +50,11 @@ public class Building /*implements Events*/ {
     private String geolocation;
     private List<String> type;
     private String campusAffiliation;
-    private List<String> event;
     private Map <String, List<String>> allData = new HashMap<>();
+
+    public List<Object> buildingEvents;
+
+
 
     /* Constructor */
     public Building(boolean _accessibility, String _buildingTitle, List<String> _buildingRooms, String _buildingGeoLocation, List<String> _buildingType, String _affiliation, DataCollector _collector) {
@@ -66,6 +69,8 @@ public class Building /*implements Events*/ {
         setAccessibilityForBuilding(_accessibility, _collector);
         setTypeForBuilding(_buildingType, _collector);
         setIDForBuilding(this.id,_collector);
+
+        setEvents();
     }
 
     public void setTitleForBuilding (String _title, DataCollector _collector)
@@ -222,12 +227,10 @@ public class Building /*implements Events*/ {
     }
 
 
-
-    /* @Override
-    public void setEvents(String eventLocation) {
-
-    }*/
-
-
+    @Override
+    public void setEvents() {
+        CampusUtilities.setClassEvents(BUILDING, this.getTitle(), this.buildingEvents);
+    }
 }
+
 
