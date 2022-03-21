@@ -6,6 +6,7 @@
 
     <groupId>de.fherfurt</groupId>
     <artifactId>Campus02</artifactId>
+    <packaging>pom</packaging>
     <version>1.0.0.0-SNAPSHOT</version>
     <build>
         <plugins>
@@ -13,12 +14,18 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+    <modules>
+        <module>campus-service</module>
+        <module>persons-client</module>
+        <module>appointments-client</module>
+        <module>campusforpersons-client</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
