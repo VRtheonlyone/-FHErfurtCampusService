@@ -1,97 +1,95 @@
 package de.fherfurt.campus;
-import static de.fherfurt.campus.constants.Constants.*;
 
+import static de.fherfurt.campus.constants.Constants.BUILDING;
+import static org.junit.jupiter.api.Assertions.*;
+import de.fherfurt.campus.main.DataCollector;
+import org.junit.jupiter.api.*;
 import de.fherfurt.campus.main.Campus;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
-import java.util.*;
 
 public class CampusTest {
-/*
-    String GeoLocation = "TestGeoLocation";
-    String Title = "TestTitle";
-    List<String> Buildings = new ArrayList<>();
-    Buildings.add("Building 1");
-
-    Location MyLocation = new Location(Location.Campuses.ALTONAER.toString(), "123.456", Buildings);
-    Location MyLocation1 = new Location(Location.Campuses.LEIPZIGER.toString(), "654.321", Buildings);
-*/
 
     @Test
-    @DisplayName("Getting only 3 Campus Instances should work")
-    void gettingCampusInstances() {
-        Campus Campus1 = Campus.getInstance();
-        Campus Campus2 = Campus.getInstance();
-        Campus Campus3 = Campus.getInstance();
+    @DisplayName("Getting only 3 Campus Instances with data should work")
+    public void gettingPredefinedCampusInstances() {
+        //GIVEN
+        assertEquals(Campus.getCampusCounter(), 3);
+
+        //WHEN
         Campus Campus4 = Campus.getInstance();
-        System.out.println(Campus1.getCampusGeoLocation());
-        System.out.println(Campus2.getCampusGeoLocation());
-        System.out.println(Campus3.getCampusGeoLocation());
-        System.out.println(Campus4.getCampusGeoLocation());
-        System.out.println(Campus1.getCampusTitle());
-        System.out.println(Campus2.getCampusTitle());
-        System.out.println(Campus3.getCampusTitle());
-        System.out.println(Campus4.getCampusTitle());
-        System.out.println(Campus1.getCampusBuildings());
-        System.out.println(Campus2.getCampusBuildings());
-        System.out.println(Campus3.getCampusBuildings());
-        System.out.println(Campus4.getCampusBuildings());
-        System.out.println(Campus1.getCampusID());
-        System.out.println(Campus2.getCampusID());
-        System.out.println(Campus3.getCampusID());
-        System.out.println(Campus4.getCampusID());
-    }
+        Campus Campus5 = Campus.getInstance();
 
-/*
-    @Test
-    @DisplayName("Setting GeoLocation for Campus Should Work")
-    void testSetGeoLocationForCampus() {
+        //THEN
+        assertEquals(Campus.Schlueter, Campus.getAllCampuses().get(0));
+        assertEquals(Campus.Leipziger, Campus.getAllCampuses().get(1));
+        assertEquals(Campus.Altonaer, Campus.getAllCampuses().get(2));
 
-        MyLocation.setGeographicalCoordinatesForCampus(GeoLocation, Collector);
-        assertEquals(MyLocation.getCampusGeoLocation(), Collector.CampusData.get(MyLocation.getCampusGeoLocation()).get(GEOLOCATION));
+        assertEquals(Campus4, Campus.getDummyCampusList().get(0));
+        assertEquals(Campus5, Campus.getDummyCampusList().get(0));
+
+        assertEquals(Campus.Schlueter.getCampusTitle(), Campus.CampusNames.SCHLUETER.toString());
+        assertEquals(Campus.Leipziger.getCampusGeoLocation(), "50.991562842099846, 11.054766412935898");
+        assertEquals(Campus.Altonaer.getCampusID(), 3);
     }
 
     @Test
-    @DisplayName("Setting Title for Campus Should Work")
-    void testSetTypeForCampus() {
+    @DisplayName("Campuses should be in Campus List")
+    public void checkingIfCampusesAreInList() {
+        // GIVEN
+        assertEquals(Campus.getAllCampuses().size(),3);
 
-        MyLocation.setTitleForCampus(Title, Collector);
-        assertEquals(MyLocation.getCampusTitle(), Collector.CampusData.get(MyLocation.getCampusTitle()).get(TITLE));
+        // WHEN
+        Campus Campus4 = Campus.getInstance();
+        Campus Campus5 = Campus.getInstance();
+
+        // THEN
+        assertEquals(Campus.getAllCampuses().size(),3);
+        assertTrue(Campus.campusExistsInList(Campus.Schlueter));
+        assertTrue(Campus.campusExistsInList(Campus.Leipziger));
+        assertTrue(Campus.campusExistsInList(Campus.Altonaer));
+        assertTrue(Campus.getAllCampuses().contains(Campus.Schlueter));
+        assertTrue(Campus.getAllCampuses().contains(Campus.Leipziger));
+        assertTrue(Campus.getAllCampuses().contains(Campus.Altonaer));
+        assertEquals(Campus.getDummyCampusList().size(), 1);
     }
 
     @Test
-    @DisplayName("Setting ID for Campus Should Work")
-    void testSetIdForCampus() {
-        Integer ID = 1;
+    @DisplayName("CampusData should be same as in DataCollector Hashmap")
+    public void checkingIfDataIsTransferredToHashmap() {
 
-        MyLocation.setIdForCampus(ID, Collector);
-        assertEquals(MyLocation.getCampusID(), Collector.CampusData.get(MyLocation.getCampusID()).get(ID));
+        // GIVEN
+        assertNotNull(DataCollector.getCampusData().get(Campus.Schlueter.getCampusTitle()));
+        assertNotNull(DataCollector.getCampusData().get(Campus.Leipziger.getCampusTitle()));
+        assertNotNull(DataCollector.getCampusData().get(Campus.Altonaer.getCampusTitle()));
+
+        // WHEN
+        BuildingTest.addingBuildingsToBuildingLists();
+        Campus.Schlueter.setBuildingsForCampus(BuildingTest.buildingList);
+        Campus.Altonaer.setBuildingsForCampus(BuildingTest.buildingList1);
+        Campus.Leipziger.setBuildingsForCampus(BuildingTest.buildingList2);
+
+        // THEN
+        assertEquals(Campus.Schlueter.getCampusBuildingsAsStrings(), DataCollector.getCampusData().get(Campus.Schlueter.getCampusTitle()).get(BUILDING));
+        assertEquals(Campus.Leipziger.getCampusBuildingsAsStrings(), DataCollector.getCampusData().get(Campus.Leipziger.getCampusTitle()).get(BUILDING));
+        assertEquals(Campus.Altonaer.getCampusBuildingsAsStrings(), DataCollector.getCampusData().get(Campus.Altonaer.getCampusTitle()).get(BUILDING));
+
     }
 
     @Test
-    @DisplayName("Setting Building for Campus Should Work")
-    void testSetBuildingsForCampus() {
+    @DisplayName("Deleting and Adding of Buildings should work")
+    public void checkingIfBuildingsAreDeletedAndAdded() {
 
-        MyLocation.setBuildingsForCampus(Buildings, Collector);
-        assertEquals(MyLocation.getCampusBuildings(), Collector.CampusData.get(BUILDING));
+        // GIVEN
+        BuildingTest.addingBuildingsToBuildingLists();
+
+        // WHEN
+        Campus.Schlueter.setBuildingsForCampus(BuildingTest.buildingList2);
+        Campus.Schlueter.deleteBuildingFromCampus(BuildingTest.Building1);
+        Campus.Schlueter.addBuildingToCampus(BuildingTest.Building3);
+
+        // THEN
+        assertTrue(Campus.Schlueter.getCampusBuildings().contains(BuildingTest.Building2));
+        assertTrue(Campus.Schlueter.getCampusBuildings().contains(BuildingTest.Building3));
+        assertFalse(Campus.Schlueter.getCampusBuildings().contains(BuildingTest.Building1));
     }
-    //---- ADD TEST ----//
-
-    @Test
-    @DisplayName("Add a new Building to a Campus")
-    void TestAddBuildingToCampus() { //assert true - assert false
-
-        String newBuilding = "";
-        MyLocation1.addBuildingToCampus(newBuilding, Collector);
-    }
-
-    //---- DELETE TEST ----//
-
-    @Test
-    @DisplayName("Delete a Campus Title")
-    void TestDeleteTitleOfCampus() {
-
-
-    }*/
 }

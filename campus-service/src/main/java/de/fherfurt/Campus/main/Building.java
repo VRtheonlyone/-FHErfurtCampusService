@@ -8,7 +8,6 @@ import de.fherfurt.campus.utilities.CampusUtilities;
 
 public class Building implements EventsSetter {
 
-    // class method
     public enum BuildingTypes {
 
         EDUCATION {
@@ -43,6 +42,7 @@ public class Building implements EventsSetter {
     private List<BuildingTypes> type;
     private Campus campusAffiliation;
     private List<Event> events;
+    private List<String> roomsAsStrings;
 
     private List<Room> rooms;
     private Map <String, List<String>> allBuildingData = new HashMap<>();
@@ -60,7 +60,16 @@ public class Building implements EventsSetter {
         setTypeForBuilding(buildingType);
         setIDForBuilding(buildingCounter);
     }
-    private Building(){};
+    public Building(boolean accessibility, String buildingTitle, Campus campusAffiliation) {
+
+        buildingCounter += 1 ;
+        setTitleForBuilding(buildingTitle);
+        setAffiliationForBuilding(campusAffiliation);
+        setAccessibilityForBuilding(accessibility);
+        setIDForBuilding(buildingCounter);
+    }
+    public Building(String buildingTitle){};
+    public Building(){};
 
     public void setTitleForBuilding (String title) {
 
@@ -75,14 +84,7 @@ public class Building implements EventsSetter {
     public void setRoomsForBuilding (List<Room> buildingRooms) {
 
         this.rooms = buildingRooms;
-
-        List<String> roomList = new ArrayList<>();
-
-        for (Room room : buildingRooms) {
-            roomList.add(room.getRoomTitle());
-        }
-
-        this.allBuildingData.put(ROOM,roomList);
+        updateRoomsAsStringsList();
         updateBuildingDataHashmap();
     }
     public void setIDForBuilding(Integer id) {
@@ -169,44 +171,52 @@ public class Building implements EventsSetter {
         this.campusAffiliation.deleteBuildingFromCampus(this);
 
         for(Room buildingRoom : this.rooms){
-            buildingRoom.setAffiliationForRoom(null);
+            buildingRoom.setAffiliationForRoom(dummyBuilding);
         }
     }
-
-    public void deleteRoomFromRoomList(Room buildingRoom)
-    {
-        if(this.rooms.contains(buildingRoom)) {
-            this.rooms.remove(buildingRoom);
-            List<String> myRooms = new ArrayList<>();
-
-            for(Room Room : this.rooms)
-            {
-                myRooms.add(Room.getRoomTitle());
-            }
-
-            buildingRoom.setAffiliationForRoom(null);
-
-            this.allBuildingData.put(ROOM, myRooms);
-            updateBuildingDataHashmap();
-        }
+    public void deleteRoomFromRoomList(Room buildingRoom) {
+        this.rooms.remove(buildingRoom);
+        updateRoomsAsStringsList();
+        updateBuildingDataHashmap();
     }
-    public void addRoom(Room roomTitle)
-    {
+
+    public void addRoom(Room roomTitle) {
+
         this.rooms.add(roomTitle);
-        List<String> roomList = new ArrayList<>();
-        roomList.add(roomTitle.getRoomTitle());
-
-        this.allBuildingData.put(ROOM,roomList);
+        updateRoomsAsStringsList();
         updateBuildingDataHashmap();
 
     }
+    public void addBuildingType(BuildingTypes buildingType){
 
-    public void updateBuildingDataHashmap()
-    {
+        this.type.add(buildingType);
+
+        List<String> buildingTypes = new ArrayList<>();
+        for (BuildingTypes type : this.type) {
+            buildingTypes.add(type.toString());
+        }
+        this.allBuildingData.put(TYPES,buildingTypes);
+        updateBuildingDataHashmap();
+    }
+
+    public void updateBuildingDataHashmap() {
+
         Map<String, Map<String, List<String>>> updatedBuildingDataHashmap = DataCollector.getBuildingData();
         updatedBuildingDataHashmap.put(this.title, this.allBuildingData);
         DataCollector.setBuildingData(updatedBuildingDataHashmap);
     }
+    public void updateRoomsAsStringsList(){
+        List <String> roomsAsStringsList = new ArrayList<>();
+
+        for (Room room : this.rooms) {
+
+            roomsAsStringsList.add(room.getRoomTitle());
+        }
+        this.roomsAsStrings = roomsAsStringsList;
+        this.allBuildingData.put(ROOM, roomsAsStrings);
+    }
+
+
 
 
 

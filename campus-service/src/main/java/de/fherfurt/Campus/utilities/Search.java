@@ -30,7 +30,7 @@ public class Search {
         return searchList;
     }
 
-
+    public static final String NO_SEARCH_PATTERN = "No search Pattern found!";
     // ________________________________________________________________________
     // THIS IS THE SEARCH FUNCTIONS AREA
     // ________________________________________________________________________

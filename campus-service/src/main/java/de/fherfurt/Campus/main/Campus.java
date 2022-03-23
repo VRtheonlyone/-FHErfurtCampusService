@@ -39,7 +39,6 @@ public class Campus{
             }
             return googleMapsLink;
         }
-
     }
 
     private Integer campusID;
@@ -47,27 +46,37 @@ public class Campus{
     private String campusTitle;
     private String googleMapsLink;
     private List<Building> campusBuildings;
+    private List<String> campusBuildingsAsStrings;
     private Map<String, List<String>> allCampusData = new HashMap<>();
 
     private static Integer campusCounter = 0;
+    private static  List<Campus> allCampuses = new ArrayList<>();
+    private static List<Campus> dummyCampusList = new ArrayList<>();
     private static final int CampusInstancesLimit = 3;
     private static final Campus dummyCampus = new Campus();
     private static final List<Building> dummyBuildingList = new ArrayList<>();
 
     private Campus(){};
     private Campus(CampusNames campusTitle, String campusGeoLocation, String googleMapsLink) {
-        campusCounter += 1;
-        setIdForCampus(campusCounter);
+        setIdForCampus(campusCounter+1);
         setTitleForCampus(campusTitle.toString());
         setGeographicalCoordinatesForCampus(campusGeoLocation);
         setGoogleMapsLink(googleMapsLink);
     }
-
-
     public static synchronized Campus getInstance() {
         if(campusCounter < CampusInstancesLimit){
             CampusNames createdCampusName = CampusNames.values()[campusCounter];
-            return new Campus(createdCampusName, createdCampusName.getGeoLocation(createdCampusName), createdCampusName.getGoogleMapsLink(createdCampusName));
+            Campus createdCampus = new Campus(createdCampusName, createdCampusName.getGeoLocation(createdCampusName), createdCampusName.getGoogleMapsLink(createdCampusName));
+            campusCounter += 1;
+            allCampuses.add(createdCampus);
+            return (createdCampus);
+        }
+
+        if(dummyCampusList.size() >= 1) {
+            dummyCampusList.set(0,dummyCampus);
+        }
+        else{
+            dummyCampusList.add(dummyCampus);
         }
 
         return dummyCampus;
@@ -106,13 +115,7 @@ public class Campus{
     public void setBuildingsForCampus (List<Building> campusBuildings) {
 
         this.campusBuildings = campusBuildings;
-        List<String> campusBuildingTitles = new ArrayList<>();
-
-        for (Building building : campusBuildings) {
-            campusBuildingTitles.add(building.getTitle());
-        }
-
-        this.allCampusData.put(BUILDING, campusBuildingTitles);
+        updateBuildingsAsStringsList();
         updateCampusDataHashmap();
     }
 
@@ -120,8 +123,31 @@ public class Campus{
     public Integer getCampusID() {return Objects.requireNonNullElse(this.campusID, 0);}
     public String getCampusGeoLocation() {return Objects.requireNonNullElse(this.campusGeoLocation, "");}
     public String getCampusTitle () {return Objects.requireNonNullElse(this.campusTitle, "");}
+    public Map<String, List<String>> getAllCampusData() {
+        return allCampusData;
+    }
     public List<Building> getCampusBuildings () {return Objects.requireNonNullElse(this.campusBuildings, initializeAndGetDummyCampusBuildings());}
+    public List<String> getCampusBuildingsAsStrings(){return this.campusBuildingsAsStrings;};
+    public static List<Campus> getAllCampuses(){return Objects.requireNonNullElse (allCampuses, dummyCampusList);};
+    public static Integer getCampusCounter(){return campusCounter;};
+    public static List<Campus> getDummyCampusList(){return dummyCampusList;};
 
+    public static final Campus Schlueter = getInstance();
+    public static final Campus Leipziger = getInstance();
+    public static final Campus Altonaer = getInstance();
+
+    public static boolean campusExistsInList(Campus testCampus) {
+
+        for(Campus myCampus : allCampuses)
+        {
+            if(Objects.equals(myCampus, testCampus))
+            {
+                return true;
+            }
+        };
+
+        return false;
+    };
     public List<Building> initializeAndGetDummyCampusBuildings() {
 
         dummyBuildingList.add(Building.dummyBuilding);
@@ -129,31 +155,34 @@ public class Campus{
     }
     public void deleteBuildingFromCampus(Building _building) {
 
-        if(this.campusBuildings.remove(_building)) {
-            List<String> buildingList = new ArrayList<>();
+        this.campusBuildings.remove(_building);
+        this.allCampusData.put(BUILDING, updateBuildingsAsStringsList());
+        updateCampusDataHashmap();
 
-            for (Building building : campusBuildings) {
-                buildingList.add(building.getTitle());
-            }
-            this.allCampusData.put(BUILDING, buildingList);
-            updateCampusDataHashmap();
-        }
     }
     public void addBuildingToCampus(Building _building) {
 
         this.campusBuildings.add(_building);
-        List<String> buildingList = new ArrayList<>();
-
-        for (Building building : campusBuildings) {
-            buildingList.add(building.getTitle());
-        }
-        this.allCampusData.put(BUILDING, buildingList);
+        updateBuildingsAsStringsList();
         updateCampusDataHashmap();
     }
+
     public void updateCampusDataHashmap() {
 
         Map<String, Map<String, List<String>>> UpdatedCampusData = DataCollector.getCampusData();
         UpdatedCampusData.put(this.campusTitle,this.allCampusData);
         DataCollector.setCampusData(UpdatedCampusData);
     }
+    public List<String> updateBuildingsAsStringsList() {
+
+        List <String> buildingsAsStrings = new ArrayList<>();
+        for (Building building : this.campusBuildings)
+        {
+            buildingsAsStrings.add(building.getTitle());
+        }
+        this.campusBuildingsAsStrings = buildingsAsStrings;
+        this.allCampusData.put(BUILDING, buildingsAsStrings);
+        return buildingsAsStrings;
+    }
+
 }

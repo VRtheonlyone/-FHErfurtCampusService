@@ -2,8 +2,7 @@ package de.fherfurt.campus.constants;
 
 public class Constants {
 
-    public static final String NO_SEARCH_PATTERN = "No search Pattern found!";
-    public static final String NO_PERSON_FOUND = "Person has no affiliated room!";
+
     public static final String TYPES = "Types";
     public static final String PERSONS = "Persons";
     public static final String FLOOR = "Floor";

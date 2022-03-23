@@ -1,6 +1,6 @@
-/**
 package de.fherfurt.campus;
 
+import de.fherfurt.appointments.client.Event;
 import de.fherfurt.campus.main.Campus;
 import de.fherfurt.campus.main.Building;
 import de.fherfurt.campus.main.DataCollector;
@@ -9,7 +9,6 @@ import static de.fherfurt.campus.constants.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import de.fherfurt.campus.main.Room;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,26 +16,65 @@ import java.util.ArrayList;
 import java.util.List;
 
  class BuildingTest {
+     private static final List<Building.BuildingTypes> Building1Types = new ArrayList<>();
+     private static final Building.BuildingTypes BuildingType1 = Building.BuildingTypes.EDUCATION;
 
-        private final List<String> Rooms = new ArrayList<>();
-        private final List<String> Events = new ArrayList<>();
-        private final List<Building.BuildingTypes> Types = new ArrayList<>();
+     public void addingBuildingTypesToBuilding() {
+         BuildingTest.Building1Types.add(BuildingTest.BuildingType1);
+     }
+     static List<Building> buildingList = new ArrayList<>();
+     static List<Building> buildingList1 = new ArrayList<>();
+     static List<Building> buildingList2 = new ArrayList<>();
 
-        Room myRoom = new Room();
+     static Building Building1 = new Building("Haus 1");
+     static Building Building2 = new Building("Haus 2");
+     static Building Building3 = new Building("Haus 3");
 
-        Building MyBuilding = new Building(true, "Haus 1", Rooms,"123.12312", Types , Campus.CampusNames.LEIPZIGER);
-        Building MyBuilding1 = new Building(false, "Haus 2", Rooms,"123.1123, 125.3212", Types , Campus.CampusNames.SCHLUETER);
+     static List<Room> roomList = new ArrayList<>();
+     static List<Room> roomList1 = new ArrayList<>();
+     static List<Room> roomList2 = new ArrayList<>();
 
-        @Test
-        @DisplayName("Setting Rooms for Building Should Work")
-        void testSetRoomsForBuilding() {
-                Rooms.add("R222");
-                Rooms.add("R333");
+     static Room myRoom = new Room("Room 1");
+     static Room myRoom1 = new Room("Room 2");
+     static Room myRoom2 = new Room("Room 3");
 
-                MyBuilding.setRoomsForBuilding(Rooms);
-                assertEquals(MyBuilding.getRooms(), DataCollector.getBuildingData().get(MyBuilding.getTitle()).get(ROOM));
-        }
+     public static void addingBuildingsToBuildingLists(){
 
+         BuildingTest.buildingList.add(BuildingTest.Building1);
+         BuildingTest.buildingList1.add(BuildingTest.Building2);
+         BuildingTest.buildingList2.add(BuildingTest.Building1);
+         BuildingTest.buildingList2.add(BuildingTest.Building2);
+     };
+     public static void addingRoomsToRoomsList(){
+       roomList.add(myRoom);
+       roomList1.add(myRoom1);
+       roomList2.add(myRoom2);
+     };
+
+     private final List<String> Rooms = new ArrayList<>();
+     private final List<String> Events = new ArrayList<>();
+     private final List<Building.BuildingTypes> Types = new ArrayList<>();
+
+
+
+     Event myEvent = new Event("12.12.22","15.12.22","Birthday Party", Campus.CampusNames.SCHLUETER.toString(), Building1.getTitle(), myRoom.getRoomTitle());
+
+
+     @Test
+     @DisplayName("Setting Rooms for Building Should Work")
+     void addingBuildingTypesToList() {
+
+     }
+
+     @Test
+     @DisplayName("Setting Rooms for Building Should Work")
+     void testSetRoomsForBuilding() {
+
+         MyBuilding.setRoomsForBuilding(Rooms);
+         assertEquals(MyBuilding.getRooms(), DataCollector.getBuildingData().get(MyBuilding.getTitle()).get(ROOM));
+     }
+ }
+/*
         @Test
         @DisplayName("Setting Campus Should Work")
         void testSetCampusForBuilding() {
