@@ -6,7 +6,7 @@ import java.util.*;
 import static de.fherfurt.campus.constants.Constants.*;
 
 /**
- * @author Helen Laible helen.laible@fh-erfurt.de
+ *  @author Helen Laible helen.laible@fh-erfurt.de
  */
 
 public class Campus{
