@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Jann Lucas Pischke, jann.pischke@fh-erfurt.de
  * @coauthor restructured to fit the form by Vadim Rodt
- * The RoomTest class tests the functions locatd in the Room class
+ * The RoomTest class tests the functions located in the Room class
  */
 
 
