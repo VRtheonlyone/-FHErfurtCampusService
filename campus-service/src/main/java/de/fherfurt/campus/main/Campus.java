@@ -1,7 +1,7 @@
 package de.fherfurt.campus.main;
 import java.util.*;
 
-// @author Helen Laible <helen.laible@fh-erfurt.de>
+// @author Helen Laible helen.laible@fh-erfurt.de
 
 import static de.fherfurt.campus.constants.Constants.*;
 
