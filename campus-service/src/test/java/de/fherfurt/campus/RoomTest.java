@@ -13,6 +13,14 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * @author Jann Lucas Pischke, jann.pischke@fh-erfurt.de
+ * Restructured by Vadim Rodt
+ * The RoomTest class tests the functions locatd in the Room class
+ */
+
+
 public class RoomTest {
 
     private final List<DevPersonsService> Persons = new ArrayList<>();
