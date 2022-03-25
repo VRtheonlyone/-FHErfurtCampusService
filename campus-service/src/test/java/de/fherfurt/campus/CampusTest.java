@@ -2,6 +2,8 @@ package de.fherfurt.campus;
 
 import static de.fherfurt.campus.constants.Constants.BUILDING;
 import static org.junit.jupiter.api.Assertions.*;
+
+import de.fherfurt.campus.main.Building;
 import de.fherfurt.campus.main.DataCollector;
 import org.junit.jupiter.api.*;
 import de.fherfurt.campus.main.Campus;
@@ -94,5 +96,19 @@ public class CampusTest {
         assertTrue(Campus.Schlueter.getCampusBuildings().contains(BuildingTest.Building2));
         assertTrue(Campus.Schlueter.getCampusBuildings().contains(BuildingTest.Building3));
         assertFalse(Campus.Schlueter.getCampusBuildings().contains(BuildingTest.Building1));
+    }
+
+    @Test
+    @DisplayName("Checking if Number of Campuses and Campus Counter are Equal")
+    void testCheckingIfBuildingCounterAndNumberOfBuildingsAreEqual() {
+
+        //GIVEN
+        assertEquals(Campus.getAllCampuses().size(), Campus.getCampusCounter());
+
+        //WHEN
+        Campus myCampus = Campus.getInstance();
+
+        //THEN
+        assertEquals(Campus.getAllCampuses().size(), Campus.getCampusCounter());
     }
 }

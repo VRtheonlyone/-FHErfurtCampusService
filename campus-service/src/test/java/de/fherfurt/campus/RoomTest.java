@@ -3,6 +3,8 @@ package de.fherfurt.campus;
 import static de.fherfurt.campus.constants.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import de.fherfurt.campus.main.Building;
+import de.fherfurt.campus.main.Campus;
 import de.fherfurt.campus.main.DataCollector;
 import de.fherfurt.campus.main.Room;
 import de.fherfurt.persons.client.DevPersonsService;
@@ -23,13 +25,15 @@ import java.util.List;
 
 public class RoomTest {
 
-    private final List<DevPersonsService> Persons = new ArrayList<>();
+
     DevPersonsService Wolfgang = new DevPersonsService("Wolfgang", "Schmidt");
+    List<DevPersonsService> Persons = new ArrayList<>();
+
 
     String newTitle = "Room XYZ";
-
     Room MyRoom = new Room("Room1", 1, Persons, BuildingTest.Building1);
     Room MyRoom1 = new Room("Room2", BuildingTest.Building1);
+    Building Building5 = new Building("Building 5", Campus.Schlueter);
 
 
     /**
@@ -96,13 +100,13 @@ public class RoomTest {
     void testSettingAndGettingIdForRoom() {
 
         //GIVEN
-        assertNotEquals(MyRoom.getRoomID(),2);
+        assertNotEquals(MyRoom.getRoomID(),55);
 
         //WHEN
-        MyRoom.setIdForRoom(2);
+        MyRoom.setIdForRoom(55);
 
         //THEN
-        assertEquals(MyRoom.getRoomID(), 2);
+        assertEquals(MyRoom.getRoomID(), 55);
         assertEquals(MyRoom.getRoomID().toString(), DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(ID).get(0));
     }
 
@@ -116,17 +120,16 @@ public class RoomTest {
         //GIVEN
         for(Room room : Room.getAllRoomsList())
         {
-            if(room.getRoomID() == 2 && MyRoom.getRoomID() != 2) {
+            if(room.getRoomID() == 3 && MyRoom.getRoomID() != 3) {
 
                 //WHEN
-                MyRoom.setIdForRoom(2);
+                MyRoom.setIdForRoom(3);
 
                 //THEN
-                assertNotEquals(MyRoom.getRoomID(),2);
+                assertNotEquals(MyRoom.getRoomID(),3);
                 break;
             }
         }
-
     }
 
     /**
@@ -221,7 +224,7 @@ public class RoomTest {
      */
     @Test
     @DisplayName("Checking if a room exists should work")
-    void testCheckingIfRoomExists() {
+    void testIfRoomExists() {
 
         //GIVEN
         String searchedRoom = "Room3";
@@ -234,4 +237,24 @@ public class RoomTest {
         assertTrue(MyRoom.checkRoomExists(searchedRoom1));
 
     }
+
+    /**
+     * Function to Check whether Person of a Room gets returned
+     */
+    @Test
+    @DisplayName("Checking if the proper Room gets returned for a person")
+    void testIfRoomGetsReturnedForPerson() {
+
+        //GIVEN
+        assertNull(Room.searchForRoomOfPerson(Wolfgang));
+
+        //WHEN
+        Persons.add(Wolfgang);
+        Room Room5 = new Room("House78",2,Persons, BuildingTest.Building1);
+
+
+        //THEN
+        assertEquals(Room5, Room.searchForRoomOfPerson(Wolfgang));
+    }
+
 }

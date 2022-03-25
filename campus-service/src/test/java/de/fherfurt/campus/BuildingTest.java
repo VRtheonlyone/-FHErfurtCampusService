@@ -1,5 +1,4 @@
  package de.fherfurt.campus;
-import de.fherfurt.appointments.client.Event;
 import de.fherfurt.campus.main.Campus;
 import de.fherfurt.campus.main.Building;
 import de.fherfurt.campus.main.DataCollector;
@@ -24,7 +23,6 @@ import java.util.List;
      static List<Building> buildingList2 = new ArrayList<>();
 
      private static List<Room> Rooms = new ArrayList<>();
-     private static List<Event> Events = new ArrayList<>();
      private static List<Building.BuildingTypes> Types = new ArrayList<>();
 
      static Building Building1 = new Building("Haus 1",Campus.Leipziger);
@@ -52,7 +50,6 @@ import java.util.List;
          Types.add(Building.BuildingTypes.EDUCATION);
      }
 
-     public static Event myEvent = new Event("12.12.22", "15.12.22", "Birthday Party", Campus.CampusNames.SCHLUETER.toString(), Building1.getTitle(), myRoom.getRoomTitle());
 
      @Test
      @DisplayName("Setting and Getting BuildingTypes for Building should work")
@@ -188,5 +185,35 @@ import java.util.List;
          assertTrue(Building1.getRooms().contains(myRoom3));
          assertFalse(Building1.getRooms().contains(myRoom1));
 
+     }
+
+     @Test
+     @DisplayName("Checking if Data is equal in DataCollector and Building Instance.")
+     void testCheckingIfDataIsEqual() {
+
+         //GIVEN
+         assertEquals(DataCollector.getBuildingData().get(Building1.getTitle()), Building1.getAllDataOfBuilding());
+
+         //WHEN
+         Building1.setAffiliationForBuilding(Campus.Schlueter);
+         Building1.setTitleForBuilding("HOUSE ASCIJA");
+         Building1.addBuildingType(Building.BuildingTypes.GYMNASIUM);
+
+         //THEN
+         assertEquals(DataCollector.getBuildingData().get(Building1.getTitle()), Building1.getAllDataOfBuilding());
+     }
+
+     @Test
+     @DisplayName("Checking if Number of Buildings and Building Counter are Equal")
+     void testCheckingIfBuildingCounterAndNumberOfBuildingsAreEqual() {
+
+         //GIVEN
+         assertEquals(Building.getAllBuildings().size(), Building.getBuildingCounter());
+
+         //WHEN
+         Building Building3 = new Building("House78", Campus.Altonaer);
+
+         //THEN
+         assertEquals(Building.getAllBuildings().size(), Building.getBuildingCounter());
      }
 }

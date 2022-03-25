@@ -50,8 +50,7 @@ public class Room implements EventsSetter, CampusForPersonsClient {
     public Room(String roomTitle, Integer floorNumber, List<DevPersonsService> roomPersons, Building affiliatedBuilding) {
 
         roomCounter += 1;
-        this.id = roomCounter;
-
+        setIdForRoom(roomCounter);
         setTitleForRoom (roomTitle);
         setFloorForRoom (floorNumber);
         setPersonsForRoom (roomPersons);
@@ -67,19 +66,19 @@ public class Room implements EventsSetter, CampusForPersonsClient {
     public Room(String roomTitle, Integer floorNumber, Building affiliatedBuilding) {
 
         roomCounter += 1;
-
+        setIdForRoom(roomCounter);
         setTitleForRoom (roomTitle);
         setFloorForRoom (floorNumber);
         setAffiliationForRoom (affiliatedBuilding);
-        setIdForRoom(this.id);
         addRoomToAllRoomsList();
     }
     public Room(String roomTitle, Building affiliatedBuilding){
 
         roomCounter += 1;
-        setIdForRoom(this.id);
+        setIdForRoom(roomCounter);
         setAffiliationForRoom(affiliatedBuilding);
         setTitleForRoom(roomTitle);
+        addRoomToAllRoomsList();
     }
 
 
@@ -202,6 +201,7 @@ public class Room implements EventsSetter, CampusForPersonsClient {
 
         return allPersonsWithRoom;
     }
+    public static Integer getRoomCounter(){return roomCounter;}
 
 
     /**
@@ -330,8 +330,8 @@ public class Room implements EventsSetter, CampusForPersonsClient {
     public void updateRoomDataHashmap() {
 
         Map<String, Map<String, List<String>>> UpdatedRoomData = DataCollector.getRoomData();
-        UpdatedRoomData.put(this.title,this.allRoomData);
         UpdatedRoomData.remove(null);
+        UpdatedRoomData.put(this.title,this.allRoomData);
         DataCollector.setRoomData(UpdatedRoomData);
     }
 

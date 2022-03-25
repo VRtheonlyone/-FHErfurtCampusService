@@ -1,7 +1,6 @@
 package de.fherfurt.campus.utilities;
 
 import de.fherfurt.campus.main.Campus;
-import de.fherfurt.campus.main.DataCollector;
 
 import java.awt.Desktop;
 import java.io.IOException;

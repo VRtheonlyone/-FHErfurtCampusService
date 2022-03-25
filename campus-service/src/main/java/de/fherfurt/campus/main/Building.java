@@ -41,6 +41,7 @@ public class Building implements EventsSetter {
         }
     }
 
+
     private static Integer buildingCounter = 0;
     private boolean accessibility;
     private String title;
@@ -49,12 +50,33 @@ public class Building implements EventsSetter {
     private List<BuildingTypes> type = new ArrayList<>();
     private List<Event> events = new ArrayList<>();
     private List<String> roomsAsStrings = new ArrayList<>();
-
     private List<Room> rooms = new ArrayList<>();
+
+    /**
+     * All data that this building instance consists of --> will be entered into the DataCollector Hashmap
+     */
     private Map <String, List<String>> allBuildingData = new HashMap<>();
+
+    /**
+     * All Buildings that get instantiated
+     */
     private static List<Building> allBuildings = new ArrayList<>();
+
+    /**
+     * A dummy Building that is used as Affiliation for a Room, if a Building should get deleted from all Hashmaps
+     */
     public static final Building dummyBuilding = new Building();
 
+    /**
+     *
+     * @param accessibility --> Is Building accessible to disabled people
+     * @param buildingTitle --> Title of Building (Will be Used as Key for the Datacollector Hashmap
+     * @param buildingRooms --> List of Rooms for the Building
+     * @param buildingType --> Type of Building
+     * @param campusAffiliation --> The Campus to which the Building belongs
+     *
+     * A variety of Constructors that allows to instantiate Buildings with different amounts of Data
+     */
     public Building(boolean accessibility, String buildingTitle, List<Room> buildingRooms, List<BuildingTypes> buildingType, Campus campusAffiliation) {
 
         buildingCounter += 1 ;
@@ -64,6 +86,7 @@ public class Building implements EventsSetter {
         setAccessibilityForBuilding(accessibility);
         setTypeForBuilding(buildingType);
         setIDForBuilding(buildingCounter);
+        allBuildings.add(this);
     }
     public Building(boolean accessibility, String buildingTitle, Campus campusAffiliation) {
 
@@ -72,14 +95,17 @@ public class Building implements EventsSetter {
         setAffiliationForBuilding(campusAffiliation);
         setAccessibilityForBuilding(accessibility);
         setIDForBuilding(buildingCounter);
+        allBuildings.add(this);
     }
     public Building(String buildingTitle, Campus campusAffiliation){
         buildingCounter += 1 ;
         setIDForBuilding(buildingCounter);
         setAffiliationForBuilding(campusAffiliation);
         setTitleForBuilding(buildingTitle);
+        allBuildings.add(this);
     }
     private Building(){}
+
 
     public void setTitleForBuilding (String title) {
 
@@ -138,6 +164,7 @@ public class Building implements EventsSetter {
         this.allBuildingData.put(CAMPUS_AFFILIATION,Affiliation);
         updateBuildingDataHashmap();
     }
+
     @Override
     public void setEvents() {
         CampusUtilities.setClassEvents(BUILDING, this.getTitle(), Collections.singletonList(this.events));
@@ -147,7 +174,6 @@ public class Building implements EventsSetter {
     {
         return this.accessibility;
     }
-    public Integer getBuildingCounter(){return Building.buildingCounter;}
     public String getTitle() {return this.title;}
     public Integer getID() {return this.id;}
     public List<Room> getRooms() {return this.rooms;}
@@ -156,8 +182,12 @@ public class Building implements EventsSetter {
     public List <Event> getEvents(){return this.events;}
     public List<String> getRoomsAsStrings(){return this.roomsAsStrings;}
     public Map <String, List<String>> getAllDataOfBuilding(){return this.allBuildingData;}
-    public List<Building> getAllBuildings() {return allBuildings;}
+    public static Integer getBuildingCounter(){return Building.buildingCounter;}
+    public static List<Building> getAllBuildings() {return allBuildings;}
 
+    /**
+     * This function deletes this Building from all Variables that include it or have a reference to it
+     */
     public void deleteBuildingFromHashmaps(){
 
         Map<String, Map<String, List<String>>> updatedBuildingHashmap = DataCollector.getBuildingData();
@@ -174,19 +204,28 @@ public class Building implements EventsSetter {
             buildingRoom.setAffiliationForRoom(dummyBuilding);
         }
     }
+
+    /**
+     *
+     * @param buildingRoom--> Room that should be deleted/added from List of Rooms associated with this building
+     */
     public void deleteRoomFromRoomList(Room buildingRoom) {
         this.rooms.remove(buildingRoom);
         updateRoomsAsStringsList();
         updateBuildingDataHashmap();
     }
+    public void addingRoomToRoomList(Room buildingRoom) {
 
-    public void addingRoomToRoomList(Room roomTitle) {
-
-        this.rooms.add(roomTitle);
+        this.rooms.add(buildingRoom);
         updateRoomsAsStringsList();
         updateBuildingDataHashmap();
 
     }
+
+    /**
+     *
+     * @param buildingType --> Type that gets added to a Building (e.g. Cafeteria or Gymnasium) if the Building gets renovated or its use changes
+     */
     public void addBuildingType(BuildingTypes buildingType){
 
         if(this.type == null)
@@ -204,6 +243,9 @@ public class Building implements EventsSetter {
         updateBuildingDataHashmap();
     }
 
+    /**
+     * This function constantly updates the Overall Data for this Room instance and inserts it into the DataCollector Hashmap
+     */
     public void updateBuildingDataHashmap() {
 
         Map<String, Map<String, List<String>>> updatedBuildingDataHashmap = DataCollector.getBuildingData();
@@ -211,6 +253,10 @@ public class Building implements EventsSetter {
         updatedBuildingDataHashmap.remove(null);
         DataCollector.setBuildingData(updatedBuildingDataHashmap);
     }
+
+    /**
+     * This function updates the Rooms as Strings List that is inserted into the RoomData Hashmap of the DataCollector
+     */
     public void updateRoomsAsStringsList(){
 
         for (Room room : this.rooms) {

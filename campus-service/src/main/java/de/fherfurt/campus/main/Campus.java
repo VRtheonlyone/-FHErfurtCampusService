@@ -1,4 +1,8 @@
 package de.fherfurt.campus.main;
+import de.fherfurt.appointments.client.Event;
+import de.fherfurt.appointments.client.EventsSetter;
+import de.fherfurt.campus.utilities.CampusUtilities;
+
 import java.util.*;
 
 import static de.fherfurt.campus.constants.Constants.*;
@@ -9,7 +13,12 @@ import static de.fherfurt.campus.constants.Constants.*;
  * It is the biggest category of Locations and all Buildings must be associated with exactly one of these campuses
  */
 
-public class Campus{
+public class Campus implements EventsSetter {
+
+    @Override
+    public void setEvents() {
+        CampusUtilities.setClassEvents(BUILDING, this.getCampusTitle(), Collections.singletonList(this.campusEvents));
+    }
 
     public enum CampusNames {
         SCHLUETER {
@@ -60,6 +69,7 @@ public class Campus{
     private String campusGeoLocation;
     private String campusTitle;
     private String googleMapsLink;
+    private List<Event> campusEvents;
     private List<Building> campusBuildings = new ArrayList<>();
     private List<String> campusBuildingsAsStrings = new ArrayList<>();
     private Map<String, List<String>> allCampusData = new HashMap<>();
@@ -185,9 +195,10 @@ public class Campus{
     public Map<String, List<String>> getAllCampusData() {
         return allCampusData;
     }
-
+    public List<Event> getCampusEvents(){return this.campusEvents;}
     public List<Building> getCampusBuildings () {return Objects.requireNonNullElse(this.campusBuildings, initializeAndGetDummyCampusBuildings());}
     public List<String> getCampusBuildingsAsStrings(){return this.campusBuildingsAsStrings;}
+
     public static List<Campus> getAllCampuses(){return Objects.requireNonNullElse (allCampuses, dummyCampusList);}
     public static Integer getCampusCounter(){return campusCounter;}
     public static List<Campus> getDummyCampusList(){return dummyCampusList;}
@@ -195,7 +206,6 @@ public class Campus{
     public static final Campus Schlueter = getInstance();
     public static final Campus Leipziger = getInstance();
     public static final Campus Altonaer = getInstance();
-
 
     /**
      * @param testCampus checks if campus is added in List.
@@ -256,6 +266,7 @@ public class Campus{
     public void updateCampusDataHashmap() {
 
         Map<String, Map<String, List<String>>> UpdatedCampusData = DataCollector.getCampusData();
+        UpdatedCampusData.remove(null);
         UpdatedCampusData.put(this.campusTitle,this.allCampusData);
         DataCollector.setCampusData(UpdatedCampusData);
     }

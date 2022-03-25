@@ -18,7 +18,7 @@ import java.util.List;
 
 public class SearchTest {
 
-    Building MyBuilding= new Building("Haus 3", Campus.Schlueter);
+    Building MyBuilding = new Building("Haus 3", Campus.Schlueter);
     Room MyRoom = new Room("Room 1", MyBuilding);
     List<String> SearchResults = new ArrayList<>();
 

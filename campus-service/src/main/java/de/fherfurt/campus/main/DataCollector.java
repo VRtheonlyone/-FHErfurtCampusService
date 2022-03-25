@@ -14,12 +14,12 @@ public class DataCollector {
     private static Map<String, Map<String, List<String>>> RoomData = new HashMap<>();
     private static Map<String, Map<String, String>> Events = new HashMap<>();
 
-    public static void setCampusData(Map<String, Map<String, List<String>>> _campusData) {
-        CampusData = _campusData;
+    public static void setCampusData(Map<String, Map<String, List<String>>> campusData) {
+        CampusData = campusData;
     }
-    public static void setBuildingData(Map<String, Map<String, List<String>>> _buildingData) {BuildingData = _buildingData;}
-    public static void setRoomData(Map<String, Map<String, List<String>>> _roomData) {
-        RoomData = _roomData;
+    public static void setBuildingData(Map<String, Map<String, List<String>>> buildingData) {BuildingData = buildingData;}
+    public static void setRoomData(Map<String, Map<String, List<String>>> roomData) {
+        RoomData = roomData;
     }
     public static void setEvents(Map<String, Map<String, String>> events) {Events = events;}
 
