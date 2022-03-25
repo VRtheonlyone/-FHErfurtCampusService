@@ -3,8 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public enum DataCollector {
-    DATACOLLECTOR;
+public class DataCollector {
 
     private static Map<String, Map<String, List<String>>> CampusData = new HashMap<>();
     private static Map<String, Map<String, List<String>>> BuildingData = new HashMap<>();

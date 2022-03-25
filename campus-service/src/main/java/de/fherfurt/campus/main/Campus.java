@@ -52,11 +52,12 @@ public class Campus{
     private static Integer campusCounter = 0;
     private static  List<Campus> allCampuses = new ArrayList<>();
     private static List<Campus> dummyCampusList = new ArrayList<>();
+
     private static final int CampusInstancesLimit = 3;
     private static final Campus dummyCampus = new Campus();
     private static final List<Building> dummyBuildingList = new ArrayList<>();
 
-    private Campus(){};
+    private Campus(){}
     private Campus(CampusNames campusTitle, String campusGeoLocation, String googleMapsLink) {
         setIdForCampus(campusCounter+1);
         setTitleForCampus(campusTitle.toString());
@@ -98,7 +99,7 @@ public class Campus{
         GeoLocation.add(campusGeoLocation);
 
         this.allCampusData.put(GEOLOCATION, GeoLocation);
-        DataCollector.getCampusData().put(campusGeoLocation, this.allCampusData);
+        updateCampusDataHashmap();
     }
     public void setGoogleMapsLink(String googleMapsLink) {
         this.googleMapsLink = googleMapsLink;
@@ -127,10 +128,10 @@ public class Campus{
         return allCampusData;
     }
     public List<Building> getCampusBuildings () {return Objects.requireNonNullElse(this.campusBuildings, initializeAndGetDummyCampusBuildings());}
-    public List<String> getCampusBuildingsAsStrings(){return this.campusBuildingsAsStrings;};
-    public static List<Campus> getAllCampuses(){return Objects.requireNonNullElse (allCampuses, dummyCampusList);};
-    public static Integer getCampusCounter(){return campusCounter;};
-    public static List<Campus> getDummyCampusList(){return dummyCampusList;};
+    public List<String> getCampusBuildingsAsStrings(){return this.campusBuildingsAsStrings;}
+    public static List<Campus> getAllCampuses(){return Objects.requireNonNullElse (allCampuses, dummyCampusList);}
+    public static Integer getCampusCounter(){return campusCounter;}
+    public static List<Campus> getDummyCampusList(){return dummyCampusList;}
 
     public static final Campus Schlueter = getInstance();
     public static final Campus Leipziger = getInstance();
@@ -144,10 +145,10 @@ public class Campus{
             {
                 return true;
             }
-        };
+        }
 
         return false;
-    };
+    }
     public List<Building> initializeAndGetDummyCampusBuildings() {
 
         dummyBuildingList.add(Building.dummyBuilding);
@@ -161,6 +162,11 @@ public class Campus{
 
     }
     public void addBuildingToCampus(Building _building) {
+
+        if(this.campusBuildings == null)
+        {
+            this.campusBuildings = new ArrayList<>();
+        }
 
         this.campusBuildings.add(_building);
         updateBuildingsAsStringsList();

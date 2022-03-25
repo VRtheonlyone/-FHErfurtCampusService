@@ -39,17 +39,16 @@ public class Building implements EventsSetter {
     private boolean accessibility;
     private String title;
     private Integer id;
-    private List<BuildingTypes> type;
     private Campus campusAffiliation;
-    private List<Event> events;
-    private List<String> roomsAsStrings;
+    private List<BuildingTypes> type = new ArrayList<>();
+    private List<Event> events = new ArrayList<>();
+    private List<String> roomsAsStrings = new ArrayList<>();
 
-    private List<Room> rooms;
+    private List<Room> rooms = new ArrayList<>();
     private Map <String, List<String>> allBuildingData = new HashMap<>();
     private static List<Building> allBuildings = new ArrayList<>();
     public static final Building dummyBuilding = new Building();
 
-    /* Constructor */
     public Building(boolean accessibility, String buildingTitle, List<Room> buildingRooms, List<BuildingTypes> buildingType, Campus campusAffiliation) {
 
         buildingCounter += 1 ;
@@ -68,8 +67,8 @@ public class Building implements EventsSetter {
         setAccessibilityForBuilding(accessibility);
         setIDForBuilding(buildingCounter);
     }
-    public Building(String buildingTitle){};
-    public Building(){};
+    public Building(String buildingTitle){}
+    public Building(){}
 
     public void setTitleForBuilding (String title) {
 
@@ -128,18 +127,6 @@ public class Building implements EventsSetter {
         this.allBuildingData.put(CAMPUS_AFFILIATION,Affiliation);
         updateBuildingDataHashmap();
     }
-    public void setEventForBuilding(List<Event> buildingEvents) {
-
-        this.events = buildingEvents;
-        List<String> eventListForBuilding = new ArrayList<>();
-
-        for (Event event : buildingEvents) {
-            eventListForBuilding.add(event.getTitle());
-        }
-
-        this.allBuildingData.put(EVENTS, eventListForBuilding);
-        updateBuildingDataHashmap();
-    }
     @Override
     public void setEvents() {
         CampusUtilities.setClassEvents(BUILDING, this.getTitle(), Collections.singletonList(this.events));
@@ -156,13 +143,14 @@ public class Building implements EventsSetter {
     public List<BuildingTypes> getType() {return this.type;}
     public Campus getAffiliation() {return this.campusAffiliation;}
     public List <Event> getEvents(){return this.events;}
+    public List<String> getRoomsAsStrings(){return this.roomsAsStrings;}
     public Map <String, List<String>> getAllDataOfBuilding(){return this.allBuildingData;}
     public List<Building> getAllBuildings() {return allBuildings;}
 
     public void deleteBuildingFromHashmaps(){
 
         for (String building : DataCollector.getBuildingData().keySet()) {
-            if (this.title.equals(building)) {
+            if (Objects.equals(this.title, building)) {
                 Map<String, Map<String, List<String>>> updatedBuildingHashmap = DataCollector.getBuildingData();
                 updatedBuildingHashmap.remove(this.title);
                 DataCollector.setBuildingData(updatedBuildingHashmap);
@@ -180,7 +168,7 @@ public class Building implements EventsSetter {
         updateBuildingDataHashmap();
     }
 
-    public void addRoom(Room roomTitle) {
+    public void addingRoomToRoomList(Room roomTitle) {
 
         this.rooms.add(roomTitle);
         updateRoomsAsStringsList();
@@ -188,6 +176,11 @@ public class Building implements EventsSetter {
 
     }
     public void addBuildingType(BuildingTypes buildingType){
+
+        if(this.type == null)
+        {
+            this.type = new ArrayList<>();
+        }
 
         this.type.add(buildingType);
 
@@ -206,13 +199,12 @@ public class Building implements EventsSetter {
         DataCollector.setBuildingData(updatedBuildingDataHashmap);
     }
     public void updateRoomsAsStringsList(){
-        List <String> roomsAsStringsList = new ArrayList<>();
 
         for (Room room : this.rooms) {
 
-            roomsAsStringsList.add(room.getRoomTitle());
+            this.roomsAsStrings.add(room.getRoomTitle());
+            room.setAffiliationForRoom(this);
         }
-        this.roomsAsStrings = roomsAsStringsList;
         this.allBuildingData.put(ROOM, roomsAsStrings);
     }
 

@@ -22,7 +22,6 @@ public class Browser {
 
         System.out.println("Please enter a valid number!");
     }
-
     public static String getLinkAccordingToID() {
 
         Scanner scanner = new Scanner(System.in);

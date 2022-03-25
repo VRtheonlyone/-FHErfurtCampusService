@@ -10,6 +10,17 @@ public class DevPersonsService implements PersonsClient {
     private int personID;
     private String roomTitle;
 
+    public DevPersonsService(String firstname, String lastname)
+    {
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
+    public static void setPersons(List<DevPersonsService> persons) {
+        DevPersonsService.persons = persons;
+    }
+
+
     @Override
     public DevPersonsService findPersonUsingIteratorBy(int personID)
     {
@@ -22,6 +33,11 @@ public class DevPersonsService implements PersonsClient {
         }
         return null;
     };
+
+    @Override
+    public byte[] findPersonAvatarBy(int personId) {
+        return new byte[0];
+    }
 
     public String getFirstName() {return firstname;}
 

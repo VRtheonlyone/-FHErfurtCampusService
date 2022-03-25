@@ -1,98 +1,171 @@
-/** package de.fherfurt.campus;
+package de.fherfurt.campus;
 
 import static de.fherfurt.campus.constants.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import de.fherfurt.campus.main.DataCollector;
 import de.fherfurt.campus.main.Room;
+import de.fherfurt.persons.client.DevPersonsService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * @author Jann Lucas Pischke, jann.pischke@fh-erfurt.de
+ * Restructured by Vadim Rodt
+ * The RoomTest class tests the functions locatd in the Room class
+ */
+
+
 public class RoomTest {
 
-    DataCollector Collector = new DataCollector();
+    private final List<DevPersonsService> Persons = new ArrayList<>();
+    DevPersonsService Wolfgang = new DevPersonsService("Wolfgang", "Schmidt");
 
-    private final List<String> Persons = new ArrayList<>();
+    static List<Room> roomList = new ArrayList<>();
+    static List<Room> roomList1 = new ArrayList<>();
+    static List<Room> roomList2 = new ArrayList<>();
 
-    Room MyRoom = new Room("Room1", 1, Persons, "Haus 1", Collector);
+    String newTitle = "Room XYZ";
 
-    // ----------------- Set / Get Tests -------------------//
+    Room MyRoom = new Room("Room1", 1, Persons, BuildingTest.Building1);
+    Room MyRoom1 = new Room("Room2");
 
     @Test
-    @DisplayName("Function to set title works fine.")
-    void testSetTitleForRoom(){
-        String NewTitle = "Room2";
-        MyRoom.setTitleForRoom(NewTitle, Collector);
+    @DisplayName("Function to set and get title should work")
+    void testSettingAndGettingTitleForRoom() {
 
-        assertEquals(MyRoom.getRoomTitle(), Collector.RoomData.get(MyRoom.getRoomTitle()).get(TITLE).get(0));
+        //GIVEN
+        assertNotEquals(MyRoom.getRoomTitle(), newTitle);
+
+        //WHEN
+        MyRoom.setTitleForRoom(newTitle);
+
+        //THEN
+        assertEquals(MyRoom.getRoomTitle(), newTitle);
+        assertEquals(MyRoom.getRoomTitle(), DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(TITLE).get(0));
     }
 
     @Test
-    @DisplayName("Function to set floor works fine.")
-    void testSetFloorForRoom(){
-        Integer NewFloor = 2;
-        MyRoom.setFloorForRoom(NewFloor, Collector);
+    @DisplayName("Function to set and get floor should work.")
+    void testSettingAndGettingFloorForRoom() {
+        //GIVEN
+        assertNotEquals(MyRoom.getFloorNumber(), 2);
 
-        assertEquals(MyRoom.getFloorNumber().toString(), Collector.RoomData.get(MyRoom.getRoomTitle()).get(FLOOR).get(0));
+        //WHEN
+        MyRoom.setFloorForRoom(2);
+
+        //THEN
+        assertEquals(MyRoom.getFloorNumber(), 2);
+        assertEquals(MyRoom.getFloorNumber().toString(), DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(FLOOR).get(0));
     }
 
     @Test
-    @DisplayName("Function to set affiliation works fine.")
-    void testSetAffiliationForRoom(){
-        String NewAffiliation = "Haus 2";
-        MyRoom.setAffiliationForRoom(NewAffiliation, Collector);
+    @DisplayName("Function to set and get affiliation should work.")
+    void testSettingAndGettingAffiliationForRoom(){
 
-        assertEquals(MyRoom.getBuildingAffiliation(), Collector.RoomData.get(MyRoom.getRoomTitle()).get(BUILDING_AFFILIATION).get(0));
+        //GIVEN
+        assertNotEquals(MyRoom.getBuildingAffiliation(),BuildingTest.Building2);
+
+        //WHEN
+        MyRoom.setAffiliationForRoom(BuildingTest.Building2);
+
+        //THEN
+        assertEquals(MyRoom.getBuildingAffiliation(), BuildingTest.Building2);
+        assertEquals(MyRoom.getBuildingAffiliation().getTitle(), DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(BUILDING_AFFILIATION).get(0));
     }
 
     @Test
-    @DisplayName("Setting ID works fine")
-    void testSetIdForRoom() {
-        Integer id = 1;
+    @DisplayName("Setting and Getting ID should work.")
+    void testSettingAndGettingIdForRoom() {
 
-        MyRoom.setIdForRoom(id, Collector);
-        assertEquals(MyRoom.getRoomID().toString(), Collector.RoomData.get(MyRoom.getRoomTitle()).get(ID).get(0));
+        //GIVEN
+        assertNotEquals(MyRoom.getRoomID(),2);
+
+        //WHEN
+        MyRoom.setIdForRoom(2);
+
+        //THEN
+        assertEquals(MyRoom.getRoomID(), 2);
+        assertEquals(MyRoom.getRoomID().toString(), DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(ID).get(0));
     }
 
-    // ----------------- Add Test -------------------//
-
     @Test
-    @DisplayName("Adding a person to the person list works fine")
-    void testAddPersonToRoom() {
-        String NewPerson = "Horst Günther";
-        MyRoom.addPerson(NewPerson, Collector);
-        assertTrue(MyRoom.getRoomPersons().contains(NewPerson));
+    @DisplayName("Setting and Getting Persons should work.")
+    void testSettingAndGettingIdPersons() {
+
+        //GIVEN
+        assertFalse(MyRoom1.getAllPersonsForThisRoom().contains(Wolfgang));
+        Persons.add(Wolfgang);
+
+        //WHEN
+        MyRoom1.setPersonsForRoom(Persons);
+
+        //THEN
+        assertEquals(MyRoom1.getAllPersonsForThisRoom(),Persons);
+
+        List<String> personsAsStrings = new ArrayList<>();
+        for(DevPersonsService person : Persons)
+        {personsAsStrings.add(person.getFullName());}
+
+        assertEquals(DataCollector.getRoomData().get(MyRoom1.getRoomTitle()).get(PERSONS), personsAsStrings);
     }
 
-    // ----------------- Delete Tests -------------------//
-
-    // At first the person Holger Rainer is added with the already tested code and then deleted
     @Test
-    @DisplayName("Deleting a person of the person list works fine")
-    void testDeletePerson()
+    @DisplayName("Adding a person to the room should work")
+    void testAddingPersonToRoom() {
+
+        //GIVEN
+        assertFalse(MyRoom.getAllPersonsForThisRoom().contains(Wolfgang));
+
+        //WHEN
+        MyRoom.addPersonToThisRoom(Wolfgang);
+
+        //THEN
+        assertTrue(MyRoom.getAllPersonsForThisRoom().contains(Wolfgang));
+        assertTrue(DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(PERSONS).contains(Wolfgang.getFullName()));
+    }
+
+    @Test
+    @DisplayName("Deleting a person from the person list should work fine")
+    void testDeletingPersonFromRoom()
     {
-        String NewPerson = "Holger Rainer";
-        MyRoom.addPerson(NewPerson, Collector);
-        assertTrue(MyRoom.getRoomPersons().contains(NewPerson));
+        //GIVEN
+        assertFalse(MyRoom.getAllPersonsForThisRoom().contains(Wolfgang));
+        MyRoom.addPersonToThisRoom(Wolfgang);
+        assertTrue(MyRoom.getAllPersonsForThisRoom().contains(Wolfgang));
+        assertTrue(DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(PERSONS).contains(Wolfgang.getFullName()));
 
-        MyRoom.deletePerson(NewPerson, Collector);
-        assertFalse(MyRoom.getRoomPersons().contains(NewPerson));
+
+        //WHEN
+        MyRoom.deletePersonFromThisRoom(Wolfgang);
+
+        //THEN
+        assertFalse(MyRoom.getAllPersonsForThisRoom().contains(Wolfgang));
+        assertFalse(DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(PERSONS).contains(Wolfgang.getFullName()));
+
     }
 
     @Test
-    @DisplayName("Deleting a room works fine")
-    void testDeleteRoom() {
-        assertTrue(Collector.RoomData.containsKey(MyRoom.getRoomTitle()));
-        MyRoom.deleteRoom(Collector);
+    @DisplayName("Deleting a room from Hashmaps should work.")
+    void testDeletingRoomFromListsAndHashmaps() {
+        //GIVEN
+        assertTrue(DataCollector.getRoomData().containsKey(MyRoom.getRoomTitle()));
+        assertTrue(Room.getRoomsWithPersons().containsKey(MyRoom));
+        assertTrue(Room.getAllRoomsList().contains(MyRoom));
 
-        boolean RoomExists;
+        //WHEN
+        Room.deleteRoomFromAllMapsAndLists(MyRoom);
 
-        RoomExists = MyRoom.getRoomTitle() != null;
-        assertFalse(Collector.RoomData.containsKey(MyRoom.getRoomTitle()));
-        assertFalse(RoomExists);
+        //THEN
+        assertFalse(DataCollector.getRoomData().containsKey(MyRoom.getRoomTitle()));
+        assertFalse(Room.getRoomsWithPersons().containsKey(MyRoom));
+        assertFalse(Room.getAllRoomsList().contains(MyRoom));
     }
+
+
 }
-*/

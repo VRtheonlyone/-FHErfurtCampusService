@@ -85,4 +85,6 @@ public class Event {
     public String getRoom() {
         return room;
     }
+
+    public String toString(){return this.title;}
 }
