@@ -14,13 +14,13 @@ public class Room implements EventsSetter {
     private Integer floor;
     private Building buildingAffiliation;
     private Map<String, List<String>> allRoomData = new HashMap<>(); // No Setter necessary --> Is filled internally by the other methods
-    private List<DevPersonsService> allPersonsForThisRoom;
-    public  List<Event> roomEvents; //--> fix to private and add getter + setter then fix related issues
+    private List<DevPersonsService> allPersonsForThisRoom = new ArrayList<>();
+    public  List<Event> roomEvents = new ArrayList<>(); //--> fix to private and add getter + setter then fix related issues
 
-    private static List<DevPersonsService> allPersonsWithRoom;
+    private static List<DevPersonsService> allPersonsWithRoom = new ArrayList<>();
     private static HashMap<Room, List <DevPersonsService>> roomsWithPersons = new HashMap<>();
     private static Integer roomCounter = 0;
-    private static List<Room> allRoomsList;
+    private static List<Room> allRoomsList = new ArrayList<>();
 
     public Room(String roomTitle, Integer floorNumber, List<DevPersonsService> roomPersons, Building affiliatedBuilding) {
 
@@ -31,7 +31,7 @@ public class Room implements EventsSetter {
         setFloorForRoom (floorNumber);
         setPersonsForRoom (roomPersons);
         setAffiliationForRoom (affiliatedBuilding);
-        setRoomsWithPersons();
+        setRoomsWithPersonsHashmap();
         addRoomToAllRoomsList(this);
     }
     public Room(String roomTitle, Integer floorNumber, Building affiliatedBuilding) {
@@ -47,7 +47,7 @@ public class Room implements EventsSetter {
     }
     public Room(String roomTitle){}
 
-    public void setRoomsWithPersons() {
+    public void setRoomsWithPersonsHashmap() {
         roomsWithPersons.put(this, this.allPersonsForThisRoom);
     }
     public void setTitleForRoom(String roomTitle) {
@@ -57,7 +57,7 @@ public class Room implements EventsSetter {
         Titles.add(roomTitle);
 
         this.allRoomData.put(TITLE,Titles);
-       DataCollector.getBuildingData().put (roomTitle,this.allRoomData);
+       updateRoomDataHashmap();
     }
     public void setFloorForRoom(Integer floorNumber) {
         this.floor = floorNumber;
@@ -87,7 +87,7 @@ public class Room implements EventsSetter {
         }
 
         this.allRoomData.put(PERSONS, personTitle);
-        setRoomsWithPersons();
+        setRoomsWithPersonsHashmap();
         updateRoomDataHashmap();
     }
     public void setAffiliationForRoom(Building affiliatedBuilding) {
@@ -113,6 +113,17 @@ public class Room implements EventsSetter {
     }
     public void setAllPersonsForThisRoom(List<DevPersonsService> allPersonsForThisRoom) {
         this.allPersonsForThisRoom = allPersonsForThisRoom;
+
+        List<String> personsAsStrings = new ArrayList<>();
+
+            for(DevPersonsService person : this.allPersonsForThisRoom)
+            {
+                personsAsStrings.add(person.getFullName());
+            }
+
+        this.allRoomData.put(PERSONS,personsAsStrings);
+        setRoomsWithPersonsHashmap();
+        updateRoomDataHashmap();
     }
 
     @Override
@@ -185,7 +196,7 @@ public class Room implements EventsSetter {
         allPersonsWithRoom.remove(person);
 
         updateRoomDataHashmap();
-        setRoomsWithPersons();
+        setRoomsWithPersonsHashmap();
     }
 
     public void addPersonToThisRoom(DevPersonsService person) {
@@ -201,7 +212,7 @@ public class Room implements EventsSetter {
         this.allRoomData.put(PERSONS,personFullName);
 
         updateRoomDataHashmap();
-        setRoomsWithPersons();
+        setRoomsWithPersonsHashmap();
     }
     public void addRoomToAllRoomsList(Room thisRoom){
 
@@ -220,7 +231,6 @@ public class Room implements EventsSetter {
 
             return null;
     }
-
     public void updateRoomDataHashmap() {
 
         Map<String, Map<String, List<String>>> UpdatedRoomData = DataCollector.getRoomData();

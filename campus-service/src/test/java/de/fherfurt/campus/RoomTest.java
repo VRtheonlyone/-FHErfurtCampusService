@@ -1,10 +1,11 @@
-/** package de.fherfurt.campus;
+package de.fherfurt.campus;
 
 import static de.fherfurt.campus.constants.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import de.fherfurt.campus.main.DataCollector;
 import de.fherfurt.campus.main.Room;
+import de.fherfurt.persons.client.DevPersonsService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,23 +14,38 @@ import java.util.List;
 
 public class RoomTest {
 
-    DataCollector Collector = new DataCollector();
+    private final List<DevPersonsService> Persons = new ArrayList<>();
+    DevPersonsService Wolfgang = new DevPersonsService("Wolfgang", "Schmidt");
 
-    private final List<String> Persons = new ArrayList<>();
+    void addPersonToPersonsList() {
+        this.Persons.add(Wolfgang);
+    }
 
-    Room MyRoom = new Room("Room1", 1, Persons, "Haus 1", Collector);
+    static List<Room> roomList = new ArrayList<>();
+    static List<Room> roomList1 = new ArrayList<>();
+    static List<Room> roomList2 = new ArrayList<>();
+
+    String newTitle = "Room XYZ";
+
+    Room MyRoom = new Room("Room1", 1, Persons, BuildingTest.Building1);
 
     // ----------------- Set / Get Tests -------------------//
 
     @Test
-    @DisplayName("Function to set title works fine.")
-    void testSetTitleForRoom(){
-        String NewTitle = "Room2";
-        MyRoom.setTitleForRoom(NewTitle, Collector);
+    @DisplayName("Function to set and get title should work")
+    void testSetTitleForRoom() {
+        //GIVEN
+        assertNotEquals(MyRoom.getRoomTitle(), newTitle);
 
-        assertEquals(MyRoom.getRoomTitle(), Collector.RoomData.get(MyRoom.getRoomTitle()).get(TITLE).get(0));
+        //WHEN
+        MyRoom.setTitleForRoom(newTitle);
+
+        //THEN
+        assertEquals(myRoom.getTitle(),newTitle)
+        assertEquals(MyRoom.getRoomTitle(), DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(TITLE).get(0));
     }
 
+}
     @Test
     @DisplayName("Function to set floor works fine.")
     void testSetFloorForRoom(){

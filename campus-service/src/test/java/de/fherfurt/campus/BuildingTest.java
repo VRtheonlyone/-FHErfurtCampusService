@@ -25,9 +25,7 @@ import java.util.List;
      static Building Building2 = new Building("Haus 2");
      static Building Building3 = new Building("Haus 3");
 
-     static List<Room> roomList = new ArrayList<>();
-     static List<Room> roomList1 = new ArrayList<>();
-     static List<Room> roomList2 = new ArrayList<>();
+
 
      static Room myRoom = new Room("Room 1");
      static Room myRoom1 = new Room("Room 2");
@@ -45,13 +43,11 @@ import java.util.List;
          BuildingTest.buildingList2.add(BuildingTest.Building1);
          BuildingTest.buildingList2.add(BuildingTest.Building2);
      }
-
      public static void addingRoomsToRoomsList() {
          Rooms.add(myRoom);
          Rooms.add(myRoom1);
          Rooms.add(myRoom2);
      }
-
      public static void addingTypeToBuildingTypesList() {
          Types.add(Building.BuildingTypes.EDUCATION);
      }
