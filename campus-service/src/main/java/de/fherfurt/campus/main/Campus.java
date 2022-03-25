@@ -1,6 +1,8 @@
 package de.fherfurt.campus.main;
 import java.util.*;
 
+// @author Helen Laible <helen.laible@fh-erfurt.de>
+
 import static de.fherfurt.campus.constants.Constants.*;
 
 
@@ -17,6 +19,12 @@ public class Campus{
             public String toString() {return "Altonaer Strasse";}
             };
 
+
+        /**
+         * @param CampusName is used to get geoLocation
+         * @return geoLocation
+         */
+
         public String getGeoLocation (CampusNames CampusName)
         {
             String geoLocation = null;
@@ -28,6 +36,12 @@ public class Campus{
             }
             return geoLocation;
         }
+
+        /**
+         * @param CampusName is connected to Link from each Campus
+         * @return GoogleMaps-Site of chosen Campus
+         */
+
         public String getGoogleMapsLink (CampusNames CampusName)
         {
             String googleMapsLink = null;
@@ -41,6 +55,7 @@ public class Campus{
         }
     }
 
+
     private Integer campusID;
     private String campusGeoLocation;
     private String campusTitle;
@@ -52,12 +67,11 @@ public class Campus{
     private static Integer campusCounter = 0;
     private static  List<Campus> allCampuses = new ArrayList<>();
     private static List<Campus> dummyCampusList = new ArrayList<>();
-
     private static final int CampusInstancesLimit = 3;
     private static final Campus dummyCampus = new Campus();
     private static final List<Building> dummyBuildingList = new ArrayList<>();
 
-    private Campus(){}
+    private Campus(){};
     private Campus(CampusNames campusTitle, String campusGeoLocation, String googleMapsLink) {
         setIdForCampus(campusCounter+1);
         setTitleForCampus(campusTitle.toString());
@@ -83,6 +97,10 @@ public class Campus{
         return dummyCampus;
     }
 
+    /**
+     * @param campusID sets ID for Campus; if new Campus-> gets added to List String
+     */
+
     public void setIdForCampus (Integer campusID) {
 
         this.campusID = campusID;
@@ -92,6 +110,11 @@ public class Campus{
         this.allCampusData.put(ID, IDs);
         updateCampusDataHashmap();
     }
+
+    /**
+     * @param campusGeoLocation sets Geolocation of Campus to Array List
+     */
+
     public void setGeographicalCoordinatesForCampus (String campusGeoLocation) {
 
         this.campusGeoLocation = campusGeoLocation;
@@ -101,9 +124,19 @@ public class Campus{
         this.allCampusData.put(GEOLOCATION, GeoLocation);
         updateCampusDataHashmap();
     }
+
+    /**
+     * @param googleMapsLink sets GoogleMaps Link for each Campus
+     */
+
     public void setGoogleMapsLink(String googleMapsLink) {
         this.googleMapsLink = googleMapsLink;
     }
+
+    /**
+     * @param campusTitle sets Title of Campus in Array List; new Campus-> DataHashmap gets updated
+     */
+
     public void setTitleForCampus (String campusTitle) {
 
         this.campusTitle = campusTitle;
@@ -113,12 +146,19 @@ public class Campus{
         this.allCampusData.put(TITLE, campusTitles);
         updateCampusDataHashmap();
     }
+
+    /**
+     * @param campusBuildings sets all Buildings from a Campus and adds them to Array List
+     */
+
     public void setBuildingsForCampus (List<Building> campusBuildings) {
 
         this.campusBuildings = campusBuildings;
         updateBuildingsAsStringsList();
         updateCampusDataHashmap();
     }
+
+
 
     public String getGoogleMapsLink() {return Objects.requireNonNullElse(this.googleMapsLink, "");}
     public Integer getCampusID() {return Objects.requireNonNullElse(this.campusID, 0);}
@@ -127,15 +167,22 @@ public class Campus{
     public Map<String, List<String>> getAllCampusData() {
         return allCampusData;
     }
+
     public List<Building> getCampusBuildings () {return Objects.requireNonNullElse(this.campusBuildings, initializeAndGetDummyCampusBuildings());}
-    public List<String> getCampusBuildingsAsStrings(){return this.campusBuildingsAsStrings;}
-    public static List<Campus> getAllCampuses(){return Objects.requireNonNullElse (allCampuses, dummyCampusList);}
-    public static Integer getCampusCounter(){return campusCounter;}
-    public static List<Campus> getDummyCampusList(){return dummyCampusList;}
+    public List<String> getCampusBuildingsAsStrings(){return this.campusBuildingsAsStrings;};
+    public static List<Campus> getAllCampuses(){return Objects.requireNonNullElse (allCampuses, dummyCampusList);};
+    public static Integer getCampusCounter(){return campusCounter;};
+    public static List<Campus> getDummyCampusList(){return dummyCampusList;};
 
     public static final Campus Schlueter = getInstance();
     public static final Campus Leipziger = getInstance();
     public static final Campus Altonaer = getInstance();
+
+
+    /**
+     * @param testCampus checks if campus is added in List.
+     * @return if it exists -> true, if not -> false
+     */
 
     public static boolean campusExistsInList(Campus testCampus) {
 
@@ -145,33 +192,48 @@ public class Campus{
             {
                 return true;
             }
-        }
+        };
 
         return false;
-    }
+    };
+
+
+    /**
+     * @return List of DummyBuildings
+     */
+
     public List<Building> initializeAndGetDummyCampusBuildings() {
 
         dummyBuildingList.add(Building.dummyBuilding);
         return dummyBuildingList;
     }
+
+    /**
+     * @param _building gets removed from DataHashmap
+     * @return updated campusDataHashmap
+     */
+
     public void deleteBuildingFromCampus(Building _building) {
 
         this.campusBuildings.remove(_building);
         this.allCampusData.put(BUILDING, updateBuildingsAsStringsList());
         updateCampusDataHashmap();
-
     }
-    public void addBuildingToCampus(Building _building) {
 
-        if(this.campusBuildings == null)
-        {
-            this.campusBuildings = new ArrayList<>();
-        }
+    /**
+     * @param _building adds new Building to Campus
+     * @return updated campusDataHashmap
+     */
+
+    public void addBuildingToCampus(Building _building) {
 
         this.campusBuildings.add(_building);
         updateBuildingsAsStringsList();
         updateCampusDataHashmap();
     }
+
+
+    //updates the campusDataHashmap
 
     public void updateCampusDataHashmap() {
 
@@ -179,6 +241,9 @@ public class Campus{
         UpdatedCampusData.put(this.campusTitle,this.allCampusData);
         DataCollector.setCampusData(UpdatedCampusData);
     }
+
+    //updates the StringList of Buildings
+
     public List<String> updateBuildingsAsStringsList() {
 
         List <String> buildingsAsStrings = new ArrayList<>();
