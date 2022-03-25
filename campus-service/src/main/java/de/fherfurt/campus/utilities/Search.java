@@ -6,7 +6,8 @@ import java.util.*;
 
 import static de.fherfurt.campus.constants.Constants.*;
 /**
- * class responsible for user search for results, associated with main classes of the project: location, building, room
+ * @author Nikita Studenikin, nikita.studenikin@fh-erfurt.de
+ * class responsible for user search for results, associated with objects of the main classes: location, building, room
  */
 public class Search {
     // ----------------------------- METHODS ---------------------------------------- //

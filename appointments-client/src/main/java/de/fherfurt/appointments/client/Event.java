@@ -1,6 +1,7 @@
 package de.fherfurt.appointments.client;
 
 /**
+ * @author Nikita Studenikin, nikita.studenikin@fh-erfurt.de
  * class responsible for creating event objects, providing all necessary variables and methods for it
  */
 public class Event {

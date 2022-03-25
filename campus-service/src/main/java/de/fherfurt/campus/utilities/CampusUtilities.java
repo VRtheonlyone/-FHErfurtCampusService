@@ -10,6 +10,10 @@ import static de.fherfurt.campus.constants.Constants.*;
 import static de.fherfurt.campus.constants.Constants.ROOM;
 import java.util.*;
 
+/**
+ * @author Nikita Studenikin, nikita.studenikin@fh-erfurt.de
+ * class contains functions, which can be used overall the project
+ */
 public class CampusUtilities {
 
 
