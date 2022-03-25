@@ -26,14 +26,10 @@ public class RoomTest {
     private final List<DevPersonsService> Persons = new ArrayList<>();
     DevPersonsService Wolfgang = new DevPersonsService("Wolfgang", "Schmidt");
 
-    static List<Room> roomList = new ArrayList<>();
-    static List<Room> roomList1 = new ArrayList<>();
-    static List<Room> roomList2 = new ArrayList<>();
-
     String newTitle = "Room XYZ";
 
     Room MyRoom = new Room("Room1", 1, Persons, BuildingTest.Building1);
-    Room MyRoom1 = new Room("Room2");
+    Room MyRoom1 = new Room("Room2", BuildingTest.Building1);
 
 
     /**
@@ -110,6 +106,28 @@ public class RoomTest {
         assertEquals(MyRoom.getRoomID().toString(), DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(ID).get(0));
     }
 
+    /**
+     * Function to Test if Room receives an ID of a Room that already has this ID
+     */
+    @Test
+    @DisplayName("Setting existing ID should not happen")
+    void testSettingExistingID() {
+
+        //GIVEN
+        for(Room room : Room.getAllRoomsList())
+        {
+            if(room.getRoomID() == 2 && MyRoom.getRoomID() != 2) {
+
+                //WHEN
+                MyRoom.setIdForRoom(2);
+
+                //THEN
+                assertNotEquals(MyRoom.getRoomID(),2);
+                break;
+            }
+        }
+
+    }
 
     /**
      * Function to test setPersonsForRoom, getAllPersonsForThisRoom and getRoomTitle
@@ -154,14 +172,13 @@ public class RoomTest {
         assertTrue(DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(PERSONS).contains(Wolfgang.getFullName()));
     }
 
-
     /**
      * Function to test addPersonToThisRoom, getAllPersonsForThisRoom, deletePersonFromThisRoom and getRoomTitle
      */
     @Test
     @DisplayName("Deleting a person from the person list should work fine")
-    void testDeletingPersonFromRoom()
-    {
+    void testDeletingPersonFromRoom() {
+
         //GIVEN
         assertFalse(MyRoom.getAllPersonsForThisRoom().contains(Wolfgang));
         MyRoom.addPersonToThisRoom(Wolfgang);
@@ -178,24 +195,43 @@ public class RoomTest {
 
     }
 
-
     /**
      * Function to test getAllRoomsList, deleteRoomFromAllMapsAndLists and getRoomTitle
      */
     @Test
     @DisplayName("Deleting a room from Hashmaps should work.")
     void testDeletingRoomFromListsAndHashmaps() {
+
         //GIVEN
         assertTrue(DataCollector.getRoomData().containsKey(MyRoom.getRoomTitle()));
         assertTrue(Room.getRoomsWithPersons().containsKey(MyRoom));
         assertTrue(Room.getAllRoomsList().contains(MyRoom));
 
         //WHEN
-        Room.deleteRoomFromAllMapsAndLists(MyRoom);
+        MyRoom.deleteRoomFromAllMapsAndLists();
 
         //THEN
         assertFalse(DataCollector.getRoomData().containsKey(MyRoom.getRoomTitle()));
         assertFalse(Room.getRoomsWithPersons().containsKey(MyRoom));
         assertFalse(Room.getAllRoomsList().contains(MyRoom));
+    }
+
+    /**
+     * Function to Test function checkRoomExists
+     */
+    @Test
+    @DisplayName("Checking if a room exists should work")
+    void testCheckingIfRoomExists() {
+
+        //GIVEN
+        String searchedRoom = "Room3";
+        assertFalse(MyRoom.checkRoomExists(searchedRoom));
+
+        //WHEN
+        String searchedRoom1 = "Room1";
+
+        //THEN
+        assertTrue(MyRoom.checkRoomExists(searchedRoom1));
+
     }
 }

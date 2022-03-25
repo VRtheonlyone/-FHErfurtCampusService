@@ -1,5 +1,4 @@
  package de.fherfurt.campus;
-
 import de.fherfurt.appointments.client.Event;
 import de.fherfurt.campus.main.Campus;
 import de.fherfurt.campus.main.Building;
@@ -24,18 +23,18 @@ import java.util.List;
      static List<Building> buildingList1 = new ArrayList<>();
      static List<Building> buildingList2 = new ArrayList<>();
 
-     static Building Building1 = new Building("Haus 1");
-     static Building Building2 = new Building("Haus 2");
-     static Building Building3 = new Building("Haus 3");
-
-     static Room myRoom = new Room("Room 1");
-     static Room myRoom1 = new Room("Room 2");
-     static Room myRoom2 = new Room("Room 3");
-     static Room myRoom3 = new Room("Room 4");
-
      private static List<Room> Rooms = new ArrayList<>();
      private static List<Event> Events = new ArrayList<>();
      private static List<Building.BuildingTypes> Types = new ArrayList<>();
+
+     static Building Building1 = new Building("Haus 1",Campus.Leipziger);
+     static Building Building2 = new Building(true,"Haus 2",Rooms,Types,Campus.Schlueter);
+     static Building Building3 = new Building("Haus 3",Campus.Altonaer);
+
+     static Room myRoom = new Room("Room 1", Building1);
+     static Room myRoom1 = new Room("Room 2",Building2);
+     static Room myRoom2 = new Room("Room 3",Building3);
+     static Room myRoom3 = new Room("Room 4",Building2);
 
      public static void addingBuildingsToBuildingLists() {
 
@@ -90,13 +89,13 @@ import java.util.List;
      void testSetCampusForBuilding() {
 
          //GIVEN
-         assertNotEquals(Building1.getAffiliation(),Campus.Schlueter);
+         assertNotEquals(Building1.getAffiliation(),Campus.Leipziger);
 
          //WHEN
-         Building1.setAffiliationForBuilding(Campus.Schlueter);
+         Building1.setAffiliationForBuilding(Campus.Leipziger);
 
          //THEN
-         assertEquals(Building1.getAffiliation(), Campus.Schlueter);
+         assertEquals(Building1.getAffiliation(), Campus.Leipziger);
          assertEquals(Building1.getAffiliation().toString(), DataCollector.getBuildingData().get(Building1.getTitle()).get(CAMPUS_AFFILIATION).get(0));
      }
 
@@ -148,6 +147,7 @@ import java.util.List;
      @Test
      @DisplayName("Deleting Building from Hashmaps should work")
      void testDeleteBuildingFromHashmaps() {
+
          //GIVEN
          addingRoomsToRoomsList();
          Building1.setRoomsForBuilding(Rooms);

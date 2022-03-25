@@ -1,5 +1,6 @@
 package de.fherfurt.campus.main;
 
+import de.fherfurt.campus.client.CampusForPersonsClient;
 import de.fherfurt.campus.utilities.CampusUtilities;
 import de.fherfurt.persons.client.DevPersonsService;
 import de.fherfurt.appointments.client.*;
@@ -14,7 +15,7 @@ import static de.fherfurt.campus.constants.Constants.*;
  */
 
 
-public class Room implements EventsSetter {
+public class Room implements EventsSetter, CampusForPersonsClient {
 
     /**
      * @param id is the unique key to identify a specific room
@@ -56,7 +57,7 @@ public class Room implements EventsSetter {
         setPersonsForRoom (roomPersons);
         setAffiliationForRoom (affiliatedBuilding);
         setRoomsWithPersonsHashmap();
-        addRoomToAllRoomsList(this);
+        addRoomToAllRoomsList();
     }
 
 
@@ -66,15 +67,20 @@ public class Room implements EventsSetter {
     public Room(String roomTitle, Integer floorNumber, Building affiliatedBuilding) {
 
         roomCounter += 1;
-        this.id = roomCounter;
 
         setTitleForRoom (roomTitle);
         setFloorForRoom (floorNumber);
         setAffiliationForRoom (affiliatedBuilding);
         setIdForRoom(this.id);
-        addRoomToAllRoomsList(this);
+        addRoomToAllRoomsList();
     }
-    public Room(String roomTitle){}
+    public Room(String roomTitle, Building affiliatedBuilding){
+
+        roomCounter += 1;
+        setIdForRoom(this.id);
+        setAffiliationForRoom(affiliatedBuilding);
+        setTitleForRoom(roomTitle);
+    }
 
 
     /**
@@ -201,30 +207,33 @@ public class Room implements EventsSetter {
     /**
      * delete function to delete the room form all hashmaps the room is marked
      */
-    public static void deleteRoomFromAllMapsAndLists(Room roomToBeDeleted) {
+    public  void deleteRoomFromAllMapsAndLists() {
+        Map<String, Map<String, List<String>>> UpdatedRoomHashmap = DataCollector.getRoomData();
+        Map<String, Map<String, List<String>>> UpdatedBuildingHashmap = DataCollector.getBuildingData();
+
         for (String room :DataCollector.getRoomData().keySet())
         {
-            if(roomToBeDeleted.getRoomTitle().equals(room))
+            if(this.getRoomTitle().equals(room))
             {
-                Map<String, Map<String, List<String>>> UpdatedRoomHashmap = DataCollector.getRoomData();
-                UpdatedRoomHashmap.remove(roomToBeDeleted.title);
-                DataCollector.setRoomData(UpdatedRoomHashmap);
+                UpdatedRoomHashmap.remove(this.title);
+                break;
             }
         }
+        DataCollector.setRoomData(UpdatedRoomHashmap);
 
-        for (String building : DataCollector.getBuildingData().keySet())
-        {
-            if(DataCollector.getBuildingData().get(building).get(ROOM).contains(roomToBeDeleted.title))
-            {
-                Map<String, Map<String, List<String>>> UpdatedBuildingHashmap = DataCollector.getBuildingData();
-                UpdatedBuildingHashmap.get(building).get(ROOM).remove(roomToBeDeleted.title);
-                DataCollector.setRoomData(UpdatedBuildingHashmap);
+        for (String building : DataCollector.getBuildingData().keySet()) {
+            if (DataCollector.getBuildingData().get(building).containsKey(ROOM)){
+                if (DataCollector.getBuildingData().get(building).get(ROOM).contains(this.getRoomTitle())) {
+
+                    UpdatedBuildingHashmap.get(building).get(ROOM).remove(this.getRoomTitle());
+                    break;
+                }
             }
         }
+        DataCollector.setRoomData(UpdatedBuildingHashmap);
 
-        roomsWithPersons.remove(roomToBeDeleted);
-        allRoomsList.remove(roomToBeDeleted);
-
+        roomsWithPersons.remove(this);
+        allRoomsList.remove(this);
     }
 
 
@@ -270,11 +279,29 @@ public class Room implements EventsSetter {
         setRoomsWithPersonsHashmap();
     }
 
+    /**
+     *
+     * @param searchedRoom = search String entered
+     * @return boolean --> true if searched Room Title exists, false if it does not
+     */
+    @Override
+    public boolean checkRoomExists(String searchedRoom)
+    {
+        for(Room existingRoom : allRoomsList)
+        {
+            if (Objects.equals(searchedRoom,existingRoom.getRoomTitle()))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * adds a room to the hashmap which contains all rooms
      */
-    public void addRoomToAllRoomsList(Room room){
+    public void addRoomToAllRoomsList(){
 
         allRoomsList.add(this);
     }
@@ -304,6 +331,7 @@ public class Room implements EventsSetter {
 
         Map<String, Map<String, List<String>>> UpdatedRoomData = DataCollector.getRoomData();
         UpdatedRoomData.put(this.title,this.allRoomData);
+        UpdatedRoomData.remove(null);
         DataCollector.setRoomData(UpdatedRoomData);
     }
 

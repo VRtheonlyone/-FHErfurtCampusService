@@ -5,8 +5,8 @@ import static de.fherfurt.campus.constants.Constants.*;
 
 /**
  *  @author Helen Laible helen.laible@fh-erfurt.de
- *
- *
+ * This Class consists of the three preconfigured instances of a Campus: Altonaer, Schlueter, Leipziger
+ * It is the biggest category of Locations and all Buildings must be associated with exactly one of these campuses
  */
 
 public class Campus{
@@ -22,10 +22,9 @@ public class Campus{
             public String toString() {return "Altonaer Strasse";}
             };
 
-
         /**
          * @param CampusName is used to get geoLocation
-         * @return geoLocation
+         * @return geoLocation coordinates
          */
 
         public String getGeoLocation (CampusNames CampusName)
@@ -72,7 +71,7 @@ public class Campus{
     private static final Campus dummyCampus = new Campus();
     private static final List<Building> dummyBuildingList = new ArrayList<>();
 
-    private Campus(){};
+    private Campus(){}
     private Campus(CampusNames campusTitle, String campusGeoLocation, String googleMapsLink) {
         setIdForCampus(campusCounter+1);
         setTitleForCampus(campusTitle.toString());
@@ -85,6 +84,20 @@ public class Campus{
             Campus createdCampus = new Campus(createdCampusName, createdCampusName.getGeoLocation(createdCampusName), createdCampusName.getGoogleMapsLink(createdCampusName));
             campusCounter += 1;
             allCampuses.add(createdCampus);
+
+            List<String> titleList = new ArrayList<>();
+            List<String> geolocationList = new ArrayList<>();
+            List<String> googleMapsLinkList = new ArrayList<>();
+
+            titleList.add(createdCampus.getCampusTitle());
+            geolocationList.add(createdCampus.getCampusGeoLocation());
+            googleMapsLinkList.add(createdCampus.getGoogleMapsLink());
+
+            createdCampus.allCampusData.put(TITLE, titleList);
+            createdCampus.allCampusData.put(GEOLOCATION, geolocationList);
+            createdCampus.allCampusData.put(GOOGLE_MAPS_LINK, googleMapsLinkList);
+            createdCampus.updateCampusDataHashmap();
+
             return (createdCampus);
         }
 
@@ -132,6 +145,12 @@ public class Campus{
 
     public void setGoogleMapsLink(String googleMapsLink) {
         this.googleMapsLink = googleMapsLink;
+
+        List<String> campusMapsLink = new ArrayList<>();
+        campusMapsLink.add(googleMapsLink);
+
+        this.allCampusData.put(GOOGLE_MAPS_LINK, campusMapsLink);
+        updateCampusDataHashmap();
     }
 
     /**
@@ -149,7 +168,7 @@ public class Campus{
     }
 
     /**
-     * @param campusBuildings sets all Buildings from a Campus and adds them to Array List
+     * @param campusBuildings sets all Buildings from a Campus and adds them to the String List
      */
 
     public void setBuildingsForCampus (List<Building> campusBuildings) {
@@ -158,8 +177,6 @@ public class Campus{
         updateBuildingsAsStringsList();
         updateCampusDataHashmap();
     }
-
-
 
     public String getGoogleMapsLink() {return Objects.requireNonNullElse(this.googleMapsLink, "");}
     public Integer getCampusID() {return Objects.requireNonNullElse(this.campusID, 0);}
@@ -170,10 +187,10 @@ public class Campus{
     }
 
     public List<Building> getCampusBuildings () {return Objects.requireNonNullElse(this.campusBuildings, initializeAndGetDummyCampusBuildings());}
-    public List<String> getCampusBuildingsAsStrings(){return this.campusBuildingsAsStrings;};
-    public static List<Campus> getAllCampuses(){return Objects.requireNonNullElse (allCampuses, dummyCampusList);};
-    public static Integer getCampusCounter(){return campusCounter;};
-    public static List<Campus> getDummyCampusList(){return dummyCampusList;};
+    public List<String> getCampusBuildingsAsStrings(){return this.campusBuildingsAsStrings;}
+    public static List<Campus> getAllCampuses(){return Objects.requireNonNullElse (allCampuses, dummyCampusList);}
+    public static Integer getCampusCounter(){return campusCounter;}
+    public static List<Campus> getDummyCampusList(){return dummyCampusList;}
 
     public static final Campus Schlueter = getInstance();
     public static final Campus Leipziger = getInstance();
@@ -193,10 +210,10 @@ public class Campus{
             {
                 return true;
             }
-        };
+        }
 
         return false;
-    };
+    }
 
 
     /**

@@ -73,8 +73,13 @@ public class Building implements EventsSetter {
         setAccessibilityForBuilding(accessibility);
         setIDForBuilding(buildingCounter);
     }
-    public Building(String buildingTitle){}
-    public Building(){}
+    public Building(String buildingTitle, Campus campusAffiliation){
+        buildingCounter += 1 ;
+        setIDForBuilding(buildingCounter);
+        setAffiliationForBuilding(campusAffiliation);
+        setTitleForBuilding(buildingTitle);
+    }
+    private Building(){}
 
     public void setTitleForBuilding (String title) {
 
@@ -155,13 +160,14 @@ public class Building implements EventsSetter {
 
     public void deleteBuildingFromHashmaps(){
 
+        Map<String, Map<String, List<String>>> updatedBuildingHashmap = DataCollector.getBuildingData();
         for (String building : DataCollector.getBuildingData().keySet()) {
             if (Objects.equals(this.title, building)) {
-                Map<String, Map<String, List<String>>> updatedBuildingHashmap = DataCollector.getBuildingData();
                 updatedBuildingHashmap.remove(this.title);
-                DataCollector.setBuildingData(updatedBuildingHashmap);
+                break;
             }
         }
+        DataCollector.setBuildingData(updatedBuildingHashmap);
         this.campusAffiliation.deleteBuildingFromCampus(this);
 
         for(Room buildingRoom : this.rooms){
@@ -202,6 +208,7 @@ public class Building implements EventsSetter {
 
         Map<String, Map<String, List<String>>> updatedBuildingDataHashmap = DataCollector.getBuildingData();
         updatedBuildingDataHashmap.put(this.title, this.allBuildingData);
+        updatedBuildingDataHashmap.remove(null);
         DataCollector.setBuildingData(updatedBuildingDataHashmap);
     }
     public void updateRoomsAsStringsList(){

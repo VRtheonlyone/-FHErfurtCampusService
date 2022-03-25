@@ -1,6 +1,7 @@
 package de.fherfurt.campus.utilities;
 
 import de.fherfurt.campus.main.Campus;
+import de.fherfurt.campus.main.DataCollector;
 
 import java.awt.Desktop;
 import java.io.IOException;
@@ -16,7 +17,9 @@ import java.util.Scanner;
  **/
 
 public class Browser {
-
+    /**
+     * function to print out the campus choices for the user
+     */
     public static void printChooseCampusID() {
 
         System.out.println("To which Campus do you want to be navigated?");
@@ -24,10 +27,18 @@ public class Browser {
         System.out.printf("Enter 2 for %s\n", Campus.CampusNames.values()[1]);
         System.out.printf("Enter 3 for %s\n", Campus.CampusNames.values()[2]);
     }
+
+    /**
+     * function to notify the user to enter a valid number
+     */
     public static void printChooseValidId() {
 
         System.out.println("Please enter a valid number!");
     }
+
+    /**
+     * function to get the link associated with the chosen Campus ID
+     */
     public static String getLinkAccordingToID() {
 
         Scanner scanner = new Scanner(System.in);
@@ -52,6 +63,10 @@ public class Browser {
             }
             return url;
         }
+
+    /**
+     * function to open the main Browser of the user and show him the geographical location of the chosen campus
+     */
     public static void openBrowserLink() {
 
         String url = getLinkAccordingToID();
@@ -61,7 +76,6 @@ public class Browser {
         try {
             desktop.browse(new URI(url));
         } catch (IOException | URISyntaxException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -70,7 +84,6 @@ public class Browser {
         try {
             runtime.exec("xdg-open " + url);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }}

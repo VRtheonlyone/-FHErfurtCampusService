@@ -28,7 +28,7 @@ public class Search {
             switch (searchFilter) {
                 case ROOM -> searchList = getRoomAssoc(userInput);
                 case BUILDING -> searchList = getBuildingAssoc(userInput);
-                case LOCATION -> searchList = getCampusAssoc(userInput);
+                case CAMPUS -> searchList = getCampusAssoc(userInput);
             }
         }
         else {
@@ -37,8 +37,6 @@ public class Search {
 
         return searchList;
     }
-
-    public static final String NO_SEARCH_PATTERN = "No search Pattern found!";
 
 
     // ________________________________________________________________________

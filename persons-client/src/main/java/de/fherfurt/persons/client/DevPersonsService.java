@@ -2,6 +2,12 @@ package de.fherfurt.persons.client;
 
 import java.util.List;
 
+/**
+ * @author Vadim Rodt, vadim.rodt@fh-erfurt.de
+ * An individualised Person Class that includes the functions defined in the PeronsClient interface
+ * This class is used heavily by the Room class which tracks Rooms to which certain persons belong
+ */
+
 public class DevPersonsService implements PersonsClient {
 
     private static List<DevPersonsService> persons;
@@ -20,7 +26,6 @@ public class DevPersonsService implements PersonsClient {
         DevPersonsService.persons = persons;
     }
 
-
     @Override
     public DevPersonsService findPersonUsingIteratorBy(int personID)
     {
@@ -32,7 +37,7 @@ public class DevPersonsService implements PersonsClient {
             }
         }
         return null;
-    };
+    }
 
     @Override
     public byte[] findPersonAvatarBy(int personId) {

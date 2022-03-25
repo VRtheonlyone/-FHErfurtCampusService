@@ -37,7 +37,7 @@ public class CampusUtilities {
                                 someEvent.getValue().get(EVENT_START_DATE),
                                 someEvent.getValue().get(EVENT_END_DATE),
                                 someEvent.getValue().get(EVENT_TITLE),
-                                someEvent.getValue().get(LOCATION),
+                                someEvent.getValue().get(CAMPUS),
                                 someEvent.getValue().get(BUILDING),
                                 someEvent.getValue().get(ROOM));
 
