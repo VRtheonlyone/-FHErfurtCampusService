@@ -281,6 +281,10 @@ public class Room implements EventsSetter {
         allRoomsList.add(this);
     }
 
+
+    /**
+     * search for a room of a specific person
+     */
     public static Room searchForRoomOfPerson(DevPersonsService person) {
 
             for (Map.Entry<Room, List <DevPersonsService>> entry : roomsWithPersons.entrySet())
@@ -293,6 +297,11 @@ public class Room implements EventsSetter {
 
             return null;
     }
+
+
+    /**
+     * function to update the hashmaps
+     */
     public void updateRoomDataHashmap() {
 
         Map<String, Map<String, List<String>>> UpdatedRoomData = DataCollector.getRoomData();
