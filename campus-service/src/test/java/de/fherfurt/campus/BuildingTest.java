@@ -25,8 +25,6 @@ import java.util.List;
      static Building Building2 = new Building("Haus 2");
      static Building Building3 = new Building("Haus 3");
 
-
-
      static Room myRoom = new Room("Room 1");
      static Room myRoom1 = new Room("Room 2");
      static Room myRoom2 = new Room("Room 3");
@@ -52,11 +50,11 @@ import java.util.List;
          Types.add(Building.BuildingTypes.EDUCATION);
      }
 
-     Event myEvent = new Event("12.12.22", "15.12.22", "Birthday Party", Campus.CampusNames.SCHLUETER.toString(), Building1.getTitle(), myRoom.getRoomTitle());
+     public static Event myEvent = new Event("12.12.22", "15.12.22", "Birthday Party", Campus.CampusNames.SCHLUETER.toString(), Building1.getTitle(), myRoom.getRoomTitle());
 
 
      @Test
-     @DisplayName("Setting and Getting BuildingTypes for Building should Work")
+     @DisplayName("Setting and Getting BuildingTypes for Building should work")
      void addingBuildingTypeToList() {
 
          //GIVEN
@@ -65,14 +63,13 @@ import java.util.List;
          //WHEN
          Building1.addBuildingType(Building.BuildingTypes.EDUCATION);
 
-
          //THEN
          assertEquals(Types, Building1.getType());
          assertEquals(Building1.getType().get(0).toString(), DataCollector.getBuildingData().get(Building1.getTitle()).get(TYPES).get(0));
      }
 
      @Test
-     @DisplayName("Setting and Getting Rooms for Building should Work")
+     @DisplayName("Setting and Getting Rooms for Building should work")
      void testSetRoomsForBuilding() {
 
          //GIVEN
@@ -87,7 +84,7 @@ import java.util.List;
      }
 
      @Test
-     @DisplayName("Setting and Getting Campus Affiliation for Building should Work")
+     @DisplayName("Setting and Getting Campus Affiliation for Building should work")
      void testSetCampusForBuilding() {
 
          //GIVEN
@@ -99,22 +96,6 @@ import java.util.List;
          //THEN
          assertEquals(Building1.getAffiliation(), Campus.Schlueter);
          assertEquals(Building1.getAffiliation().toString(), DataCollector.getBuildingData().get(Building1.getTitle()).get(CAMPUS_AFFILIATION).get(0));
-     }
-
-     @Test
-     @DisplayName("Setting and Getting Event should work")
-     void testSetEventForBuilding() {
-
-         //GIVEN
-         Events.add(myEvent);
-         assertNotEquals(Building1.getEvents(), Events);
-
-         //WHEN
-         Building1.setEventForBuilding(Events);
-
-         //THEN
-         assertEquals(Building1.getEvents(), Events);
-         assertEquals(Building1.getEvents().get(0).toString(), DataCollector.getBuildingData().get(Building1.getTitle()).get(EVENTS).get(0));
      }
 
      @Test

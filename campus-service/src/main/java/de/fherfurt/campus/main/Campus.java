@@ -99,7 +99,7 @@ public class Campus{
         GeoLocation.add(campusGeoLocation);
 
         this.allCampusData.put(GEOLOCATION, GeoLocation);
-        DataCollector.getCampusData().put(campusGeoLocation, this.allCampusData);
+        updateCampusDataHashmap();
     }
     public void setGoogleMapsLink(String googleMapsLink) {
         this.googleMapsLink = googleMapsLink;

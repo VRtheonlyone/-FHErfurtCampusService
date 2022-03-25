@@ -49,7 +49,6 @@ public class Building implements EventsSetter {
     private static List<Building> allBuildings = new ArrayList<>();
     public static final Building dummyBuilding = new Building();
 
-
     public Building(boolean accessibility, String buildingTitle, List<Room> buildingRooms, List<BuildingTypes> buildingType, Campus campusAffiliation) {
 
         buildingCounter += 1 ;
@@ -126,18 +125,6 @@ public class Building implements EventsSetter {
         Affiliation.add(campusAffiliation.toString());
 
         this.allBuildingData.put(CAMPUS_AFFILIATION,Affiliation);
-        updateBuildingDataHashmap();
-    }
-    public void setEventForBuilding(List<Event> buildingEvents) {
-
-        this.events = buildingEvents;
-        List<String> eventListForBuilding = new ArrayList<>();
-
-        for (Event event : buildingEvents) {
-            eventListForBuilding.add(event.getTitle());
-        }
-
-        this.allBuildingData.put(EVENTS, eventListForBuilding);
         updateBuildingDataHashmap();
     }
     @Override

@@ -83,7 +83,7 @@ public class Room implements EventsSetter {
 
         for(DevPersonsService person : roomPersons) {
 
-            personTitle.add(String.valueOf(person));
+            personTitle.add(person.getFullName());
         }
 
         this.allRoomData.put(PERSONS, personTitle);
@@ -100,7 +100,6 @@ public class Room implements EventsSetter {
     }
     public void setIdForRoom(Integer roomID) {
         for (Room room : allRoomsList){
-
             if(Objects.equals(room.getRoomID(), roomID)){return;}
         }
 
@@ -111,45 +110,28 @@ public class Room implements EventsSetter {
         this.allRoomData.put(ID,IDs);
         updateRoomDataHashmap();
     }
-    public void setAllPersonsForThisRoom(List<DevPersonsService> allPersonsForThisRoom) {
-        this.allPersonsForThisRoom = allPersonsForThisRoom;
-
-        List<String> personsAsStrings = new ArrayList<>();
-
-            for(DevPersonsService person : this.allPersonsForThisRoom)
-            {
-                personsAsStrings.add(person.getFullName());
-            }
-
-        this.allRoomData.put(PERSONS,personsAsStrings);
-        setRoomsWithPersonsHashmap();
-        updateRoomDataHashmap();
-    }
 
     @Override
     public void setEvents() {
         CampusUtilities.setClassEvents(ROOM, this.getRoomTitle(), Collections.singletonList(this.roomEvents));
     }
-    public List<Event> getEvents()
-    {
-        return this.roomEvents;
-    }
+    public List<Event> getEvents() {return this.roomEvents;}
 
     public Integer getRoomID() {return this.id;}
     public String getRoomTitle() {return this.title;}
     public Integer getFloorNumber() {return this.floor;}
     public Building getBuildingAffiliation() {return this.buildingAffiliation;}
-    public List<Room> getRoomList() {return allRoomsList;}
     public List<DevPersonsService> getAllPersonsForThisRoom() {
         return allPersonsForThisRoom;
     }
+    public static List<Room> getAllRoomsList() {return allRoomsList;}
     public static HashMap<Room, List <DevPersonsService>> getRoomsWithPersons(){return roomsWithPersons;}
     public static List <DevPersonsService> getAllPersonsWithRoom (){
 
         return allPersonsWithRoom;
     }
 
-    public static void deleteRoom(Room roomToBeDeleted) {
+    public static void deleteRoomFromAllMapsAndLists(Room roomToBeDeleted) {
         for (String room :DataCollector.getRoomData().keySet())
         {
             if(roomToBeDeleted.getRoomTitle().equals(room))
@@ -170,15 +152,8 @@ public class Room implements EventsSetter {
             }
         }
 
-        for(Room roomInAllRooms : allRoomsList)
-        {
-            if (Objects.equals(roomInAllRooms, roomToBeDeleted)) {
-                roomToBeDeleted = null;
-                break;
-            }
-        }
-
-       roomsWithPersons.remove(roomToBeDeleted);
+        roomsWithPersons.remove(roomToBeDeleted);
+        allRoomsList.remove(roomToBeDeleted);
 
     }
     public void deletePersonFromThisRoom(DevPersonsService person) {
@@ -214,7 +189,7 @@ public class Room implements EventsSetter {
         updateRoomDataHashmap();
         setRoomsWithPersonsHashmap();
     }
-    public void addRoomToAllRoomsList(Room thisRoom){
+    public void addRoomToAllRoomsList(Room room){
 
         allRoomsList.add(this);
     }
