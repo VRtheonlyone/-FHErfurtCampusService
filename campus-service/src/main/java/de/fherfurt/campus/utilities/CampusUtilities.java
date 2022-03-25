@@ -10,9 +10,6 @@ import static de.fherfurt.campus.constants.Constants.*;
 import static de.fherfurt.campus.constants.Constants.ROOM;
 import java.util.*;
 
-/**
- * class responsible for functions, which can be usen around the project
- */
 public class CampusUtilities {
 
 

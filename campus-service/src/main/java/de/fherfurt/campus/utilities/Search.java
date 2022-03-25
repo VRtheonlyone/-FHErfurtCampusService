@@ -5,22 +5,29 @@ import java.lang.*;
 import java.util.*;
 
 import static de.fherfurt.campus.constants.Constants.*;
-
+/**
+ * class responsible for user search for results, associated with main classes of the project: location, building, room
+ */
 public class Search {
-
-
     // ----------------------------- METHODS ---------------------------------------- //
 
-    // Mother function, which gets the input from the user and calls the search function
-    public static List<String> searchForResults(String _userInput, String _searchFilter) {
+
+    /**
+     * Mother function, which gets the input from the user and calls the search function
+     *
+     * @param userInput     the search input of the user
+     * @param searchFilter  filter of the search, which shall be implemented
+     * @return              the results, based on filters
+     */
+    public static List<String> searchForResults(String userInput, String searchFilter) {
 
         List<String> searchList = new ArrayList<>();
 
-        if (_userInput.length() != 0) {
-            switch (_searchFilter) {
-                case ROOM -> searchList = getRoomAssoc(_userInput);
-                case BUILDING -> searchList = getBuildingAssoc(_userInput);
-                case LOCATION -> searchList = getCampusAssoc(_userInput);
+        if (userInput.length() != 0) {
+            switch (searchFilter) {
+                case ROOM -> searchList = getRoomAssoc(userInput);
+                case BUILDING -> searchList = getBuildingAssoc(userInput);
+                case LOCATION -> searchList = getCampusAssoc(userInput);
             }
         }
         else {
@@ -31,28 +38,36 @@ public class Search {
     }
 
     public static final String NO_SEARCH_PATTERN = "No search Pattern found!";
+
+
     // ________________________________________________________________________
     // THIS IS THE SEARCH FUNCTIONS AREA
     // ________________________________________________________________________
 
-    // this function returns the values from the db, which are associated with Buildings
-    public static List<String> getBuildingAssoc(String _searchQuery) {
 
-        // will be out final output
+    /**
+     * this function returns the values from the db, which are associated with Buildings
+     *
+     * @param searchQuery   the search input of the user
+     * @return              results, associated with the search input
+     */
+    public static List<String> getBuildingAssoc(String searchQuery) {
+
+        /* will be out final output */
         List<String> results = new ArrayList<>();
 
-        // for each building in the Building Data Hashmap
+        /* for each building in the Building Data Hashmap */
         for (String building : DataCollector.getBuildingData().keySet()) {
 
-            // If a building was found that matches the search string
-            if(Objects.equals(building, _searchQuery)) {
+            /* If a building was found that matches the search string */
+            if(Objects.equals(building, searchQuery)) {
 
-                // Add all the information associated with the key to the string List
-                for (String Key : DataCollector.getBuildingData().get(_searchQuery).keySet()){
+                /* Add all the information associated with the key to the string List */
+                for (String Key : DataCollector.getBuildingData().get(searchQuery).keySet()){
 
-                    if (DataCollector.getBuildingData().get(_searchQuery).get(Key) != null) {
+                    if (DataCollector.getBuildingData().get(searchQuery).get(Key) != null) {
 
-                        results.addAll(DataCollector.getBuildingData().get(_searchQuery).get(Key));
+                        results.addAll(DataCollector.getBuildingData().get(searchQuery).get(Key));
                     }
                 }
             }
@@ -64,23 +79,29 @@ public class Search {
         return results;
     }
 
-    // this function returns the values from the db, which are associated with Locations
-    public static List<String> getCampusAssoc(String _searchQuery) {
 
-        // Dummy List
+    /**
+     * this function returns the values from the db, which are associated with Locations
+     *
+     * @param searchQuery   the search input of the user
+     * @return              results, associated with the search input
+     */
+    public static List<String> getCampusAssoc(String searchQuery) {
+
+        /* Dummy List */
         List<String> results = new ArrayList<>();
 
-        // for each Campus in the CampusData Hashmap
+        /* for each Campus in the CampusData Hashmap */
         for (String campus : DataCollector.getCampusData().keySet()) {
 
-            // If a campus was found that matches the search string
-            if(Objects.equals(campus, _searchQuery)) {
+            /* If a campus was found that matches the search string */
+            if(Objects.equals(campus, searchQuery)) {
 
-                // Add all the information associated with the key to the string List
-                for (String Key : DataCollector.getCampusData().get(_searchQuery).keySet()) {
+                /* Add all the information associated with the key to the string List */
+                for (String Key : DataCollector.getCampusData().get(searchQuery).keySet()) {
 
-                    if (DataCollector.getCampusData().get(_searchQuery).get(Key) != null) {
-                        results.addAll(DataCollector.getCampusData().get(_searchQuery).get(Key));
+                    if (DataCollector.getCampusData().get(searchQuery).get(Key) != null) {
+                        results.addAll(DataCollector.getCampusData().get(searchQuery).get(Key));
                     }
                 }
             }
@@ -92,23 +113,29 @@ public class Search {
         return results;
     }
 
-    // this function returns the values from the db, which are associated with Rooms
-    public static List<String> getRoomAssoc(String _searchQuery) {
 
-        // Dummy List
+    /**
+     * this function returns the values from the db, which are associated with Rooms
+     *
+     * @param searchQuery   the search input of the user
+     * @return              results, associated with the search input
+     */
+    public static List<String> getRoomAssoc(String searchQuery) {
+
+        /* Dummy List */
         List<String> results = new ArrayList<>();
 
-        // for each building in the Building Data Hashmap
+        /* for each building in the Building Data Hashmap */
         for (String room : DataCollector.getRoomData().keySet()) {
 
-            // If a building was found that matches the search string
-            if(Objects.equals(room, _searchQuery)) {
+            /* If a building was found that matches the search string */
+            if(Objects.equals(room, searchQuery)) {
 
-                // Add all the information associated with the key to the string List
-                for (String Key : DataCollector.getRoomData().get(_searchQuery).keySet()) {
+                /* Add all the information associated with the key to the string List */
+                for (String Key : DataCollector.getRoomData().get(searchQuery).keySet()) {
 
-                    if (DataCollector.getRoomData().get(_searchQuery).get(Key) != null) {
-                        results.addAll(DataCollector.getRoomData().get(_searchQuery).get(Key));
+                    if (DataCollector.getRoomData().get(searchQuery).get(Key) != null) {
+                        results.addAll(DataCollector.getRoomData().get(searchQuery).get(Key));
                     }
                 }
             }
