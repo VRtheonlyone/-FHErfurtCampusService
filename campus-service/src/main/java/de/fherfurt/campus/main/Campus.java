@@ -1,12 +1,12 @@
 package de.fherfurt.campus.main;
 import java.util.*;
 
-
-
 import static de.fherfurt.campus.constants.Constants.*;
 
 /**
  *  @author Helen Laible helen.laible@fh-erfurt.de
+ *
+ *
  */
 
 public class Campus{
@@ -57,14 +57,12 @@ public class Campus{
             return googleMapsLink;
         }
     }
-
-
     private Integer campusID;
     private String campusGeoLocation;
     private String campusTitle;
     private String googleMapsLink;
-    private List<Building> campusBuildings;
-    private List<String> campusBuildingsAsStrings;
+    private List<Building> campusBuildings = new ArrayList<>();
+    private List<String> campusBuildingsAsStrings = new ArrayList<>();
     private Map<String, List<String>> allCampusData = new HashMap<>();
 
     private static Integer campusCounter = 0;

@@ -6,6 +6,12 @@ import static de.fherfurt.campus.constants.Constants.*;
 import de.fherfurt.appointments.client.*;
 import de.fherfurt.campus.utilities.CampusUtilities;
 
+/**
+ * @author Vadim Rodt, vadim.rodt@fh-erfurt.de
+ * The Building class creates instances of Buildings that are connected to Rooms and the Campus that they are located in
+ * It includes various attributes and functions to manipulate these attributes. Whenever attributes are manipulated, the data in the DataCollector Hashmaps are also manipulated.
+ */
+
 public class Building implements EventsSetter {
 
     public enum BuildingTypes {
@@ -207,12 +213,5 @@ public class Building implements EventsSetter {
         }
         this.allBuildingData.put(ROOM, roomsAsStrings);
     }
-
-
-
-
-
-
-
 }
 

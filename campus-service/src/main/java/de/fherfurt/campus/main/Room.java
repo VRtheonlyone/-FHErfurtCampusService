@@ -7,7 +7,6 @@ import de.fherfurt.appointments.client.*;
 import java.util.*;
 import static de.fherfurt.campus.constants.Constants.*;
 
-
 /**
  * @author Jann Lucas Pischke, jann.pischke@fh-erfurt.de
  * The Room class defines a room and stashes it into a hashmap
@@ -42,7 +41,6 @@ public class Room implements EventsSetter {
     private static HashMap<Room, List <DevPersonsService>> roomsWithPersons = new HashMap<>();
     private static Integer roomCounter = 0;
     private static List<Room> allRoomsList = new ArrayList<>();
-
 
     /**
      * constructor for the room

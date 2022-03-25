@@ -6,6 +6,9 @@ import de.fherfurt.campus.main.DataCollector;
 import org.junit.jupiter.api.*;
 import de.fherfurt.campus.main.Campus;
 import org.junit.jupiter.api.Test;
+/**
+* @author Vadim Rodt, fh-erfurt.de
+ */
 
 public class CampusTest {
 

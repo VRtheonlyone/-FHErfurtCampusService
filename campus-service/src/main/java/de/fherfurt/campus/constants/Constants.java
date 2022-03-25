@@ -8,7 +8,6 @@ public class Constants {
     public static final String FLOOR = "Floor";
     public static final String EVENTS ="Events";
     public static final String GEOLOCATION = "Geolocation";
-    public static final String ADDRESS = "Address";
     public static final String ID = "ID";
     public static final String ACCESSIBILITY = "Accessibility";
     public static final String TITLE = "Title";

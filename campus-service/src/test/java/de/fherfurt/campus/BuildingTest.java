@@ -15,6 +15,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+ /**
+  * @author Vadim Rodt, vadim.rodt@fh-erfurt.de
+  */
  class BuildingTest {
 
      static List<Building> buildingList = new ArrayList<>();
@@ -51,7 +54,6 @@ import java.util.List;
      }
 
      public static Event myEvent = new Event("12.12.22", "15.12.22", "Birthday Party", Campus.CampusNames.SCHLUETER.toString(), Building1.getTitle(), myRoom.getRoomTitle());
-
 
      @Test
      @DisplayName("Setting and Getting BuildingTypes for Building should work")

@@ -8,6 +8,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+/**
+ * @author Vadim Rodt, vadim.rodt@fh-erfurt.de
+ * The Browser class will later be used to navigate users to the Campus that they have chosen on the UI.
+ * For now, it gets a user input value between 1 and 3 to navigate to one of the three campuses.
+ * Then the main browser of the user is opened with a link to the address of the Campus.
+ **/
 
 public class Browser {
 

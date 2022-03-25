@@ -1,4 +1,4 @@
-/** package de.fherfurt.campus;
+/* package de.fherfurt.campus;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,7 +36,7 @@ public class SearchTest {
 
         String SearchBuilding = "Haus 1";
 
-        for (String Key : Collector.BuildingData.get(SearchBuilding).keySet()) {
+        for (String Key : Collector.getBuildingData.get(SearchBuilding).keySet()) {
             if (Collector.BuildingData.get(SearchBuilding).get(Key) != null) {
                 SearchResults.addAll(Collector.BuildingData.get(SearchBuilding).get(Key));
             }
