@@ -18,7 +18,8 @@ import java.util.List;
  * @author Jann Lucas Pischke, jann.pischke@fh-erfurt.de
  * @coauthor restructured to fit the form by Vadim Rodt
  * The RoomTest class tests the functions locatd in the Room class
- **/
+ */
+
 
 public class RoomTest {
 
@@ -99,13 +100,13 @@ public class RoomTest {
     void testSettingAndGettingIdForRoom() {
 
         //GIVEN
-        assertNotEquals(MyRoom.getRoomID(),7);
+        assertNotEquals(MyRoom.getRoomID(),2);
 
         //WHEN
-        MyRoom.setIdForRoom(7);
+        MyRoom.setIdForRoom(2);
 
         //THEN
-        assertEquals(MyRoom.getRoomID(), 7);
+        assertEquals(MyRoom.getRoomID(), 2);
         assertEquals(MyRoom.getRoomID().toString(), DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(ID).get(0));
     }
 
