@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author Jann Lucas Pischke, jann.pischke@fh-erfurt.de
- * Restructured by Vadim Rodt
+ * @coauthor restructured to fit the form by Vadim Rodt
  * The RoomTest class tests the functions locatd in the Room class
  */
 
@@ -35,8 +35,12 @@ public class RoomTest {
     Room MyRoom = new Room("Room1", 1, Persons, BuildingTest.Building1);
     Room MyRoom1 = new Room("Room2");
 
+
+    /**
+     * Function to test setTitleForRoom and getRoomTitle
+     */
     @Test
-    @DisplayName("Function to set and get title should work")
+    @DisplayName("Function to set and get title works")
     void testSettingAndGettingTitleForRoom() {
 
         //GIVEN
@@ -50,6 +54,10 @@ public class RoomTest {
         assertEquals(MyRoom.getRoomTitle(), DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(TITLE).get(0));
     }
 
+
+    /**
+     * Function to test setFloorForRoom, getFloorNumber and getRoomTitle
+     */
     @Test
     @DisplayName("Function to set and get floor should work.")
     void testSettingAndGettingFloorForRoom() {
@@ -64,6 +72,10 @@ public class RoomTest {
         assertEquals(MyRoom.getFloorNumber().toString(), DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(FLOOR).get(0));
     }
 
+
+    /**
+     * Function to test setAffiliationForBuilding, getBuildingAffiliation and getRoomTitle
+     */
     @Test
     @DisplayName("Function to set and get affiliation should work.")
     void testSettingAndGettingAffiliationForRoom(){
@@ -79,6 +91,10 @@ public class RoomTest {
         assertEquals(MyRoom.getBuildingAffiliation().getTitle(), DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(BUILDING_AFFILIATION).get(0));
     }
 
+
+    /**
+     * Function to test setIdForRoom, getRoomID and getRoomTitle
+     */
     @Test
     @DisplayName("Setting and Getting ID should work.")
     void testSettingAndGettingIdForRoom() {
@@ -94,6 +110,10 @@ public class RoomTest {
         assertEquals(MyRoom.getRoomID().toString(), DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(ID).get(0));
     }
 
+
+    /**
+     * Function to test setPersonsForRoom, getAllPersonsForThisRoom and getRoomTitle
+     */
     @Test
     @DisplayName("Setting and Getting Persons should work.")
     void testSettingAndGettingIdPersons() {
@@ -115,6 +135,10 @@ public class RoomTest {
         assertEquals(DataCollector.getRoomData().get(MyRoom1.getRoomTitle()).get(PERSONS), personsAsStrings);
     }
 
+
+    /**
+     * Function to test addPersonToThisRoom, getAllPersonsForThisRoom and getRoomTitle
+     */
     @Test
     @DisplayName("Adding a person to the room should work")
     void testAddingPersonToRoom() {
@@ -130,6 +154,10 @@ public class RoomTest {
         assertTrue(DataCollector.getRoomData().get(MyRoom.getRoomTitle()).get(PERSONS).contains(Wolfgang.getFullName()));
     }
 
+
+    /**
+     * Function to test addPersonToThisRoom, getAllPersonsForThisRoom, deletePersonFromThisRoom and getRoomTitle
+     */
     @Test
     @DisplayName("Deleting a person from the person list should work fine")
     void testDeletingPersonFromRoom()
@@ -150,6 +178,10 @@ public class RoomTest {
 
     }
 
+
+    /**
+     * Function to test getAllRoomsList, deleteRoomFromAllMapsAndLists and getRoomTitle
+     */
     @Test
     @DisplayName("Deleting a room from Hashmaps should work.")
     void testDeletingRoomFromListsAndHashmaps() {
@@ -166,6 +198,4 @@ public class RoomTest {
         assertFalse(Room.getRoomsWithPersons().containsKey(MyRoom));
         assertFalse(Room.getAllRoomsList().contains(MyRoom));
     }
-
-
 }
