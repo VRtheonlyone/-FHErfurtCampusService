@@ -10,16 +10,27 @@ import static de.fherfurt.campus.constants.Constants.*;
 import static de.fherfurt.campus.constants.Constants.ROOM;
 import java.util.*;
 
+/**
+ * class responsible for functions, which can be usen around the project
+ */
 public class CampusUtilities {
 
-    public static void setClassEvents(String _entryKey, String _objectTitle, List<Object> _localEventsList) {
+
+    /**
+     * This function sets events in the 3 main classes of the campus part: location, building and room
+     *
+     * @param entryKey  what shall the setter look for ('location', 'building' or 'room')
+     * @param objectTitle   the name of this object (example: 'Campus Altonaer Strasse')
+     * @param localEventsList   the local class events variable, on which the associated event should be saved to
+     */
+    public static void setClassEvents(String entryKey, String objectTitle, List<Object> localEventsList) {
 
         Map<String, Map<String, String>> Events = DataCollector.getEvents();
 
         for (Map.Entry<String, Map<String, String>> someEvent : Events.entrySet()) {
             for (Map.Entry<String, String> EventEntry : someEvent.getValue().entrySet()) {
-                if (Objects.equals(EventEntry.getKey(), _entryKey)) {
-                    if (Objects.equals(_objectTitle, EventEntry.getValue())) {
+                if (Objects.equals(EventEntry.getKey(), entryKey)) {
+                    if (Objects.equals(objectTitle, EventEntry.getValue())) {
 
                         Event locationEvent = new Event(
                                 someEvent.getValue().get(EVENT_START_DATE),
@@ -29,7 +40,7 @@ public class CampusUtilities {
                                 someEvent.getValue().get(BUILDING),
                                 someEvent.getValue().get(ROOM));
 
-                        _localEventsList.add(locationEvent);
+                        localEventsList.add(locationEvent);
                     }
                 }
             }
